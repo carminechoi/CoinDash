@@ -3,8 +3,10 @@ node_modules
 .DS_STORE
 .env
 
+
 docker-compose.yml
 migrations
 
+keys/
 public_key.pem
 private_key.pem
