@@ -1,94 +1,54 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import AuthService from "./authService";
+import { createSlice } from "@reduxjs/toolkit";
+import { register, login } from "./authActions";
 
-const user = JSON.parse(localStorage.getItem("user"));
+// initialize userToken from local storage
+const userToken = localStorage.getItem("userToken")
+    ? localStorage.getItem("userToken")
+    : null;
 
-export const register = createAsyncThunk(
-    "auth/register",
-    async ({ email, password }, thunkAPI) => {
-        try {
-            const response = await AuthService.register(email, password);
-            thunkAPI.dispatch(setMessage(response.data.message));
-            return response.data;
-        } catch (error) {
-            const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                error.message ||
-                error.toString();
-            thunkAPI.dispatch(setMessage(message));
-            return thunkAPI.rejectWithValue();
-        }
-    }
-);
+const initialState = {
+    loading: false,
+    userInfo: null,
+    userToken,
+    error: null,
+    success: false,
+};
 
-export const login = createAsyncThunk(
-    "auth/login",
-    async ({ username, password }, thunkAPI) => {
-        try {
-            const data = await AuthService.login(username, password);
-            return { user: data };
-        } catch (error) {
-            const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                error.message ||
-                error.toString();
-            thunkAPI.dispatch(setMessage(message));
-            return thunkAPI.rejectWithValue();
-        }
-    }
-);
-
-export const logout = createAsyncThunk("auth/logout", async () => {
-    AuthService.logout();
-});
-
-const initialState = user
-    ? { isLoggedIn: true, user }
-    : { isLoggedIn: false, user: null };
-
-export const authSlice = createSlice({
+const authSlice = createSlice({
     name: "auth",
     initialState,
-    extraReducers: {
-        [register.fulfilled]: (state, action) => {
-            state.isLoggedIn = false;
-        },
-        [register.rejected]: (state, action) => {
-            state.isLoggedIn = false;
-        },
-        [login.fulfilled]: (state, action) => {
-            state.isLoggedIn = true;
-            state.user = action.payload.user;
-        },
-        [login.rejected]: (state, action) => {
-            state.isLoggedIn = false;
-            state.user = null;
-        },
-        [logout.fulfilled]: (state, action) => {
-            state.isLoggedIn = false;
-            state.user = null;
-        },
+
+    extraReducers: (builder) => {
+        // register reducers
+        builder.addCase(register.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        });
+        builder.addCase(register.fulfilled, (state, action) => {
+            state.loading = false;
+            state.userInfo = action.payload;
+            state.userToken = action.payload.userToken;
+        });
+        builder.addCase(register.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        });
+
+        // login reducers
+        builder.addCase(login.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        });
+        builder.addCase(login.fulfilled, (state, action) => {
+            state.loading = false;
+            state.userInfo = action.payload;
+            state.userToken = action.payload.userToken;
+        });
+        builder.addCase(login.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        });
     },
 });
 
-const messageSlice = createSlice({
-    name: "message",
-    initialState,
-    reducers: {
-        setMessage: (state, action) => {
-            return { message: action.payload };
-        },
-        clearMessage: () => {
-            return { message: "" };
-        },
-    },
-});
-
-export const { reducer: messageReducer, actions: messageActions } =
-    messageSlice;
-export const { setMessage, clearMessage } = messageActions;
-export const { reducer: authReducer } = authSlice;
+export default authSlice.reducer;

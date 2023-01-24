@@ -4,11 +4,12 @@ const createError = require("http-errors");
 class AuthController {
     static register = async (req, res, next) => {
         try {
-            const user = await auth.register(req.body);
+            const accessToken = await auth.register(req.body);
+
             res.status(200).json({
                 status: true,
                 message: "User created successfully",
-                data: user,
+                data: accessToken,
             });
         } catch (e) {
             next(createError(e.statusCode, e.message));
@@ -18,6 +19,7 @@ class AuthController {
     static login = async (req, res, next) => {
         try {
             const data = await auth.login(req.body);
+
             res.status(200).json({
                 status: true,
                 message: "Account login successful",

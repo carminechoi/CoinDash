@@ -6,21 +6,20 @@ const jwt = require("../utils/jwt");
 
 class AuthService {
     static async register(data) {
-        const { email } = data;
-
         data.password = bcrypt.hashSync(data.password, 8);
+
         let user = await prisma.user.create({
             data,
         });
-        console.log(user);
-        data.accessToken = await jwt.signAccessToken(user);
+        delete user.password;
 
-        return data;
+        let userToken = await jwt.signAccessToken(user);
+
+        return { ...user, userToken };
     }
 
     static async login(data) {
         const { email, password } = data;
-        console.log(email);
         const user = await prisma.user.findUnique({
             where: {
                 email,
@@ -35,8 +34,8 @@ class AuthService {
                 "Email address or password not valid"
             );
         delete user.password;
-        const accessToken = await jwt.signAccessToken(user);
-        return { ...user, accessToken };
+        const userToken = await jwt.signAccessToken(user);
+        return { ...user, userToken };
     }
 
     static async all() {

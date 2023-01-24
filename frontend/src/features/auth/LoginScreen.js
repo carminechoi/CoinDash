@@ -17,23 +17,20 @@ import {
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 import withRoot from "../../theme/withRoot";
-import { register } from "./authActions";
+import { login } from "./authActions";
 import Progress from "../../components/Progress";
 
-function RegisterScreen() {
+function LoginScreen() {
     const [showPassword, setShowPassword] = useState(false);
 
-    const { loading, userInfo, error, success } = useSelector(
-        (state) => state.auth
-    );
+    const { loading, userInfo, error } = useSelector((state) => state.auth);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (success) navigate("/u/login");
         if (userInfo) navigate("/u/dashboard");
-    }, [success, userInfo, navigate]);
+    }, [userInfo, navigate]);
 
     const validationSchema = Yup.object().shape({
         email: Yup.string()
@@ -51,7 +48,7 @@ function RegisterScreen() {
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-            dispatch(register(values));
+            dispatch(login(values));
         },
     });
 
@@ -96,7 +93,7 @@ function RegisterScreen() {
                             fontWeight="bold"
                             paddingBottom={2}
                         >
-                            Create Your Account
+                            Welcome back
                         </Typography>
                         <form onSubmit={formik.handleSubmit} sx={{ mt: 3 }}>
                             <TextField
@@ -173,18 +170,18 @@ function RegisterScreen() {
                                     textTransform: "none",
                                 }}
                             >
-                                Sign Up
+                                Log in
                             </Button>
                             <Grid container justifyContent="flex-start">
                                 <Grid item>
                                     <Typography variant="body2">
-                                        Already have an account?{" "}
+                                        Don't have an account?{" "}
                                         <Link
-                                            href="/u/login"
+                                            href="/u/signup"
                                             variant="body2"
                                             underline="none"
                                         >
-                                            Log in
+                                            Sign up
                                         </Link>
                                     </Typography>
                                 </Grid>
@@ -212,4 +209,4 @@ function RegisterScreen() {
     );
 }
 
-export default withRoot(RegisterScreen);
+export default withRoot(LoginScreen);
