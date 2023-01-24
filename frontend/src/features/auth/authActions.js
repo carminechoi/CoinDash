@@ -49,10 +49,10 @@ export const login = createAsyncThunk(
                 { email, password },
                 config
             );
+            console.log(data);
+            localStorage.setItem("userToken", data.userToken);
 
-            localStorage.setItem("userToken", data.data.userToken);
-
-            return data.data;
+            return data;
         } catch (error) {
             if (error.response && error.response.data.message) {
                 return thunkAPI.rejectWithValue(error.response.data.message);
@@ -62,7 +62,3 @@ export const login = createAsyncThunk(
         }
     }
 );
-
-export const logout = createAsyncThunk("auth/logout", async () => {
-    localStorage.removeItem("user");
-});

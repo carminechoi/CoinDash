@@ -4,6 +4,8 @@ import ErrorScreen from "../features/error/ErrorScreen";
 import LandingScreen from "../features/landing/LandingScreen";
 import RegisterScreen from "../features/auth/RegisterScreen";
 import LoginScreen from "../features/auth/LoginScreen";
+import DashboardScreen from "../features/user/DashboardScreen";
+import ProtectedRoute from "../routing/ProtectedRoute";
 
 const router = createBrowserRouter([
     {
@@ -20,6 +22,17 @@ const router = createBrowserRouter([
         path: "/u/login",
         element: <LoginScreen />,
         errorElement: <ErrorScreen />,
+    },
+    {
+        element: <ProtectedRoute />,
+        errorElement: <ErrorScreen />,
+        children: [
+            {
+                path: "/u/dashboard",
+                element: <DashboardScreen />,
+                errorElement: <ErrorScreen />,
+            },
+        ],
     },
 ]);
 

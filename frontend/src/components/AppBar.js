@@ -1,5 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useGetUserDetailsQuery } from "../features/auth/authService";
+import { setCredentials, logout } from "../features/auth/authSlice";
+
 import {
     AppBar as MuiAppBar,
     Box,
@@ -10,7 +14,17 @@ import {
 } from "@mui/material";
 
 function AppBar() {
+    const { userInfo } = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const { data, isFetching } = useGetUserDetailsQuery("userDetails", {
+        pollingInterval: 900000,
+    });
+
+    useEffect(() => {
+        if (data) dispatch(setCredentials(data));
+    }, [data, dispatch]);
 
     return (
         <div>
@@ -35,22 +49,47 @@ function AppBar() {
                             Better Koinly
                         </Typography>
                         <Box display="flex" justifyContent="flex-end">
-                            <Button
-                                variant="outlined"
-                                size="medium"
-                                onClick={() => navigate("/u/login")}
-                                sx={{ mx: 1, py: 1, textTransform: "none" }}
-                            >
-                                Sign in
-                            </Button>
-                            <Button
-                                variant="contained"
-                                size="medium"
-                                onClick={() => navigate("/u/signup")}
-                                sx={{ mx: 1, py: 1, textTransform: "none" }}
-                            >
-                                Try it free
-                            </Button>
+                            {userInfo ? (
+                                <Button
+                                    variant="contained"
+                                    size="medium"
+                                    onClick={() => dispatch(logout())}
+                                    sx={{
+                                        mx: 1,
+                                        py: 1,
+                                        textTransform: "none",
+                                    }}
+                                >
+                                    Log out
+                                </Button>
+                            ) : (
+                                <div>
+                                    <Button
+                                        variant="outlined"
+                                        size="medium"
+                                        onClick={() => navigate("/u/login")}
+                                        sx={{
+                                            mx: 1,
+                                            py: 1,
+                                            textTransform: "none",
+                                        }}
+                                    >
+                                        Sign in
+                                    </Button>
+                                    <Button
+                                        variant="contained"
+                                        size="medium"
+                                        onClick={() => navigate("/u/signup")}
+                                        sx={{
+                                            mx: 1,
+                                            py: 1,
+                                            textTransform: "none",
+                                        }}
+                                    >
+                                        Try it free
+                                    </Button>
+                                </div>
+                            )}
                         </Box>
                     </Toolbar>
                 </Container>
