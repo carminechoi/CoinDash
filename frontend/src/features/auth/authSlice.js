@@ -1,17 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { register, login } from "./authActions";
 
-// initialize userToken from local storage
-const userToken = localStorage.getItem("userToken")
-    ? localStorage.getItem("userToken")
+// initialize accessToken from local storage
+const accessToken = localStorage.getItem("accessToken")
+    ? localStorage.getItem("accessToken")
     : null;
 
 const initialState = {
     loading: false,
     userInfo: null,
-    userToken,
+    accessToken: accessToken,
     error: null,
-    success: false,
 };
 
 const authSlice = createSlice({
@@ -22,10 +21,10 @@ const authSlice = createSlice({
             state.userInfo = action.payload;
         },
         logout: (state) => {
-            localStorage.removeItem("userToken"); // delete token from storage
+            localStorage.removeItem("accessToken"); // delete token from storage
             state.loading = false;
             state.userInfo = null;
-            state.userToken = null;
+            state.accessToken = null;
             state.error = null;
         },
     },
@@ -38,7 +37,7 @@ const authSlice = createSlice({
         builder.addCase(register.fulfilled, (state, action) => {
             state.loading = false;
             state.userInfo = action.payload;
-            state.userToken = action.payload.userToken;
+            state.accessToken = action.payload.accessToken;
         });
         builder.addCase(register.rejected, (state, action) => {
             state.loading = false;
@@ -53,7 +52,7 @@ const authSlice = createSlice({
         builder.addCase(login.fulfilled, (state, action) => {
             state.loading = false;
             state.userInfo = action.payload;
-            state.userToken = action.payload.userToken;
+            state.accessToken = action.payload.accessToken;
         });
         builder.addCase(login.rejected, (state, action) => {
             state.loading = false;

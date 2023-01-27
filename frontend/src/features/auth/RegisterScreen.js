@@ -23,17 +23,14 @@ import Progress from "../../components/Progress";
 function RegisterScreen() {
     const [showPassword, setShowPassword] = useState(false);
 
-    const { loading, userInfo, error, success } = useSelector(
-        (state) => state.auth
-    );
+    const { loading, userInfo, error } = useSelector((state) => state.auth);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (success) navigate("/u/login");
         if (userInfo) navigate("/u/dashboard");
-    }, [success, userInfo, navigate]);
+    }, [userInfo, navigate]);
 
     const validationSchema = Yup.object().shape({
         email: Yup.string()
@@ -107,13 +104,17 @@ function RegisterScreen() {
                                 value={formik.values.email}
                                 onChange={formik.handleChange}
                                 error={
-                                    formik.touched.email &&
-                                    Boolean(formik.errors.email)
+                                    (formik.touched.email &&
+                                        Boolean(formik.errors.email)) ||
+                                    Boolean(error)
                                 }
                                 helperText={
-                                    formik.touched.email && formik.errors.email
+                                    Boolean(error)
+                                        ? error
+                                        : formik.touched.email &&
+                                          formik.errors.email
                                 }
-                                autoComplete="email"
+                                InputProps={{ autoComplete: "email" }}
                                 sx={{ my: 2 }}
                             />
 
@@ -132,9 +133,9 @@ function RegisterScreen() {
                                     formik.touched.password &&
                                     formik.errors.password
                                 }
-                                autoComplete="password"
                                 type={showPassword ? "text" : "password"}
                                 InputProps={{
+                                    autoComplete: "new-password",
                                     endAdornment: (
                                         <InputAdornment position="end">
                                             <IconButton

@@ -111,6 +111,7 @@ function LoginScreen() {
                                     formik.touched.email && formik.errors.email
                                 }
                                 autoComplete="email"
+                                InputProps={{ autoComplete: "email" }}
                                 sx={{ my: 2 }}
                             />
 
@@ -122,16 +123,20 @@ function LoginScreen() {
                                 value={formik.values.password}
                                 onChange={formik.handleChange}
                                 error={
-                                    formik.touched.password &&
-                                    Boolean(formik.errors.password)
+                                    (formik.touched.password &&
+                                        Boolean(formik.errors.password)) ||
+                                    Boolean(error)
                                 }
                                 helperText={
-                                    formik.touched.password &&
-                                    formik.errors.password
+                                    Boolean(error)
+                                        ? error
+                                        : formik.touched.password &&
+                                          formik.errors.password
                                 }
                                 autoComplete="password"
                                 type={showPassword ? "text" : "password"}
                                 InputProps={{
+                                    autoComplete: "new-password",
                                     endAdornment: (
                                         <InputAdornment position="end">
                                             <IconButton

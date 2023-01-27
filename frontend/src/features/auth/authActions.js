@@ -12,15 +12,13 @@ export const register = createAsyncThunk(
                     "Content-Type": "application/json",
                 },
             };
-            let {
-                data: { data },
-            } = await axios.post(
+            let { data } = await axios.post(
                 `${API_URL}/api/auth/register`,
                 { email, password },
                 config
             );
 
-            localStorage.setItem("userToken", data.userToken);
+            localStorage.setItem("accessToken", data.accessToken);
 
             return data;
         } catch (error) {
@@ -42,15 +40,13 @@ export const login = createAsyncThunk(
                     "Content-Type": "application/json",
                 },
             };
-            let {
-                data: { data },
-            } = await axios.post(
+            let { data } = await axios.post(
                 `${API_URL}/api/auth/login`,
                 { email, password },
                 config
             );
-            console.log(data);
-            localStorage.setItem("userToken", data.userToken);
+
+            localStorage.setItem("accessToken", data.accessToken);
 
             return data;
         } catch (error) {

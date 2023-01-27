@@ -6,12 +6,17 @@ const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
 
 function signAccessToken(payload) {
     return new Promise((resolve, reject) => {
-        jwt.sign({ payload }, accessTokenSecret, {}, (err, token) => {
-            if (err) {
-                reject(createError.InternalServerError());
+        jwt.sign(
+            { payload },
+            accessTokenSecret,
+            { expiresIn: "3600" },
+            (err, token) => {
+                if (err) {
+                    reject(createError.InternalServerError());
+                }
+                resolve(token);
             }
-            resolve(token);
-        });
+        );
     });
 }
 function verifyAccessToken(token) {

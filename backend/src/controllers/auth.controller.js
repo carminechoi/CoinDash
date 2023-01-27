@@ -1,45 +1,44 @@
-const auth = require("../services/auth.service");
-const createError = require("http-errors");
+const authService = require("../services/auth.service");
 
 class AuthController {
     static register = async (req, res, next) => {
         try {
-            const accessToken = await auth.register(req.body);
+            const accessToken = await authService.register(req.body);
 
             res.status(200).json({
                 status: true,
                 message: "User created successfully",
-                data: accessToken,
+                accessToken: accessToken,
             });
         } catch (e) {
-            next(createError(e.statusCode, e.message));
+            res.status(e.statusCode).send({ message: e.message });
         }
     };
 
     static login = async (req, res, next) => {
         try {
-            const data = await auth.login(req.body);
+            const accessToken = await authService.login(req.body);
 
             res.status(200).json({
                 status: true,
                 message: "Account login successful",
-                data,
+                accessToken: accessToken,
             });
         } catch (e) {
-            next(createError(e.statusCode, e.message));
+            res.status(e.statusCode).send({ message: e.message });
         }
     };
 
-    static all = async (req, res, next) => {
+    static getUserProfile = async (req, res, next) => {
         try {
-            const users = await auth.all();
+            const profile = await authService.getUserProfile();
             res.status(200).json({
                 status: true,
-                message: "All users",
-                data: users,
+                message: "Retrieved profile",
+                data: profile,
             });
         } catch (e) {
-            next(createError(e.statusCode, e.message));
+            res.status(e.statusCode).send({ message: e.message });
         }
     };
 }
