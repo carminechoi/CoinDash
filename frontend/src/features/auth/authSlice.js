@@ -37,7 +37,6 @@ const authSlice = createSlice({
         builder.addCase(register.fulfilled, (state, action) => {
             state.loading = false;
             state.userInfo = action.payload;
-            state.accessToken = action.payload.accessToken;
         });
         builder.addCase(register.rejected, (state, action) => {
             state.loading = false;
@@ -52,7 +51,6 @@ const authSlice = createSlice({
         builder.addCase(login.fulfilled, (state, action) => {
             state.loading = false;
             state.userInfo = action.payload;
-            state.accessToken = action.payload.accessToken;
         });
         builder.addCase(login.rejected, (state, action) => {
             state.loading = false;
