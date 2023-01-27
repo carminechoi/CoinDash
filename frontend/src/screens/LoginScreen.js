@@ -16,21 +16,21 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
-import withRoot from "../../theme/withRoot";
-import { register } from "./authActions";
-import Progress from "../../components/Progress";
+import withRoot from "../theme/withRoot";
+import { login } from "../features/auth/authActions";
+import Progress from "../components/Progress";
 
-function RegisterScreen() {
+function LoginScreen() {
     const [showPassword, setShowPassword] = useState(false);
 
-    const { loading, userInfo, error } = useSelector((state) => state.auth);
+    const { loading, success, error } = useSelector((state) => state.auth);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (userInfo) navigate("/u/dashboard");
-    }, [userInfo, navigate]);
+        if (success) navigate("/u/dashboard");
+    }, [success, navigate]);
 
     const validationSchema = Yup.object().shape({
         email: Yup.string()
@@ -48,7 +48,7 @@ function RegisterScreen() {
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-            dispatch(register(values));
+            dispatch(login(values));
         },
     });
 
@@ -93,7 +93,7 @@ function RegisterScreen() {
                             fontWeight="bold"
                             paddingBottom={2}
                         >
-                            Create Your Account
+                            Welcome back
                         </Typography>
                         <form onSubmit={formik.handleSubmit} sx={{ mt: 3 }}>
                             <TextField
@@ -104,16 +104,13 @@ function RegisterScreen() {
                                 value={formik.values.email}
                                 onChange={formik.handleChange}
                                 error={
-                                    (formik.touched.email &&
-                                        Boolean(formik.errors.email)) ||
-                                    Boolean(error)
+                                    formik.touched.email &&
+                                    Boolean(formik.errors.email)
                                 }
                                 helperText={
-                                    Boolean(error)
-                                        ? error
-                                        : formik.touched.email &&
-                                          formik.errors.email
+                                    formik.touched.email && formik.errors.email
                                 }
+                                autoComplete="email"
                                 InputProps={{ autoComplete: "email" }}
                                 sx={{ my: 2 }}
                             />
@@ -126,13 +123,17 @@ function RegisterScreen() {
                                 value={formik.values.password}
                                 onChange={formik.handleChange}
                                 error={
-                                    formik.touched.password &&
-                                    Boolean(formik.errors.password)
+                                    (formik.touched.password &&
+                                        Boolean(formik.errors.password)) ||
+                                    Boolean(error)
                                 }
                                 helperText={
-                                    formik.touched.password &&
-                                    formik.errors.password
+                                    Boolean(error)
+                                        ? error
+                                        : formik.touched.password &&
+                                          formik.errors.password
                                 }
+                                autoComplete="password"
                                 type={showPassword ? "text" : "password"}
                                 InputProps={{
                                     autoComplete: "new-password",
@@ -174,18 +175,18 @@ function RegisterScreen() {
                                     textTransform: "none",
                                 }}
                             >
-                                Sign Up
+                                Log in
                             </Button>
                             <Grid container justifyContent="flex-start">
                                 <Grid item>
                                     <Typography variant="body2">
-                                        Already have an account?{" "}
+                                        Don't have an account?{" "}
                                         <Link
-                                            href="/u/login"
+                                            href="/u/signup"
                                             variant="body2"
                                             underline="none"
                                         >
-                                            Log in
+                                            Sign up
                                         </Link>
                                     </Typography>
                                 </Grid>
@@ -213,4 +214,4 @@ function RegisterScreen() {
     );
 }
 
-export default withRoot(RegisterScreen);
+export default withRoot(LoginScreen);

@@ -8,9 +8,9 @@ const accessToken = localStorage.getItem("accessToken")
 
 const initialState = {
     loading: false,
-    userInfo: null,
-    accessToken: accessToken,
+    success: false,
     error: null,
+    accessToken: accessToken,
 };
 
 const authSlice = createSlice({
@@ -23,9 +23,9 @@ const authSlice = createSlice({
         logout: (state) => {
             localStorage.removeItem("accessToken"); // delete token from storage
             state.loading = false;
-            state.userInfo = null;
-            state.accessToken = null;
+            state.success = false;
             state.error = null;
+            state.accessToken = null;
         },
     },
     extraReducers: (builder) => {
@@ -36,10 +36,12 @@ const authSlice = createSlice({
         });
         builder.addCase(register.fulfilled, (state, action) => {
             state.loading = false;
-            state.userInfo = action.payload;
+            state.success = true;
+            state.accessToken = action.payload;
         });
         builder.addCase(register.rejected, (state, action) => {
             state.loading = false;
+            state.success = false;
             state.error = action.payload;
         });
 
@@ -50,10 +52,12 @@ const authSlice = createSlice({
         });
         builder.addCase(login.fulfilled, (state, action) => {
             state.loading = false;
-            state.userInfo = action.payload;
+            state.success = true;
+            state.accessToken = action.payload;
         });
         builder.addCase(login.rejected, (state, action) => {
             state.loading = false;
+            state.success = false;
             state.error = action.payload;
         });
     },

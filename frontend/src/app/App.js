@@ -1,10 +1,10 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import ErrorScreen from "../features/error/ErrorScreen";
-import LandingScreen from "../features/landing/LandingScreen";
-import RegisterScreen from "../features/auth/RegisterScreen";
-import LoginScreen from "../features/auth/LoginScreen";
-import DashboardScreen from "../features/user/DashboardScreen";
+import ErrorScreen from "../screens/ErrorScreen";
+import LandingScreen from "../screens/LandingScreen";
+import RegisterScreen from "../screens/RegisterScreen";
+import LoginScreen from "../screens/LoginScreen";
+import DashboardScreen from "../screens/DashboardScreen";
 import ProtectedRoute from "../routing/ProtectedRoute";
 
 const router = createBrowserRouter([

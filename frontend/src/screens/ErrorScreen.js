@@ -1,8 +1,8 @@
 import React from "react";
 import { useRouteError } from "react-router-dom";
 import { Box, Container, Button, Typography } from "@mui/material";
-import withRoot from "../../theme/withRoot";
-import AppBar from "../../components/AppBar";
+import withRoot from "../theme/withRoot";
+import AppBar from "../components/AppBar";
 
 function ErrorScreen() {
     const error = useRouteError();

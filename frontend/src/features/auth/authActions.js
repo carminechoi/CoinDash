@@ -20,7 +20,7 @@ export const register = createAsyncThunk(
 
             localStorage.setItem("accessToken", data.accessToken);
 
-            return data;
+            return data.accessToken;
         } catch (error) {
             if (error.response && error.response.data.message) {
                 return thunkAPI.rejectWithValue(error.response.data.message);
@@ -48,7 +48,7 @@ export const login = createAsyncThunk(
 
             localStorage.setItem("accessToken", data.accessToken);
 
-            return data;
+            return data.accessToken;
         } catch (error) {
             if (error.response && error.response.data.message) {
                 return thunkAPI.rejectWithValue(error.response.data.message);
