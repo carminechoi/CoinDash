@@ -5,23 +5,16 @@ const bcrypt = require("bcryptjs");
 const jwt = require("../utils/jwt");
 const createError = require("http-errors");
 
+const createUser = async (userData) => {
+    const user = await prisma.user.create({
+        data: userData,
+    });
+    delete user.password;
+
+    return user;
+};
+
 class AuthService {
-    static async register(data) {
-        try {
-            data.password = bcrypt.hashSync(data.password, 8);
-            let user = await prisma.user.create({
-                data,
-            });
-            const accessToken = await jwt.signAccessToken(user.email);
-
-            return accessToken;
-        } catch (e) {
-            if (e.code === "P2002") {
-                throw createError.BadRequest("Email already exists");
-            }
-        }
-    }
-
     static async login(data) {
         const { email, password } = data;
         const user = await prisma.user.findUnique({
@@ -46,4 +39,4 @@ class AuthService {
     }
 }
 
-module.exports = AuthService;
+module.exports = { AuthService, createUser };

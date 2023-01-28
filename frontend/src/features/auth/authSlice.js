@@ -17,9 +17,6 @@ const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        setCredentials: (state, action) => {
-            state.userInfo = action.payload;
-        },
         logout: (state) => {
             localStorage.removeItem("accessToken"); // delete token from storage
             state.loading = false;
@@ -28,40 +25,40 @@ const authSlice = createSlice({
             state.accessToken = null;
         },
     },
-    extraReducers: (builder) => {
-        // register reducers
-        builder.addCase(register.pending, (state) => {
-            state.loading = true;
-            state.error = null;
-        });
-        builder.addCase(register.fulfilled, (state, action) => {
-            state.loading = false;
-            state.success = true;
-            state.accessToken = action.payload;
-        });
-        builder.addCase(register.rejected, (state, action) => {
-            state.loading = false;
-            state.success = false;
-            state.error = action.payload;
-        });
+    // extraReducers: (builder) => {
+    //     // register reducers
+    //     builder.addCase(register.pending, (state) => {
+    //         state.loading = true;
+    //         state.error = null;
+    //     });
+    //     builder.addCase(register.fulfilled, (state, action) => {
+    //         state.loading = false;
+    //         state.success = true;
+    //         state.accessToken = action.payload;
+    //     });
+    //     builder.addCase(register.rejected, (state, action) => {
+    //         state.loading = false;
+    //         state.success = false;
+    //         state.error = action.payload;
+    //     });
 
-        // login reducers
-        builder.addCase(login.pending, (state) => {
-            state.loading = true;
-            state.error = null;
-        });
-        builder.addCase(login.fulfilled, (state, action) => {
-            state.loading = false;
-            state.success = true;
-            state.accessToken = action.payload;
-        });
-        builder.addCase(login.rejected, (state, action) => {
-            state.loading = false;
-            state.success = false;
-            state.error = action.payload;
-        });
-    },
+    //     // login reducers
+    //     builder.addCase(login.pending, (state) => {
+    //         state.loading = true;
+    //         state.error = null;
+    //     });
+    //     builder.addCase(login.fulfilled, (state, action) => {
+    //         state.loading = false;
+    //         state.success = true;
+    //         state.accessToken = action.payload;
+    //     });
+    //     builder.addCase(login.rejected, (state, action) => {
+    //         state.loading = false;
+    //         state.success = false;
+    //         state.error = action.payload;
+    //     });
+    // },
 });
 
-export const { setCredentials, logout } = authSlice.actions;
+export const { logout } = authSlice.actions;
 export default authSlice.reducer;

@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useGetUserDetailsQuery } from "../features/auth/authService";
-import { setCredentials, logout } from "../features/auth/authSlice";
+import { logout } from "../features/auth/authSlice";
 
 import {
     AppBar as MuiAppBar,
@@ -14,17 +13,9 @@ import {
 } from "@mui/material";
 
 function AppBar() {
-    const { userInfo } = useSelector((state) => state.auth);
+    const { user } = useSelector((state) => state.userState);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
-    const { data, isFetching } = useGetUserDetailsQuery("userDetails", {
-        pollingInterval: 900000,
-    });
-
-    useEffect(() => {
-        if (data) dispatch(setCredentials(data));
-    }, [data, dispatch]);
 
     return (
         <div>
@@ -49,7 +40,7 @@ function AppBar() {
                             Better Koinly
                         </Typography>
                         <Box display="flex" justifyContent="flex-end">
-                            {userInfo ? (
+                            {user ? (
                                 <Button
                                     variant="contained"
                                     size="medium"

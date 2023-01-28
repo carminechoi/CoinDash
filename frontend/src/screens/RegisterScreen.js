@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
@@ -17,20 +16,20 @@ import {
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 import withRoot from "../theme/withRoot";
-import { register } from "../features/auth/authActions";
+import { useRegisterUserMutation } from "../features/auth/authApi";
 import Progress from "../components/Progress";
 
 function RegisterScreen() {
     const [showPassword, setShowPassword] = useState(false);
 
-    const { loading, success, error } = useSelector((state) => state.auth);
+    const [registerUser, { isLoading, isSuccess, isError, error }] =
+        useRegisterUserMutation();
 
     const navigate = useNavigate();
-    const dispatch = useDispatch();
 
     useEffect(() => {
-        if (success) navigate("/u/dashboard");
-    }, [success, navigate]);
+        if (isSuccess) navigate("/u/login");
+    }, [isSuccess, navigate]);
 
     const validationSchema = Yup.object().shape({
         email: Yup.string()
@@ -48,7 +47,7 @@ function RegisterScreen() {
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-            dispatch(register(values));
+            registerUser(values);
         },
     });
 
@@ -72,7 +71,7 @@ function RegisterScreen() {
                         boxShadow: 8,
                     }}
                 >
-                    {loading && <Progress />}
+                    {isLoading && <Progress />}
                     <Box
                         sx={{
                             padding: 5,
@@ -106,11 +105,11 @@ function RegisterScreen() {
                                 error={
                                     (formik.touched.email &&
                                         Boolean(formik.errors.email)) ||
-                                    Boolean(error)
+                                    isError
                                 }
                                 helperText={
-                                    Boolean(error)
-                                        ? error
+                                    isError
+                                        ? error.data.message
                                         : formik.touched.email &&
                                           formik.errors.email
                                 }

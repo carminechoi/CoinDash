@@ -21,27 +21,24 @@ function ErrorScreen() {
 
     return (
         <Box
-            sx={{
-                display: "flex",
-                flexDirection: "column",
-            }}
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            minHeight="100vh"
         >
-            <AppBar />
-
             <Container
                 sx={{
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
                     flexDirection: "column",
-                    mt: 8,
                 }}
             >
                 <Typography variant="h1">Oops!</Typography>
                 <Typography variant="h5" sx={{ mt: 1 }}>
                     {message}
                 </Typography>
-                <Typography variant="h5" sx={{ my: 5 }}>
+                <Typography variant="h6" align="center" sx={{ my: 5 }}>
                     <i>{error.statusText || error.message}</i>
                 </Typography>
                 <Button variant="contained" size="large" href="/">

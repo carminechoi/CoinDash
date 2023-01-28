@@ -15,7 +15,11 @@ app.set("view engine", "pug");
 
 // enable CORS for specific origins only
 let corsOptions = {
-    origin: ["http://localhost:3002"],
+    origin: [
+        "http://localhost:3000",
+        "http://localhost:3001",
+        "http://localhost:3002",
+    ],
 };
 
 // middlewares
