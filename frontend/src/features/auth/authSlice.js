@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { register, login } from "./authActions";
+import Cookies from "js-cookie";
 
 // initialize accessToken from local storage
 const accessToken = localStorage.getItem("accessToken")
@@ -16,9 +16,14 @@ const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        setUser: (state, payload) => {
-            state.userId = payload.userId;
-            state.email = payload.email;
+        setUser: (state, { payload }) => {
+            if (payload && payload.user && payload.accessToken) {
+                state.userId = payload.user.id ?? "";
+                state.email = payload.user.email ?? "";
+                state.accessToken = payload.accessToken ?? "";
+
+                localStorage.setItem("accessToken", payload.accessToken);
+            }
         },
         removeUser: (state) => {
             state.userId = "";

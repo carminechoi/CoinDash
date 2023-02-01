@@ -17,7 +17,6 @@ import {
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 import withRoot from "../theme/withRoot";
-import { login } from "../features/auth/authActions";
 import Progress from "../components/Progress";
 
 function LoginScreen() {
@@ -48,7 +47,7 @@ function LoginScreen() {
         },
         validationSchema: validationSchema,
         onSubmit: (values) => {
-            dispatch(login(values));
+            // dispatch(login(values));
         },
     });
 

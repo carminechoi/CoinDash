@@ -9,8 +9,6 @@ const {
     clearRefreshToken,
 } = require("../services/token.service");
 
-if (process.env.NODE_ENV === "production") cookiesOptions.secure = true;
-
 const register = async (req, res, next) => {
     const { email, password } = req.body;
     try {
@@ -27,11 +25,12 @@ const register = async (req, res, next) => {
             httpOnly: true,
             secure: true,
             maxAge: 24 * 60 * 60 * 1000,
+            expires: 24 * 60 * 60 * 1000,
         });
 
         res.status(200).json({
-            status: true,
-            data: { user: user, accessToken: tokens.accessToken },
+            user,
+            accessToken: tokens.accessToken,
         });
     } catch (e) {
         if (e.code === "P2002") {
@@ -53,11 +52,12 @@ const login = async (req, res, next) => {
             httpOnly: true,
             secure: true,
             maxAge: 24 * 60 * 60 * 1000,
+            expires: 24 * 60 * 60 * 1000,
         });
 
         res.status(200).json({
-            status: true,
-            data: { user: user, accessToken: tokens.accessToken },
+            user,
+            accessToken: tokens.accessToken,
         });
     } catch (e) {
         next(e);

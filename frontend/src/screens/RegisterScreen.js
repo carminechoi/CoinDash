@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import Cookies from "js-cookie";
 import {
     Container,
     Box,
@@ -28,10 +27,6 @@ function RegisterScreen() {
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (isSuccess) navigate("/u/login");
-    }, [isSuccess, navigate]);
-
     const validationSchema = Yup.object().shape({
         email: Yup.string()
             .email("Enter a valid email")
@@ -47,10 +42,16 @@ function RegisterScreen() {
             password: "",
         },
         validationSchema: validationSchema,
-        onSubmit: (values) => {
+        onSubmit: async (values) => {
             registerUser(values);
         },
     });
+
+    useEffect(() => {
+        if (isSuccess) {
+            // navigate("/u/dashboard");
+        }
+    }, [isSuccess, navigate]);
 
     return (
         <Container component="main" maxWidth="xs">
