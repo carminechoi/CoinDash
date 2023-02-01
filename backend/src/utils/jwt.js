@@ -5,24 +5,13 @@ const createError = require("http-errors");
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
 const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET;
 
-function signJwt(payload, keyType) {
-    const privateKey =
-        keyType == "accessToken" ? accessTokenSecret : refreshTokenSecret;
+function signJwt(payload, type) {
+    const secretKey = type == "access" ? accessTokenSecret : refreshTokenSecret;
+    const expiresIn = type == "access" ? "10m" : "1d";
 
-    return new Promise((resolve, reject) => {
-        jwt.sign(
-            { payload },
-            privateKey,
-            { expiresIn: "3600" },
-            (err, token) => {
-                if (err) {
-                    reject(createError.InternalServerError());
-                }
-                resolve(token);
-            }
-        );
-    });
+    return jwt.sign({ payload }, secretKey, { expiresIn: expiresIn });
 }
+
 function verifyToken(token, keyType) {
     const privateKey =
         keyType == "accessToken" ? accessTokenSecret : refreshTokenSecret;

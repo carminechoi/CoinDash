@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { logout } from "../features/auth/authSlice";
+// import { logout } from "../features/auth/authSlice";
 
 import {
     AppBar as MuiAppBar,
@@ -44,7 +44,7 @@ function AppBar() {
                                 <Button
                                     variant="contained"
                                     size="medium"
-                                    onClick={() => dispatch(logout())}
+                                    // onClick={() => dispatch(logout())}
                                     sx={{
                                         mx: 1,
                                         py: 1,

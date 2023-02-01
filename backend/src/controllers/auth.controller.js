@@ -1,40 +1,37 @@
 const bcrypt = require("bcryptjs");
 
-const { createUser, authService } = require("../services/auth.service");
-
-const cookiesOptions = {
-    httpOnly: true,
-    sameSite: "strict",
-};
+const {
+    createUser,
+    getUserFromEmailAndPassword,
+} = require("../services/auth.service");
+const {
+    generateAuthTokens,
+    clearRefreshToken,
+} = require("../services/token.service");
 
 if (process.env.NODE_ENV === "production") cookiesOptions.secure = true;
 
-// Expires in 15 minutes
-const accessTokenCookieOptions = {
-    ...cookiesOptions,
-    expires: new Date(Date.now() + 15 * 60 * 1000),
-    maxAge: 15 * 60 * 1000,
-};
-
-// Expires in 60 minutes
-const refreshTokenCookieOptions = {
-    ...cookiesOptions,
-    expires: new Date(Date.now() + 60 * 60 * 1000),
-    maxAge: 15 * 60 * 1000,
-};
-
 const register = async (req, res, next) => {
+    const { email, password } = req.body;
     try {
-        const hashedPassword = bcrypt.hashSync(req.body.password, 12);
+        const hashedPassword = await bcrypt.hash(password, 12);
 
         const user = await createUser({
-            email: req.body.email.toLowerCase(),
+            email: email.toLowerCase(),
             password: hashedPassword,
+        });
+
+        const tokens = await generateAuthTokens(user);
+
+        res.cookie("refreshToken", tokens.refreshToken, {
+            httpOnly: true,
+            secure: true,
+            maxAge: 24 * 60 * 60 * 1000,
         });
 
         res.status(200).json({
             status: true,
-            data: { user: user },
+            data: { user: user, accessToken: tokens.accessToken },
         });
     } catch (e) {
         if (e.code === "P2002") {
@@ -49,29 +46,31 @@ const register = async (req, res, next) => {
 
 const login = async (req, res, next) => {
     try {
-        const accessToken = await authService.login(req.body);
+        const user = await getUserFromEmailAndPassword(req.body);
+        const tokens = await generateAuthTokens(user);
+
+        res.cookie("refreshToken", tokens.refreshToken, {
+            httpOnly: true,
+            secure: true,
+            maxAge: 24 * 60 * 60 * 1000,
+        });
 
         res.status(200).json({
             status: true,
-            message: "Account login successful",
-            accessToken: accessToken,
+            data: { user: user, accessToken: tokens.accessToken },
         });
     } catch (e) {
-        res.status(e.statusCode).send({ message: e.message });
+        next(e);
     }
 };
 
-const getUserProfile = async (req, res, next) => {
+const logout = async (req, res, next) => {
     try {
-        const profile = await authService.getUserProfile();
-        res.status(200).json({
-            status: true,
-            message: "Retrieved profile",
-            data: profile,
-        });
+        await clearRefreshToken(req.body.refreshToken);
+        res.json({});
     } catch (e) {
-        res.status(e.statusCode).send({ message: e.message });
+        next(error);
     }
 };
 
-module.exports = { register, login };
+module.exports = { register, login, logout };

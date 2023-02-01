@@ -11,6 +11,8 @@ router.get("/", function (req, res, next) {
 
 router.use("/auth", authRouter);
 // router.use("/users", userRouter);
+// router.use("/sessions", sessionsRouter);
+// router.use("/posts", postRouter);
 
 // Catch 404 unknown routes and forward to error handler
 router.use(async (req, res, next) => {

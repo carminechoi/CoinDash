@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import Cookies from "js-cookie";
 import {
     Container,
     Box,
@@ -20,10 +21,10 @@ import { useRegisterUserMutation } from "../features/auth/authApi";
 import Progress from "../components/Progress";
 
 function RegisterScreen() {
-    const [showPassword, setShowPassword] = useState(false);
-
     const [registerUser, { isLoading, isSuccess, isError, error }] =
         useRegisterUserMutation();
+
+    const [showPassword, setShowPassword] = useState(false);
 
     const navigate = useNavigate();
 

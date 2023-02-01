@@ -2,7 +2,6 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const bcrypt = require("bcryptjs");
-const jwt = require("../utils/jwt");
 const createError = require("http-errors");
 
 const createUser = async (userData) => {
@@ -14,29 +13,22 @@ const createUser = async (userData) => {
     return user;
 };
 
-class AuthService {
-    static async login(data) {
-        const { email, password } = data;
-        const user = await prisma.user.findUnique({
-            where: {
-                email,
-            },
-        });
-        if (!user) {
-            throw createError.Unauthorized("Wrong email or password");
-        }
-        const checkPassword = bcrypt.compareSync(password, user.password);
-        if (!checkPassword)
-            throw createError.Unauthorized("Wrong email or password");
+const getUserFromEmailAndPassword = async ({ email, password }) => {
+    const user = await prisma.user.findUnique({
+        where: {
+            email: email.toLowerCase(),
+        },
+    });
 
-        const accessToken = await jwt.signAccessToken(user);
-        return accessToken;
+    if (!user) {
+        throw createError.Unauthorized("Wrong email or password");
     }
 
-    static async getUserProfile() {
-        // const allUsers = await prisma.user.findMany();
-        return { role: "admin" };
-    }
-}
+    const checkPassword = await bcrypt.compare(password, user.password);
+    if (!checkPassword)
+        throw createError.Unauthorized("Wrong email or password");
 
-module.exports = { AuthService, createUser };
+    return user;
+};
+
+module.exports = { createUser, getUserFromEmailAndPassword };

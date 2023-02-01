@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { userApi } from "../user/userApi";
 
 const BASE_URL = process.env.REACT_APP_SERVER_ENDPOINT;
 
@@ -10,30 +9,31 @@ export const authApi = createApi({
     }),
     endpoints: (builder) => ({
         registerUser: builder.mutation({
-            query: (data) => ({
-                url: "register",
+            query: (user) => ({
+                url: "/register",
                 method: "POST",
-                body: data,
+                body: user,
             }),
         }),
         loginUser: builder.mutation({
-            query: (data) => ({
-                url: "login",
+            query: (user) => ({
+                url: "/login",
                 method: "POST",
-                body: data,
-                credentials: "include",
+                body: user,
             }),
-            async onQueryStarted(args, { dispatch, queryFulfilled }) {
-                try {
-                    await queryFulfilled;
-                    await dispatch(userApi.endpoints.getUser.initiate(null));
-                } catch (error) {}
-            },
         }),
         logoutUser: builder.mutation({
-            query: () => ({
-                url: "logout",
-                credentials: "include",
+            query: (refreshToken) => ({
+                url: "/logout",
+                method: "POST",
+                body: { refreshToken },
+            }),
+        }),
+        getAccessToken: builder.mutation({
+            query: (refreshToken) => ({
+                url: "/refresh-token",
+                method: "POST",
+                data: { refreshToken },
             }),
         }),
     }),
@@ -43,4 +43,5 @@ export const {
     useRegisterUserMutation,
     useLoginUserMutation,
     useLogoutUserMutation,
+    useGetAccessTokenMutation,
 } = authApi;
