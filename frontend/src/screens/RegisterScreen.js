@@ -2,29 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import {
-    Container,
-    Box,
-    Grid,
-    Link,
-    InputAdornment,
-    IconButton,
-    TextField,
-    Typography,
-    Button,
-} from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { Container, Box, Grid, Link, Typography, Button } from "@mui/material";
 
 import withRoot from "../theme/withRoot";
 import { useRegisterUserMutation } from "../features/auth/authApi";
 import Progress from "../components/Progress";
+import FormikField from "../components/FormikField";
 
 function RegisterScreen() {
     const [registerUser, { isLoading, isSuccess, isError, error }] =
         useRegisterUserMutation();
-
-    const [showPassword, setShowPassword] = useState(false);
-
     const navigate = useNavigate();
 
     const validationSchema = Yup.object().shape({
@@ -49,7 +36,7 @@ function RegisterScreen() {
 
     useEffect(() => {
         if (isSuccess) {
-            // navigate("/u/dashboard");
+            navigate("/u/dashboard");
         }
     }, [isSuccess, navigate]);
 
@@ -96,71 +83,22 @@ function RegisterScreen() {
                         >
                             Create Your Account
                         </Typography>
-                        <form onSubmit={formik.handleSubmit} sx={{ mt: 3 }}>
-                            <TextField
-                                fullWidth
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                value={formik.values.email}
-                                onChange={formik.handleChange}
-                                error={
-                                    (formik.touched.email &&
-                                        Boolean(formik.errors.email)) ||
-                                    isError
-                                }
-                                helperText={
-                                    isError
-                                        ? error.data.message
-                                        : formik.touched.email &&
-                                          formik.errors.email
-                                }
-                                InputProps={{ autoComplete: "email" }}
-                                sx={{ my: 2 }}
-                            />
 
-                            <TextField
-                                fullWidth
-                                id="password"
-                                label="Password"
-                                name="password"
-                                value={formik.values.password}
-                                onChange={formik.handleChange}
-                                error={
-                                    formik.touched.password &&
-                                    Boolean(formik.errors.password)
-                                }
-                                helperText={
-                                    formik.touched.password &&
-                                    formik.errors.password
-                                }
-                                type={showPassword ? "text" : "password"}
-                                InputProps={{
-                                    autoComplete: "new-password",
-                                    endAdornment: (
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={() =>
-                                                    setShowPassword(
-                                                        (show) => !show
-                                                    )
-                                                }
-                                                onMouseDown={(event) => {
-                                                    event.preventDefault();
-                                                }}
-                                                edge="end"
-                                            >
-                                                {showPassword ? (
-                                                    <Visibility />
-                                                ) : (
-                                                    <VisibilityOff />
-                                                )}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    ),
-                                }}
-                                sx={{ mt: 1 }}
+                        <form onSubmit={formik.handleSubmit} sx={{ mt: 3 }}>
+                            <FormikField
+                                type={"email"}
+                                label={"Email Address"}
+                                formik={formik}
+                                isError={isError}
+                                error={error}
+                            />
+                            <FormikField
+                                type={"password"}
+                                label={"Password"}
+                                formik={formik}
+                                isError={false}
+                                error={error}
+                                visibility={true}
                             />
 
                             <Button
