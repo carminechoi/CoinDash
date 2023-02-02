@@ -3,33 +3,24 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import {
-    Container,
-    Box,
-    Grid,
-    Link,
-    InputAdornment,
-    IconButton,
-    TextField,
-    Typography,
-    Button,
-} from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { Container, Box, Grid, Link, Typography, Button } from "@mui/material";
 
+import { useLoginUserMutation } from "../features/auth/authApi";
 import withRoot from "../theme/withRoot";
 import Progress from "../components/Progress";
+import FormikField from "../components/FormikField";
 
 function LoginScreen() {
-    const [showPassword, setShowPassword] = useState(false);
-
-    const { loading, success, error } = useSelector((state) => state.auth);
+    const [loginUser, { isLoading, isSuccess, isError, error }] =
+        useLoginUserMutation();
 
     const navigate = useNavigate();
-    const dispatch = useDispatch();
 
     useEffect(() => {
-        if (success) navigate("/u/dashboard");
-    }, [success, navigate]);
+        if (isSuccess) {
+            navigate("/u/dashboard");
+        }
+    }, [isSuccess, navigate]);
 
     const validationSchema = Yup.object().shape({
         email: Yup.string()
@@ -46,8 +37,8 @@ function LoginScreen() {
             password: "",
         },
         validationSchema: validationSchema,
-        onSubmit: (values) => {
-            // dispatch(login(values));
+        onSubmit: async (values) => {
+            loginUser(values);
         },
     });
 
@@ -71,7 +62,7 @@ function LoginScreen() {
                         boxShadow: 8,
                     }}
                 >
-                    {loading && <Progress />}
+                    {isLoading && <Progress />}
                     <Box
                         sx={{
                             padding: 5,
@@ -95,71 +86,20 @@ function LoginScreen() {
                             Welcome back
                         </Typography>
                         <form onSubmit={formik.handleSubmit} sx={{ mt: 3 }}>
-                            <TextField
-                                fullWidth
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                value={formik.values.email}
-                                onChange={formik.handleChange}
-                                error={
-                                    formik.touched.email &&
-                                    Boolean(formik.errors.email)
-                                }
-                                helperText={
-                                    formik.touched.email && formik.errors.email
-                                }
-                                autoComplete="email"
-                                InputProps={{ autoComplete: "email" }}
-                                sx={{ my: 2 }}
+                            <FormikField
+                                type={"email"}
+                                label={"Email Address"}
+                                formik={formik}
+                                isError={isError}
+                                error={error}
                             />
-
-                            <TextField
-                                fullWidth
-                                id="password"
-                                label="Password"
-                                name="password"
-                                value={formik.values.password}
-                                onChange={formik.handleChange}
-                                error={
-                                    (formik.touched.password &&
-                                        Boolean(formik.errors.password)) ||
-                                    Boolean(error)
-                                }
-                                helperText={
-                                    Boolean(error)
-                                        ? error
-                                        : formik.touched.password &&
-                                          formik.errors.password
-                                }
-                                autoComplete="password"
-                                type={showPassword ? "text" : "password"}
-                                InputProps={{
-                                    autoComplete: "new-password",
-                                    endAdornment: (
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={() =>
-                                                    setShowPassword(
-                                                        (show) => !show
-                                                    )
-                                                }
-                                                onMouseDown={(event) => {
-                                                    event.preventDefault();
-                                                }}
-                                                edge="end"
-                                            >
-                                                {showPassword ? (
-                                                    <Visibility />
-                                                ) : (
-                                                    <VisibilityOff />
-                                                )}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    ),
-                                }}
-                                sx={{ mt: 1 }}
+                            <FormikField
+                                type={"password"}
+                                label={"Password"}
+                                formik={formik}
+                                isError={false}
+                                error={error}
+                                visibility={true}
                             />
 
                             <Button

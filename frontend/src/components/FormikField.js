@@ -17,6 +17,7 @@ function FormikField({
             fullWidth
             id={type}
             name={type}
+            type={visibility ? (showField ? "text" : "password") : "text"}
             label={label}
             value={formik.values[type]}
             onChange={formik.handleChange}

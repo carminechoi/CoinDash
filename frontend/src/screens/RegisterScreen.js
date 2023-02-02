@@ -4,15 +4,22 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Container, Box, Grid, Link, Typography, Button } from "@mui/material";
 
-import withRoot from "../theme/withRoot";
 import { useRegisterUserMutation } from "../features/auth/authApi";
+import withRoot from "../theme/withRoot";
 import Progress from "../components/Progress";
 import FormikField from "../components/FormikField";
 
 function RegisterScreen() {
     const [registerUser, { isLoading, isSuccess, isError, error }] =
         useRegisterUserMutation();
+
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (isSuccess) {
+            navigate("/u/dashboard");
+        }
+    }, [isSuccess, navigate]);
 
     const validationSchema = Yup.object().shape({
         email: Yup.string()
@@ -33,12 +40,6 @@ function RegisterScreen() {
             registerUser(values);
         },
     });
-
-    useEffect(() => {
-        if (isSuccess) {
-            navigate("/u/dashboard");
-        }
-    }, [isSuccess, navigate]);
 
     return (
         <Container component="main" maxWidth="xs">
