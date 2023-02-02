@@ -66,10 +66,14 @@ const login = async (req, res, next) => {
 
 const logout = async (req, res, next) => {
     try {
-        await clearRefreshToken(req.body.refreshToken);
+        console.log("here");
+        const refreshToken = req.cookies["refreshToken"];
+        await clearRefreshToken(refreshToken);
+        console.log("done");
         res.json({});
     } catch (e) {
-        next(error);
+        console.log(e);
+        next(e);
     }
 };
 

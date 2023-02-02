@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Container, Box, Grid, Link, Typography, Button } from "@mui/material";
@@ -18,7 +17,7 @@ function LoginScreen() {
 
     useEffect(() => {
         if (isSuccess) {
-            navigate("/u/dashboard");
+            navigate("/");
         }
     }, [isSuccess, navigate]);
 
@@ -26,9 +25,7 @@ function LoginScreen() {
         email: Yup.string()
             .email("Enter a valid email")
             .required("Email is required"),
-        password: Yup.string()
-            .min(8, "Password should be of minimum 8 characters length")
-            .required("Password is required"),
+        password: Yup.string().required("Password is required"),
     });
 
     const formik = useFormik({

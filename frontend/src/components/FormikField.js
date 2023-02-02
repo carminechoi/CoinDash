@@ -31,7 +31,7 @@ function FormikField({
                     : formik.touched[type] && formik.errors[type]
             }
             InputProps={{
-                autoComplete: { type },
+                autoComplete: type,
                 endAdornment: visibility && (
                     <InputAdornment position="end">
                         <IconButton

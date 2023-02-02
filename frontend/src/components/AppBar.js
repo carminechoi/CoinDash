@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-// import { logout } from "../features/auth/authSlice";
 
 import {
     AppBar as MuiAppBar,
@@ -11,11 +10,17 @@ import {
     Toolbar,
     Typography,
 } from "@mui/material";
+import { useLogoutUserMutation } from "../features/auth/authApi";
 
 function AppBar() {
-    const { user } = useSelector((state) => state.userState);
-    const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { userId } = useSelector((state) => state.authState);
+    const [logoutUser] = useLogoutUserMutation();
+
+    const handleLogout = async () => {
+        await logoutUser();
+        navigate("/");
+    };
 
     return (
         <div>
@@ -40,11 +45,11 @@ function AppBar() {
                             Better Koinly
                         </Typography>
                         <Box display="flex" justifyContent="flex-end">
-                            {user ? (
+                            {userId ? (
                                 <Button
                                     variant="contained"
                                     size="medium"
-                                    // onClick={() => dispatch(logout())}
+                                    onClick={handleLogout}
                                     sx={{
                                         mx: 1,
                                         py: 1,

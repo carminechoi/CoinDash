@@ -17,11 +17,13 @@ const saveRefreshToken = async (userId, token) => {
 };
 
 const clearRefreshToken = async (token) => {
-    await prisma.refreshToken.delete({
+    console.log(token);
+    await prisma.refreshToken.deleteMany({
         where: {
             token: token,
         },
     });
+    console.log("end");
 };
 
 const generateAuthTokens = async (user) => {

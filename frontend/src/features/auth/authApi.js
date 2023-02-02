@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { setUser } from "./authSlice";
+import { setUser, removeUser } from "./authSlice";
 const BASE_URL = process.env.REACT_APP_SERVER_ENDPOINT;
 
 export const authApi = createApi({
@@ -29,14 +29,28 @@ export const authApi = createApi({
                 method: "POST",
                 body: user,
                 withCredentials: true,
+                credentials: "include",
             }),
+            async onQueryStarted(args, { dispatch, queryFulfilled }) {
+                try {
+                    const { data } = await queryFulfilled;
+                    dispatch(setUser(data));
+                } catch (e) {}
+            },
         }),
         logoutUser: builder.mutation({
-            query: (refreshToken) => ({
+            query: () => ({
                 url: "/logout",
-                method: "POST",
-                body: { refreshToken },
+                method: "DELETE",
+                withCredentials: true,
+                credentials: "include",
             }),
+            async onQueryStarted(args, { dispatch, queryFulfilled }) {
+                try {
+                    await queryFulfilled;
+                    dispatch(removeUser());
+                } catch (e) {}
+            },
         }),
         getAccessToken: builder.mutation({
             query: (refreshToken) => ({

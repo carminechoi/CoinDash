@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import Cookies from "js-cookie";
 
 // initialize accessToken from local storage
 const accessToken = localStorage.getItem("accessToken")
@@ -28,6 +27,8 @@ const authSlice = createSlice({
         removeUser: (state) => {
             state.userId = "";
             state.email = "";
+            state.accessToken = "";
+            localStorage.removeItem("accessToken");
         },
     },
 });
