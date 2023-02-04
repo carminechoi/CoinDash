@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import AppBar from "../components/AppBar";
 import withRoot from "../theme/withRoot";
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
 
 function LandingScreen() {
+    const accessToken = useSelector((state) => state.authState.accessToken);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (accessToken) navigate("/u/dashboard");
+    }, [accessToken, navigate]);
 
     return (
         <Box

@@ -12,12 +12,11 @@ function signJwt(payload, type) {
     return jwt.sign({ payload }, secretKey, { expiresIn: expiresIn });
 }
 
-function verifyToken(token, keyType) {
-    const privateKey =
-        keyType == "accessToken" ? accessTokenSecret : refreshTokenSecret;
+function verifyToken(token, type) {
+    const secretKey = type == "access" ? accessTokenSecret : refreshTokenSecret;
 
     return new Promise((resolve, reject) => {
-        jwt.verify(token, privateKey, (err, payload) => {
+        jwt.verify(token, secretKey, (err, payload) => {
             if (err) {
                 const message =
                     err.name == "JsonWebTokenError"

@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const authRouter = require("./auth.route");
-// const userRouter = require("./user.route");
+const userRouter = require("./user.route");
 const createError = require("http-errors");
 
 /* GET home page. */
@@ -10,9 +10,7 @@ router.get("/", function (req, res, next) {
 });
 
 router.use("/auth", authRouter);
-// router.use("/users", userRouter);
-// router.use("/sessions", sessionsRouter);
-// router.use("/posts", postRouter);
+router.use("/users", userRouter);
 
 // Catch 404 unknown routes and forward to error handler
 router.use(async (req, res, next) => {

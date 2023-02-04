@@ -1,16 +1,20 @@
 import React from "react";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
+import { Box } from "@mui/material";
+import AppBar from "../components/AppBar";
 
 function DashboardScreen() {
-    const { userInfo } = useSelector((state) => state.user);
+    // const { userId } = useSelector((state) => state.userState);
 
     return (
-        <div>
-            <span>
-                Welcome <strong>{userInfo?.email}!</strong> You can view this
-                page because you're logged in
-            </span>
-        </div>
+        <Box
+            sx={{
+                display: "flex",
+                flexDirection: "column",
+            }}
+        >
+            <AppBar />
+        </Box>
     );
 }
 

@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Container, Box, Grid, Link, Typography, Button } from "@mui/material";
+import { Container, Box, Grid, Typography, Button } from "@mui/material";
 
 import { useRegisterUserMutation } from "../features/auth/authApi";
 import withRoot from "../theme/withRoot";
@@ -121,7 +121,7 @@ function RegisterScreen() {
                                     <Typography variant="body2">
                                         Already have an account?{" "}
                                         <Link
-                                            href="/u/login"
+                                            to="/u/login"
                                             variant="body2"
                                             underline="none"
                                         >

@@ -17,13 +17,11 @@ const saveRefreshToken = async (userId, token) => {
 };
 
 const clearRefreshToken = async (token) => {
-    console.log(token);
     await prisma.refreshToken.deleteMany({
         where: {
             token: token,
         },
     });
-    console.log("end");
 };
 
 const generateAuthTokens = async (user) => {
@@ -34,4 +32,13 @@ const generateAuthTokens = async (user) => {
     return { accessToken: accessToken, refreshToken: refreshToken };
 };
 
-module.exports = { generateAuthTokens, clearRefreshToken };
+const generateAccessToken = async (user) => {
+    const accessToken = jwt.signJwt(user);
+    return { accessToken: accessToken };
+};
+
+module.exports = {
+    generateAuthTokens,
+    clearRefreshToken,
+    generateAccessToken,
+};

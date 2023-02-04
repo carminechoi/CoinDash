@@ -1,10 +1,10 @@
 import React from "react";
-import { useRouteError } from "react-router-dom";
+import { useRouteError, useNavigate } from "react-router-dom";
 import { Box, Container, Button, Typography } from "@mui/material";
 import withRoot from "../theme/withRoot";
-import AppBar from "../components/AppBar";
 
 function ErrorScreen() {
+    const navigate = useNavigate();
     const error = useRouteError();
     let message;
 
@@ -41,7 +41,11 @@ function ErrorScreen() {
                 <Typography variant="h6" align="center" sx={{ my: 5 }}>
                     <i>{error.statusText || error.message}</i>
                 </Typography>
-                <Button variant="contained" size="large" href="/">
+                <Button
+                    variant="contained"
+                    size="large"
+                    onClick={() => navigate("/")}
+                >
                     Return to homepage
                 </Button>
             </Container>

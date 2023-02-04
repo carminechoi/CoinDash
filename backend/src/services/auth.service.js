@@ -31,4 +31,41 @@ const getUserFromEmailAndPassword = async ({ email, password }) => {
     return user;
 };
 
-module.exports = { createUser, getUserFromEmailAndPassword };
+const getUserFromAccessToken = async ({ id }) => {
+    const user = await prisma.user.findUnique({
+        where: {
+            id: id,
+        },
+    });
+
+    if (!user) {
+        throw createError.Unauthorized("Invalid Access Token");
+    }
+
+    return user;
+};
+
+const getUserFromToken = async (token, tokenType) => {
+    const decoded = jwt.verifyToken(token, tokenType);
+    if (!decoded) {
+        return next(createError.Unauthorized(`Invalid ${tokenType} Token`));
+    }
+
+    const user = await prisma.user.findUnique({
+        where: {
+            userId: decoded.payload.id,
+        },
+    });
+
+    if (!user) {
+        throw createError.Unauthorized(`Invalid ${tokenType} Token`);
+    }
+
+    return user;
+};
+
+module.exports = {
+    createUser,
+    getUserFromEmailAndPassword,
+    getUserFromAccessToken,
+};

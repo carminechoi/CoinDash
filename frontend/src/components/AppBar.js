@@ -1,7 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
 import {
     AppBar as MuiAppBar,
     Box,
@@ -14,7 +13,7 @@ import { useLogoutUserMutation } from "../features/auth/authApi";
 
 function AppBar() {
     const navigate = useNavigate();
-    const { userId } = useSelector((state) => state.authState);
+    const { userId } = useSelector((state) => state.userState);
     const [logoutUser] = useLogoutUserMutation();
 
     const handleLogout = async () => {
@@ -35,7 +34,7 @@ function AppBar() {
                             variant="h6"
                             noWrap
                             component="a"
-                            href="/"
+                            onClick={() => navigate("/")}
                             sx={{
                                 marginRight: "auto",
                                 textDecoration: "none",

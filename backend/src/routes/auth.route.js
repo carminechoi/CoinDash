@@ -2,7 +2,7 @@ const express = require("express");
 const {
     register,
     login,
-    // refreshAccessToken,
+    refreshAccessToken,
     logout,
 } = require("../controllers/auth.controller");
 
@@ -15,7 +15,7 @@ router.post("/register", register);
 router.post("/login", login);
 
 /* Refresh access token route */
-// router.get("/refresh", refreshAccessToken);
+router.get("/refresh", refreshAccessToken);
 
 /* Logout user route */
 router.delete("/logout", logout);

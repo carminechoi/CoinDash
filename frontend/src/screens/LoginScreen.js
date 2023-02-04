@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useNavigate, Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Container, Box, Grid, Link, Typography, Button } from "@mui/material";
+import { Container, Box, Grid, Typography, Button } from "@mui/material";
 
 import { useLoginUserMutation } from "../features/auth/authApi";
 import withRoot from "../theme/withRoot";
@@ -12,14 +13,14 @@ import FormikField from "../components/FormikField";
 function LoginScreen() {
     const [loginUser, { isLoading, isSuccess, isError, error }] =
         useLoginUserMutation();
-
+    const { userId } = useSelector((state) => state.userState);
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (isSuccess) {
-            navigate("/");
+        if (isSuccess || userId) {
+            navigate("/u/dashboard");
         }
-    }, [isSuccess, navigate]);
+    }, [isSuccess, navigate, userId]);
 
     const validationSchema = Yup.object().shape({
         email: Yup.string()
@@ -118,7 +119,7 @@ function LoginScreen() {
                                     <Typography variant="body2">
                                         Don't have an account?{" "}
                                         <Link
-                                            href="/u/signup"
+                                            to="/u/signup"
                                             variant="body2"
                                             underline="none"
                                         >

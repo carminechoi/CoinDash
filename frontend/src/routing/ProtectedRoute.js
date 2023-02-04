@@ -1,22 +1,38 @@
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { NavLink, Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
+import { useGetUserDetailsMutation } from "../features/user/userApi";
+import { Box } from "@mui/material";
+import Spinner from "../components/Spinner";
 
 function ProtectedRoute() {
-    const { userInfo } = useSelector((state) => state.user);
+    const [getUserDetails, { isLoading, isError }] =
+        useGetUserDetailsMutation();
+    const { accessToken } = useSelector((state) => state.authState);
 
-    // show unauthorized screen if no user is found in redux store
-    if (!userInfo) {
+    useEffect(() => {
+        getUserDetails();
+    }, [accessToken, getUserDetails]);
+
+    if (isLoading) {
         return (
-            <div className="unauthorized">
-                <h1>Unauthorized :</h1>
-                <span>
-                    <NavLink to="/login">Login</NavLink> to gain access
-                </span>
-            </div>
+            <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                minHeight="100vh"
+            >
+                <Spinner />
+            </Box>
         );
+    }
+
+    if (isError) {
+        return <Navigate to="/" />;
     }
 
     // returns child route elements
     return <Outlet />;
 }
+
 export default ProtectedRoute;

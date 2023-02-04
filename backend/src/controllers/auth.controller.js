@@ -3,8 +3,10 @@ const bcrypt = require("bcryptjs");
 const {
     createUser,
     getUserFromEmailAndPassword,
+    getUserFromToken,
 } = require("../services/auth.service");
 const {
+    generateAccessToken,
     generateAuthTokens,
     clearRefreshToken,
 } = require("../services/token.service");
@@ -29,7 +31,6 @@ const register = async (req, res, next) => {
         });
 
         res.status(200).json({
-            user,
             accessToken: tokens.accessToken,
         });
     } catch (e) {
@@ -56,7 +57,6 @@ const login = async (req, res, next) => {
         });
 
         res.status(200).json({
-            user,
             accessToken: tokens.accessToken,
         });
     } catch (e) {
@@ -66,15 +66,29 @@ const login = async (req, res, next) => {
 
 const logout = async (req, res, next) => {
     try {
-        console.log("here");
         const refreshToken = req.cookies["refreshToken"];
         await clearRefreshToken(refreshToken);
-        console.log("done");
         res.json({});
     } catch (e) {
-        console.log(e);
         next(e);
     }
 };
 
-module.exports = { register, login, logout };
+const refreshAccessToken = async (req, res, next) => {
+    try {
+        const refreshToken = req.cookies["refreshToken"];
+        if (refreshToken == null) {
+            return next(createError.Unauthorized("Refresh token is required"));
+        }
+
+        const user = getUserFromToken(refreshToken, "refresh");
+        const accessToken = generateAccessToken(user);
+
+        res.status(200).json({
+            accessToken: tokens.accessToken,
+        });
+    } catch (e) {
+        next(e);
+    }
+};
+module.exports = { register, login, logout, refreshAccessToken };
