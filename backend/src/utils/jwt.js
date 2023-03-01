@@ -3,20 +3,20 @@ const createError = require("http-errors");
 // require("dotenv").config();
 
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
+const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET;
 
-function signAccessToken(payload) {
-    return new Promise((resolve, reject) => {
-        jwt.sign({ payload }, accessTokenSecret, {}, (err, token) => {
-            if (err) {
-                reject(createError.InternalServerError());
-            }
-            resolve(token);
-        });
-    });
+function signJwt(payload, type) {
+    const secretKey = type == "access" ? accessTokenSecret : refreshTokenSecret;
+    const expiresIn = type == "access" ? "10m" : "1d";
+
+    return jwt.sign({ payload }, secretKey, { expiresIn: expiresIn });
 }
-function verifyAccessToken(token) {
+
+function verifyToken(token, type) {
+    const secretKey = type == "access" ? accessTokenSecret : refreshTokenSecret;
+    console.log(token);
     return new Promise((resolve, reject) => {
-        jwt.verify(token, accessTokenSecret, (err, payload) => {
+        jwt.verify(token, secretKey, (err, payload) => {
             if (err) {
                 const message =
                     err.name == "JsonWebTokenError"
@@ -29,4 +29,4 @@ function verifyAccessToken(token) {
     });
 }
 
-module.exports = { signAccessToken, verifyAccessToken };
+module.exports = { signJwt, verifyToken };

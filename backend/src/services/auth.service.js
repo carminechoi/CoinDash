@@ -1,50 +1,73 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-// require("dotenv").config();
-
 const bcrypt = require("bcryptjs");
-const jwt = require("../utils/jwt");
+const createError = require("http-errors");
+const { verifyToken } = require("../utils/jwt");
 
-class AuthService {
-    static async register(data) {
-        const { email } = data;
+const createUser = async (userData) => {
+    const user = await prisma.user.create({
+        data: userData,
+    });
+    delete user.password;
 
-        data.password = bcrypt.hashSync(data.password, 8);
-        let user = await prisma.user.create({
-            data,
-        });
-        console.log(user);
-        data.accessToken = await jwt.signAccessToken(user);
+    return user;
+};
 
-        return data;
+const getUserFromEmailAndPassword = async ({ email, password }) => {
+    const user = await prisma.user.findUnique({
+        where: {
+            email: email.toLowerCase(),
+        },
+    });
+
+    if (!user) {
+        throw createError.Unauthorized("Wrong email or password");
     }
 
-    static async login(data) {
-        const { email, password } = data;
-        console.log(email);
-        const user = await prisma.user.findUnique({
-            where: {
-                email,
-            },
-        });
-        if (!user) {
-            throw createError.NotFound("User not registered");
-        }
-        const checkPassword = bcrypt.compareSync(password, user.password);
-        if (!checkPassword)
-            throw createError.Unauthorized(
-                "Email address or password not valid"
-            );
-        delete user.password;
-        const accessToken = await jwt.signAccessToken(user);
-        return { ...user, accessToken };
+    const checkPassword = await bcrypt.compare(password, user.password);
+    if (!checkPassword)
+        throw createError.Unauthorized("Wrong email or password");
+
+    return user;
+};
+
+const getUserFromAccessToken = async ({ id }) => {
+    const user = await prisma.user.findUnique({
+        where: {
+            id: id,
+        },
+    });
+
+    if (!user) {
+        throw createError.Unauthorized("Invalid Access Token");
     }
 
-    static async all() {
-        const allUsers = await prisma.user.findMany();
-        return allUsers;
-    }
-}
+    return user;
+};
 
-module.exports = AuthService;
+const getUserFromToken = async (token, tokenType) => {
+    const decoded = await verifyToken(token, tokenType);
+    if (!decoded) {
+        return next(createError.Unauthorized(`Invalid ${tokenType} Token`));
+    }
+
+    const user = await prisma.user.findUnique({
+        where: {
+            id: decoded.payload.id,
+        },
+    });
+
+    if (!user) {
+        throw createError.Unauthorized(`Invalid ${tokenType} Token`);
+    }
+
+    return user;
+};
+
+module.exports = {
+    createUser,
+    getUserFromEmailAndPassword,
+    getUserFromAccessToken,
+    getUserFromToken,
+};
