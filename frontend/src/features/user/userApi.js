@@ -19,11 +19,15 @@ const baseQuery = fetchBaseQuery({
         }
         if (accessToken) {
             await headers.set("Authorization", `Bearer ${accessToken}`);
-            console.log("headers", headers);
         }
 
         return headers;
     },
+});
+
+const authBaseQuery = fetchBaseQuery({
+    baseUrl: `${BASE_URL}/api/auth`,
+    credentials: "include",
 });
 
 // On 401 Unauthorized error, send an additional request to refresh an access token and retry initial query
@@ -39,7 +43,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
             const release = await mutex.acquire();
             try {
                 // Try to get a new token
-                const refreshResult = await baseQuery(
+                const refreshResult = await authBaseQuery(
                     "/refresh",
                     api,
                     extraOptions

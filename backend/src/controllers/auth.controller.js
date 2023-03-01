@@ -77,15 +77,16 @@ const logout = async (req, res, next) => {
 const refreshAccessToken = async (req, res, next) => {
     try {
         const refreshToken = req.cookies["refreshToken"];
+
         if (refreshToken == null) {
             return next(createError.Unauthorized("Refresh token is required"));
         }
 
-        const user = getUserFromToken(refreshToken, "refresh");
-        const accessToken = generateAccessToken(user);
+        const user = await getUserFromToken(refreshToken, "refresh");
+        const { accessToken } = await generateAccessToken(user);
 
         res.status(200).json({
-            accessToken: tokens.accessToken,
+            accessToken: accessToken,
         });
     } catch (e) {
         next(e);

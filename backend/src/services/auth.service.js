@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 const bcrypt = require("bcryptjs");
 const createError = require("http-errors");
-const jwt = require("../utils/jwt");
+const { verifyToken } = require("../utils/jwt");
 
 const createUser = async (userData) => {
     const user = await prisma.user.create({
@@ -47,7 +47,7 @@ const getUserFromAccessToken = async ({ id }) => {
 };
 
 const getUserFromToken = async (token, tokenType) => {
-    const decoded = await jwt.verifyToken(token, tokenType);
+    const decoded = await verifyToken(token, tokenType);
     if (!decoded) {
         return next(createError.Unauthorized(`Invalid ${tokenType} Token`));
     }

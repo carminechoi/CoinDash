@@ -14,7 +14,7 @@ function signJwt(payload, type) {
 
 function verifyToken(token, type) {
     const secretKey = type == "access" ? accessTokenSecret : refreshTokenSecret;
-
+    console.log(token);
     return new Promise((resolve, reject) => {
         jwt.verify(token, secretKey, (err, payload) => {
             if (err) {

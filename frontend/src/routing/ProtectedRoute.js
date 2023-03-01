@@ -10,7 +10,7 @@ function ProtectedRoute() {
 
     useEffect(() => {
         getUserDetails();
-    }, [getUserDetails]);
+    }, []);
 
     if (isLoading) {
         return (
