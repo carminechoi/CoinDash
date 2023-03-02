@@ -8,18 +8,15 @@ import {
     Container,
     Toolbar,
     Typography,
+    IconButton,
+    Avatar,
+    Menu,
+    MenuItem,
 } from "@mui/material";
 import { useLogoutUserMutation } from "../features/auth/authApi";
 
 function AppBar() {
-    const navigate = useNavigate();
-    const { userId } = useSelector((state) => state.userState);
-    const [logoutUser] = useLogoutUserMutation();
-
-    const handleLogout = async () => {
-        await logoutUser();
-        navigate("/");
-    };
+    const { userId: loggedIn, email } = useSelector((state) => state.userState);
 
     return (
         <div>
@@ -29,68 +26,190 @@ function AppBar() {
                 sx={{ color: "black", bgcolor: "#FFFFFF", py: 1 }}
             >
                 <Container maxWidth="xxl">
-                    <Toolbar>
-                        <Typography
-                            variant="h6"
-                            noWrap
-                            component="a"
-                            onClick={() => navigate("/")}
-                            sx={{
-                                marginRight: "auto",
-                                textDecoration: "none",
-                                color: "inherit",
-                            }}
-                        >
-                            Better Koinly
-                        </Typography>
-                        <Box display="flex" justifyContent="flex-end">
-                            {userId ? (
-                                <Button
-                                    variant="contained"
-                                    size="medium"
-                                    onClick={handleLogout}
-                                    sx={{
-                                        mx: 1,
-                                        py: 1,
-                                        textTransform: "none",
-                                    }}
-                                >
-                                    Log out
-                                </Button>
-                            ) : (
-                                <div>
-                                    <Button
-                                        variant="outlined"
-                                        size="medium"
-                                        onClick={() => navigate("/u/login")}
-                                        sx={{
-                                            mx: 1,
-                                            py: 1,
-                                            textTransform: "none",
-                                        }}
-                                    >
-                                        Sign in
-                                    </Button>
-                                    <Button
-                                        variant="contained"
-                                        size="medium"
-                                        onClick={() => navigate("/u/signup")}
-                                        sx={{
-                                            mx: 1,
-                                            py: 1,
-                                            textTransform: "none",
-                                        }}
-                                    >
-                                        Try it free
-                                    </Button>
-                                </div>
-                            )}
-                        </Box>
-                    </Toolbar>
+                    {loggedIn ? (
+                        <LoggedIn userEmail={email} />
+                    ) : (
+                        <NotLoggedIn />
+                    )}
                 </Container>
             </MuiAppBar>
             <Toolbar />
         </div>
+    );
+}
+
+function LoggedIn({ userEmail }) {
+    const navigate = useNavigate();
+    const [logoutUser] = useLogoutUserMutation();
+    const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+    const handleLogout = async () => {
+        await logoutUser();
+        navigate("/");
+    };
+
+    const handleOpenUserMenu = (event) => {
+        setAnchorElUser(event.currentTarget);
+    };
+
+    const handleCloseUserMenu = () => {
+        setAnchorElUser(null);
+    };
+
+    const handleCryptoPrices = () => navigate("/price");
+
+    return (
+        <Toolbar>
+            <Typography
+                variant="h6"
+                noWrap
+                component="a"
+                href="/"
+                sx={{
+                    marginRight: "auto",
+                    textDecoration: "none",
+                    color: "inherit",
+                }}
+            >
+                Better Koinly
+            </Typography>
+            <Box
+                sx={{
+                    justifyContent: "center",
+                    flexGrow: 1,
+                    display: { xs: "none", md: "flex" },
+                    alignItems: "center",
+                }}
+            >
+                <Button
+                    // onClick={handleCloseNavMenu}
+                    sx={{
+                        my: 2,
+                        px: 2,
+                        color: "black",
+                        display: "block",
+                        textTransform: "none",
+                    }}
+                >
+                    Dashboard
+                </Button>
+                <Button
+                    // onClick={handleCloseNavMenu}
+                    sx={{
+                        my: 2,
+                        px: 2,
+                        color: "black",
+                        display: "block",
+                        textTransform: "none",
+                    }}
+                >
+                    Wallets
+                </Button>
+                <Button
+                    onClick={handleCryptoPrices}
+                    sx={{
+                        my: 2,
+                        px: 2,
+                        color: "black",
+                        display: "block",
+                        textTransform: "none",
+                    }}
+                >
+                    Crypto Prices
+                </Button>
+                <Button
+                    // onClick={handleCloseNavMenu}
+                    sx={{
+                        my: 2,
+                        px: 2,
+                        color: "black",
+                        display: "block",
+                        textTransform: "none",
+                    }}
+                >
+                    Taxes
+                </Button>
+            </Box>
+            <Box
+                sx={{
+                    display: "flex",
+                    flexGrow: 0,
+                    justifyContent: "flex-end",
+                    alignItems: "center",
+                }}
+            >
+                <Typography textAlign="center" sx={{ pr: 2 }}>
+                    {userEmail}
+                </Typography>
+
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar />
+                </IconButton>
+                <Menu
+                    sx={{ mt: "45px" }}
+                    id="menu-appbar"
+                    anchorEl={anchorElUser}
+                    anchorOrigin={{ vertical: "top", horizontal: "right" }}
+                    open={Boolean(anchorElUser)}
+                    onClose={handleCloseUserMenu}
+                >
+                    <MenuItem onClick={handleLogout}>
+                        <Typography textAlign="center">Logout</Typography>
+                    </MenuItem>
+                </Menu>
+            </Box>
+        </Toolbar>
+    );
+}
+
+function NotLoggedIn() {
+    const navigate = useNavigate();
+
+    const handleSignup = () => navigate("/u/signup");
+    const handleLogin = () => navigate("/u/login");
+
+    return (
+        <Toolbar>
+            <Typography
+                variant="h6"
+                noWrap
+                component="a"
+                href="/"
+                sx={{
+                    marginRight: "auto",
+                    textDecoration: "none",
+                    color: "inherit",
+                }}
+            >
+                Better Koinly
+            </Typography>
+            <Box display="flex" justifyContent="flex-end">
+                <Button
+                    variant="outlined"
+                    size="medium"
+                    onClick={handleLogin}
+                    sx={{
+                        mx: 1,
+                        py: 1,
+                        textTransform: "none",
+                    }}
+                >
+                    Sign in
+                </Button>
+                <Button
+                    variant="contained"
+                    size="medium"
+                    onClick={handleSignup}
+                    sx={{
+                        mx: 1,
+                        py: 1,
+                        textTransform: "none",
+                    }}
+                >
+                    Try it free
+                </Button>
+            </Box>{" "}
+        </Toolbar>
     );
 }
 
