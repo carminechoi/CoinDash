@@ -21,7 +21,7 @@ function AppBar() {
     return (
         <div>
             <MuiAppBar
-                position="sticky"
+                position="absolute"
                 elevation={0}
                 sx={{ color: "black", bgcolor: "#FFFFFF", py: 1 }}
             >
@@ -57,6 +57,7 @@ function LoggedIn({ userEmail }) {
     };
 
     const handleCryptoPrices = () => navigate("/price");
+    const handleDashboard = () => navigate("/u/dashboard");
 
     return (
         <Toolbar>
@@ -75,14 +76,16 @@ function LoggedIn({ userEmail }) {
             </Typography>
             <Box
                 sx={{
-                    justifyContent: "center",
-                    flexGrow: 1,
                     display: { xs: "none", md: "flex" },
+                    flexGrow: 1,
+                    marginLeft: 10,
+                    marginRight: "auto",
                     alignItems: "center",
+                    justifyContent: "center",
                 }}
             >
                 <Button
-                    // onClick={handleCloseNavMenu}
+                    onClick={handleDashboard}
                     sx={{
                         my: 2,
                         px: 2,
@@ -149,7 +152,7 @@ function LoggedIn({ userEmail }) {
                     sx={{ mt: "45px" }}
                     id="menu-appbar"
                     anchorEl={anchorElUser}
-                    anchorOrigin={{ vertical: "top", horizontal: "right" }}
+                    anchorOrigin={{ vertical: "top", horizontal: "left" }}
                     open={Boolean(anchorElUser)}
                     onClose={handleCloseUserMenu}
                 >
