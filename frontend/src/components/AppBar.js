@@ -71,7 +71,7 @@ function LoggedIn({ userEmail }) {
                     justifyContent: "center",
                     flexGrow: 1,
                     display: { xs: "none", md: "flex" },
-                    marginLeft: 10,
+                    marginLeft: 12,
                     marginRight: "auto",
                     alignItems: "center",
                 }}
