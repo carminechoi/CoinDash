@@ -12,10 +12,11 @@ function TabsGroup({ tabs, children }) {
     };
 
     return (
-        <Container sx={{ mt: 2 }}>
+        <Container sx={{ mt: 0 }}>
             <Tabs value={value} onChange={handleChange} centered>
                 {tabs.map((tab) => (
                     <Tab
+                        key={tab}
                         value={tab}
                         label={tab}
                         sx={{ textTransform: "none" }}
@@ -24,7 +25,7 @@ function TabsGroup({ tabs, children }) {
             </Tabs>
 
             {tabs.map((tab) => (
-                <TabPanel value={value} label={tab}>
+                <TabPanel key={tab} value={value} label={tab}>
                     {children}
                 </TabPanel>
             ))}

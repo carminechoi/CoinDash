@@ -18,7 +18,7 @@ function TabPanel(props) {
 TabPanel.propTypes = {
     children: PropTypes.node,
     label: PropTypes.string.isRequired,
-    value: PropTypes.number.isRequired,
+    value: PropTypes.string.isRequired,
 };
 
 export default TabPanel;

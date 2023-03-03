@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Container, Tabs, Tab } from "@mui/material";
+import { Box } from "@mui/material";
 import AppBar from "../components/AppBar";
 import CryptoPriceTable from "../components/CryptoPriceTable";
 import TabsGroup from "../components/TabsGroup";
