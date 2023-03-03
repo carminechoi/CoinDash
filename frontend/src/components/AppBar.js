@@ -12,8 +12,14 @@ import {
     Avatar,
     Menu,
     MenuItem,
+    Divider,
 } from "@mui/material";
-import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
+import PopupState, {
+    bindTrigger,
+    bindMenu,
+    bindHover,
+} from "material-ui-popup-state";
+import HoverMenu from "material-ui-popup-state/HoverMenu";
 import { useLogoutUserMutation } from "../features/auth/authApi";
 
 function AppBar() {
@@ -88,18 +94,49 @@ function LoggedIn({ userEmail }) {
                 >
                     Dashboard
                 </Button>
-                <Button
-                    // onClick={handleCloseNavMenu}
-                    sx={{
-                        my: 2,
-                        px: 2,
-                        color: "black",
-                        display: "block",
-                        textTransform: "none",
-                    }}
-                >
-                    Wallets
-                </Button>
+                <PopupState variant="popover" popupId="walletMenu">
+                    {(popupState) => (
+                        <React.Fragment>
+                            <Button
+                                // onClick={handleCloseNavMenu}
+                                {...bindHover(popupState)}
+                                sx={{
+                                    my: 2,
+                                    px: 2,
+                                    color: "black",
+                                    display: "block",
+                                    textTransform: "none",
+                                }}
+                            >
+                                Wallets
+                            </Button>
+
+                            <HoverMenu
+                                {...bindMenu(popupState)}
+                                anchorOrigin={{
+                                    vertical: "bottom",
+                                    horizontal: "left",
+                                }}
+                                transformOrigin={{
+                                    vertical: "top",
+                                    horizontal: "left",
+                                }}
+                            >
+                                <MenuItem>
+                                    <Typography>Wallets</Typography>
+                                </MenuItem>
+                                <MenuItem>
+                                    <Typography>Transactions</Typography>
+                                </MenuItem>
+                                <Divider />
+                                <MenuItem>
+                                    <Typography>+ Add Wallet</Typography>
+                                </MenuItem>
+                            </HoverMenu>
+                        </React.Fragment>
+                    )}
+                </PopupState>
+
                 <Button
                     onClick={handleCryptoPrices}
                     sx={{
