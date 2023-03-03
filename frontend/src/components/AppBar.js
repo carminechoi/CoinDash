@@ -13,6 +13,7 @@ import {
     Menu,
     MenuItem,
 } from "@mui/material";
+import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
 import { useLogoutUserMutation } from "../features/auth/authApi";
 
 function AppBar() {
@@ -41,19 +42,10 @@ function AppBar() {
 function LoggedIn({ userEmail }) {
     const navigate = useNavigate();
     const [logoutUser] = useLogoutUserMutation();
-    const [anchorElUser, setAnchorElUser] = React.useState(null);
 
     const handleLogout = async () => {
         await logoutUser();
         navigate("/");
-    };
-
-    const handleOpenUserMenu = (event) => {
-        setAnchorElUser(event.currentTarget);
-    };
-
-    const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
     };
 
     const handleCryptoPrices = () => navigate("/price");
@@ -76,12 +68,12 @@ function LoggedIn({ userEmail }) {
             </Typography>
             <Box
                 sx={{
-                    display: { xs: "none", md: "flex" },
+                    justifyContent: "center",
                     flexGrow: 1,
+                    display: { xs: "none", md: "flex" },
                     marginLeft: 10,
                     marginRight: "auto",
                     alignItems: "center",
-                    justifyContent: "center",
                 }}
             >
                 <Button
@@ -144,22 +136,25 @@ function LoggedIn({ userEmail }) {
                 <Typography textAlign="center" sx={{ pr: 2 }}>
                     {userEmail}
                 </Typography>
-
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar />
-                </IconButton>
-                <Menu
-                    sx={{ mt: "45px" }}
-                    id="menu-appbar"
-                    anchorEl={anchorElUser}
-                    anchorOrigin={{ vertical: "top", horizontal: "left" }}
-                    open={Boolean(anchorElUser)}
-                    onClose={handleCloseUserMenu}
-                >
-                    <MenuItem onClick={handleLogout}>
-                        <Typography textAlign="center">Logout</Typography>
-                    </MenuItem>
-                </Menu>
+                <PopupState variant="popover">
+                    {(popupState) => (
+                        <React.Fragment>
+                            <IconButton
+                                {...bindTrigger(popupState)}
+                                sx={{ p: 0 }}
+                            >
+                                <Avatar />
+                            </IconButton>
+                            <Menu {...bindMenu(popupState)}>
+                                <MenuItem onClick={handleLogout}>
+                                    <Typography textAlign="center">
+                                        Logout
+                                    </Typography>
+                                </MenuItem>
+                            </Menu>
+                        </React.Fragment>
+                    )}
+                </PopupState>
             </Box>
         </Toolbar>
     );
