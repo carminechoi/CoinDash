@@ -4,10 +4,16 @@ require("@prisma/client");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+const cron = require("node-cron");
 
 var route = require("./src/routes/index");
 
 var app = express();
+
+// run cron job
+cron.schedule("* 1 * * *", function () {
+    console.log("running a task every hour");
+});
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
