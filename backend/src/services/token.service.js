@@ -1,7 +1,6 @@
 const jwt = require("../utils/jwt");
 
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
+const { prisma } = require("../../prisma/prisma.client");
 
 const saveRefreshToken = async (userId, token) => {
     await prisma.refreshToken.upsert({
