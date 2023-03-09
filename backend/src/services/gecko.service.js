@@ -14,3 +14,7 @@ const fetchAllCoins = async () => {
         prisma.$disconnect();
     }
 };
+
+module.exports = {
+    fetchAllCoins,
+};
