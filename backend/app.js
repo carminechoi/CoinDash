@@ -7,12 +7,22 @@ var logger = require("morgan");
 const cron = require("node-cron");
 
 var route = require("./src/routes/index");
+const { fetchAllCoins } = require("./src/services/gecko.service");
 
 var app = express();
 
 // run cron job
-cron.schedule("* 1 * * *", function () {
-    console.log("running a task every hour");
+// ┌────────────── second (optional)
+// │ ┌──────────── minute
+// │ │ ┌────────── hour
+// │ │ │ ┌──────── day of month
+// │ │ │ │ ┌────── month
+// │ │ │ │ │ ┌──── day of week
+// │ │ │ │ │ │
+// │ │ │ │ │ │
+// * * * * * *
+cron.schedule("*/1 * * * *", function () {
+    fetchAllCoins();
 });
 
 // view engine setup
