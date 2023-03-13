@@ -5,6 +5,7 @@ import LandingScreen from "../screens/LandingScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import LoginScreen from "../screens/LoginScreen";
 import DashboardScreen from "../screens/DashboardScreen";
+import CryptoPriceScreen from "../screens/CryptoPriceScreen";
 import ProtectedRoute from "../routing/ProtectedRoute";
 
 const router = createBrowserRouter([
@@ -33,6 +34,11 @@ const router = createBrowserRouter([
                 errorElement: <ErrorScreen />,
             },
         ],
+    },
+    {
+        path: "/price",
+        element: <CryptoPriceScreen />,
+        errorElement: <ErrorScreen />,
     },
 ]);
 

@@ -1,6 +1,5 @@
-const jwt = require("../utils/jwt");
 const createError = require("http-errors");
-const { getUserFromToken } = require("../services/auth.service");
+const { getUserFromAccessToken } = require("../services/token.service");
 
 const authenticateToken = async (req, res, next) => {
     try {
@@ -11,7 +10,7 @@ const authenticateToken = async (req, res, next) => {
             return next(createError.Unauthorized("Access token is required"));
         }
 
-        const user = await getUserFromToken(accessToken, "access");
+        const user = await getUserFromAccessToken(accessToken);
 
         req.authData = user;
 

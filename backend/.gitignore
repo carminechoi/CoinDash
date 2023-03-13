@@ -4,7 +4,6 @@ node_modules
 .env
 
 
-docker-compose.yml
 migrations
 
 keys/
