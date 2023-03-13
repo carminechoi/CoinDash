@@ -1,6 +1,16 @@
-const bcrypt = require("bcryptjs");
+var express = require("express");
+const { authenticateToken } = require("../utils/auth.util");
 
-const getUserDetails = async (req, res, next) => {
+const router = express.Router();
+
+/**
+ * Get User information
+ * @auth none
+ * @route {GET} /user
+ * @bodyparam { }
+ * @returns { id, email, role }
+ **/
+router.get("/user", authenticateToken, async (req, res, next) => {
     try {
         const user = req.authData;
 
@@ -12,6 +22,6 @@ const getUserDetails = async (req, res, next) => {
     } catch (e) {
         next(e);
     }
-};
+});
 
-module.exports = { getUserDetails };
+module.exports = router;

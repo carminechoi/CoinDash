@@ -1,95 +1,110 @@
-const bcrypt = require("bcryptjs");
+var express = require("express");
 
 const {
-    createUser,
-    getUserFromEmailAndPassword,
-    getUserFromToken,
+	registerUser,
+	loginUser,
+	logoutUser,
+	refresh,
 } = require("../services/auth.service");
-const {
-    generateAccessToken,
-    generateAuthTokens,
-    clearRefreshToken,
-} = require("../services/token.service");
 
-const register = async (req, res, next) => {
-    const { email, password } = req.body;
-    try {
-        const hashedPassword = await bcrypt.hash(password, 12);
+const router = express.Router();
 
-        const user = await createUser({
-            email: email.toLowerCase(),
-            password: hashedPassword,
-        });
+/**
+ * Register an user
+ * @auth none
+ * @route {POST} /register
+ * @bodyparam { email, password }
+ * @returns { accessToken }
+ **/
+router.post("/register", async (req, res, next) => {
+	try {
+		const { email, password } = req.body;
+		const tokens = await registerUser(email, password);
 
-        const tokens = await generateAuthTokens(user);
+		res.cookie("refreshToken", tokens.refreshToken, {
+			httpOnly: true,
+			secure: true,
+			maxAge: 24 * 60 * 60 * 1000,
+			expires: 24 * 60 * 60 * 1000,
+		});
 
-        res.cookie("refreshToken", tokens.refreshToken, {
-            httpOnly: true,
-            secure: true,
-            maxAge: 24 * 60 * 60 * 1000,
-            expires: 24 * 60 * 60 * 1000,
-        });
+		res.status(200).json({
+			accessToken: tokens.accessToken,
+		});
+	} catch (e) {
+		if (e.code === "P2002") {
+			return res.status(409).json({
+				state: false,
+				message: "Email already exists",
+			});
+		}
+		next(e);
+	}
+});
 
-        res.status(200).json({
-            accessToken: tokens.accessToken,
-        });
-    } catch (e) {
-        if (e.code === "P2002") {
-            return res.status(409).json({
-                state: false,
-                message: "Email already exists",
-            });
-        }
-        next(e);
-    }
-};
+/**
+ * Login an user
+ * @auth none
+ * @route {POST} /login
+ * @bodyparam { email, password }
+ * @returns { accessToken }
+ **/
+router.post("/login", async (req, res, next) => {
+	try {
+		const { email, password } = req.body;
+		const tokens = await loginUser(email, password);
 
-const login = async (req, res, next) => {
-    try {
-        const user = await getUserFromEmailAndPassword(req.body);
-        const tokens = await generateAuthTokens(user);
+		res.cookie("refreshToken", tokens.refreshToken, {
+			httpOnly: true,
+			secure: true,
+			maxAge: 24 * 60 * 60 * 1000,
+			expires: 24 * 60 * 60 * 1000,
+		});
 
-        res.cookie("refreshToken", tokens.refreshToken, {
-            httpOnly: true,
-            secure: true,
-            maxAge: 24 * 60 * 60 * 1000,
-            expires: 24 * 60 * 60 * 1000,
-        });
+		res.status(200).json({
+			accessToken: tokens.accessToken,
+		});
+	} catch (e) {
+		next(e);
+	}
+});
 
-        res.status(200).json({
-            accessToken: tokens.accessToken,
-        });
-    } catch (e) {
-        next(e);
-    }
-};
+/**
+ * Logout an user
+ * @auth none
+ * @route {POST} /logout
+ * @bodyparam { }
+ * @returns { }
+ **/
+router.post("/logout", async (req, res, next) => {
+	try {
+		const refreshToken = req.cookies["refreshToken"];
+		await logoutUser(refreshToken);
+		res.json({});
+	} catch (e) {
+		next(e);
+	}
+});
 
-const logout = async (req, res, next) => {
-    try {
-        const refreshToken = req.cookies["refreshToken"];
-        await clearRefreshToken(refreshToken);
-        res.json({});
-    } catch (e) {
-        next(e);
-    }
-};
+/**
+ * Refresh access token
+ * @auth none
+ * @route {POST} /refresh
+ * @bodyparam { }
+ * @returns { accessToken }
+ **/
+router.get("/refresh", async (req, res, next) => {
+	try {
+		const refreshToken = req.cookies["refreshToken"];
 
-const refreshAccessToken = async (req, res, next) => {
-    try {
-        const refreshToken = req.cookies["refreshToken"];
+		accessToken = await refresh(refreshToken);
 
-        if (refreshToken == null) {
-            return next(createError.Unauthorized("Refresh token is required"));
-        }
+		res.status(200).json({
+			accessToken: accessToken,
+		});
+	} catch (e) {
+		next(e);
+	}
+});
 
-        const user = await getUserFromToken(refreshToken, "refresh");
-        const { accessToken } = await generateAccessToken(user);
-
-        res.status(200).json({
-            accessToken: accessToken,
-        });
-    } catch (e) {
-        next(e);
-    }
-};
-module.exports = { register, login, logout, refreshAccessToken };
+module.exports = router;

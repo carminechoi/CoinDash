@@ -6,7 +6,7 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const cron = require("node-cron");
 
-var route = require("./src/routes/index");
+var routes = require("./src/routes/routes");
 const { fetchAllCoins } = require("./src/services/gecko.service");
 
 var app = express();
@@ -47,7 +47,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-// redirect to routes/index.js
-app.use("/api", route);
+app.use(routes);
 
 module.exports = app;
