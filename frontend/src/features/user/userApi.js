@@ -83,7 +83,10 @@ export const userApi = createApi({
                 try {
                     const { data } = await queryFulfilled;
                     dispatch(setUserDetails(data));
-                } catch (e) {}
+                } catch (e) {
+                    dispatch(removeAuthDetails());
+                    dispatch(removeUserDetails());
+                }
             },
         }),
     }),
