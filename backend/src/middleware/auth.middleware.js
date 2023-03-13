@@ -1,24 +1,24 @@
-const jwt = require("../utils/jwt");
+const jwt = require("../utils/token");
 const createError = require("http-errors");
-const { getUserFromToken } = require("../services/auth.service");
+const { getUserFromAccessToken } = require("../services/token.service");
 
 const authenticateToken = async (req, res, next) => {
-    try {
-        const authHeader = req.headers.authorization;
-        const accessToken = authHeader && authHeader.split(" ")[1];
+	try {
+		const authHeader = req.headers.authorization;
+		const accessToken = authHeader && authHeader.split(" ")[1];
 
-        if (accessToken == null) {
-            return next(createError.Unauthorized("Access token is required"));
-        }
+		if (accessToken == null) {
+			return next(createError.Unauthorized("Access token is required"));
+		}
 
-        const user = await getUserFromToken(accessToken, "access");
+		const user = await getUserFromAccessToken(accessToken);
 
-        req.authData = user;
+		req.authData = user;
 
-        next();
-    } catch (e) {
-        next(e);
-    }
+		next();
+	} catch (e) {
+		next(e);
+	}
 };
 
 module.exports = { authenticateToken };

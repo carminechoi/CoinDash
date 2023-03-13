@@ -1,17 +1,20 @@
-const bcrypt = require("bcryptjs");
+var express = require("express");
+const { authenticateToken } = require("../middleware/auth.middleware");
 
-const getUserDetails = async (req, res, next) => {
-    try {
-        const user = req.authData;
+const router = express.Router();
 
-        res.status(200).json({
-            id: user.id,
-            email: user.email,
-            role: user.role,
-        });
-    } catch (e) {
-        next(e);
-    }
-};
+router.get("/user", authenticateToken, async (req, res, next) => {
+	try {
+		const user = req.authData;
 
-module.exports = { getUserDetails };
+		res.status(200).json({
+			id: user.id,
+			email: user.email,
+			role: user.role,
+		});
+	} catch (e) {
+		next(e);
+	}
+});
+
+module.exports = router;
