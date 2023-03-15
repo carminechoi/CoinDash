@@ -187,7 +187,7 @@ function LoggedIn({ userEmail }) {
                             >
                                 <Avatar />
                             </IconButton>
-                            <Menu {...bindMenu(popupState)}>
+                            <Menu {...bindMenu(popupState)} disableScrollLock>
                                 <MenuItem onClick={handleLogout}>
                                     <Typography textAlign="center">
                                         Logout
