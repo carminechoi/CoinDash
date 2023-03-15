@@ -1,17 +1,15 @@
-var express = require("express");
-var cors = require("cors");
-require("@prisma/client");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
+const express = require("express");
+const cors = require("cors");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
 const cron = require("node-cron");
 
+var app = express();
 var routes = require("./src/routes/routes");
 const { fetchAllCoins } = require("./src/services/gecko.service");
 
-var app = express();
-
-// run cron job
+// Cron setup
 // ┌────────────── second (optional)
 // │ ┌──────────── minute
 // │ │ ┌────────── hour
@@ -21,15 +19,11 @@ var app = express();
 // │ │ │ │ │ │
 // │ │ │ │ │ │
 // * * * * * *
-cron.schedule("*/1 * * * *", function () {
+cron.schedule("* 1 * * *", function () {
     fetchAllCoins();
 });
 
-// view engine setup
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "pug");
-
-// enable CORS for specific origins only
+// Enable CORS for specific origins only
 let corsOptions = {
     origin: [
         "http://localhost:3000",
@@ -39,7 +33,7 @@ let corsOptions = {
     credentials: true,
 };
 
-// middlewares
+// App Conficuration
 app.use(cors(corsOptions));
 app.use(logger("dev"));
 app.use(express.json());

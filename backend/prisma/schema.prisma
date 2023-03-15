@@ -12,26 +12,42 @@ datasource db {
 
 model User {
   id          Int              @id @default(autoincrement())
-  email       String           @unique
-  password    String?
-  role        RoleEnumType?    @default(user)
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt
+  email       String           @unique
+  password    String
+  role        RoleEnumType     @default(USER)
+  watchList   Coin[]
 }
 
 model RefreshToken {
   id          Int              @id @default(autoincrement())
-  userId      Int              @unique
-  token       String           @default("")
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt @default(now())
+  userId      Int              @unique
+  token       String           @default("")
 }
 
 model Coin {
-  id          Int              @id @default(autoincrement())
+  id                                Int             @id @default(autoincrement())
+  createdAt                         DateTime        @default(now())
+  updatedAt                         DateTime        @updatedAt @default(now())
+  coinId                            String          @unique
+  symbol                            String
+  name                              String
+  image                             String
+  currentPrice                      Float
+  marketCap                         Float
+  marketCapRank                     Float
+  priceChange24h                    Float
+  priceChangePercentage24h          Float
+  marketCapChange24h                Float
+  marketCapChangePercentage24h      Float
+  lastUpdated                       String
+  users                             User[]
 }
 
 enum RoleEnumType {
-  user
-  admin
+  USER
+  ADMIN
 }
