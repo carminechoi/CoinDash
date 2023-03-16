@@ -1,29 +1,27 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import { useSelector } from "react-redux";
+
 import Paper from "@mui/material/Paper";
 
-function createData(coin, price, change, marketcap, volume) {
-    return { coin, price, change, marketcap, volume };
-}
-
-const rows = [
-    createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-    createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-    createData("Eclair", 262, 16.0, 24, 6.0),
-    createData("Cupcake", 305, 3.7, 67, 4.3),
-    createData("Gingerbread", 356, 16.0, 49, 3.9),
-    createData("Gingerbread1", 356, 16.0, 49, 3.9),
-    createData("Gingerbread2", 356, 16.0, 49, 3.9),
-    createData("Gingerbread3", 356, 16.0, 49, 3.9),
-    createData("Gingerbread4", 356, 16.0, 49, 3.9),
-];
+import { useGetAllCoinsMutation } from "../features/coin/coinApi";
 
 function CryptoPriceTable({ type }) {
+    const { coins } = useSelector((state) => state.coinState);
+    const [getAllCoins, { isLoading, isError }] = useGetAllCoinsMutation();
+
+    useEffect(() => {
+        switch (type) {
+            default:
+                getAllCoins();
+        }
+    }, [getAllCoins, type]);
+
     return (
         <TableContainer component={Paper}>
             <Table aria-label="simple table">
@@ -38,21 +36,29 @@ function CryptoPriceTable({ type }) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row, index) => (
+                    {coins.map((coin) => (
                         <TableRow
-                            key={row.coin}
+                            key={coin.marketCapRank}
                             sx={{
                                 "&:last-child td, &:last-child th": {
                                     border: 0,
                                 },
                             }}
                         >
-                            <TableCell>{index + 1}</TableCell>
-                            <TableCell>{row.coin}</TableCell>
-                            <TableCell align="right">{row.price}</TableCell>
-                            <TableCell align="right">{row.change}</TableCell>
-                            <TableCell align="right">{row.marketcap}</TableCell>
-                            <TableCell align="right">{row.volume}</TableCell>
+                            <TableCell>{coin.marketCapRank}</TableCell>
+                            <TableCell>{coin.name}</TableCell>
+                            <TableCell align="right">
+                                {coin.currentPrice}
+                            </TableCell>
+                            <TableCell align="right">
+                                {coin.priceChange24h}
+                            </TableCell>
+                            <TableCell align="right">
+                                {coin.marketCap}
+                            </TableCell>
+                            <TableCell align="right">
+                                {coin.marketCapChange24h}
+                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
