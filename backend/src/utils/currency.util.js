@@ -1,20 +1,43 @@
 // Format floats to currency value
-const formatCurrency = (value) => {
-    if (value >= 1000000000000) {
-        // Trillion T
-        return "$" + (value / 1000000000000).toFixed(1) + "T";
-    } else if (value >= 1000000000) {
-        // Billion B
-        return "$" + (value / 1000000000).toFixed(1) + "B";
-    } else if (value >= 1000000) {
-        // Million M
-        return "$" + (value / 1000000).toFixed(1) + "M";
-    } else if (value >= 1000) {
-        // Thousand K
-        return "$" + (value / 1000).toFixed(1) + "K";
-    } else {
-        return "$" + value.toFixed(1);
-    }
+const abbreviations = [
+    { value: 1e12, symbol: "T" },
+    { value: 1e9, symbol: "B" },
+    { value: 1e6, symbol: "M" },
+    { value: 1e3, symbol: "K" },
+    { value: 1, symbol: "" },
+];
+
+const abbreviateCurrency = (value) => {
+    const abbreviation = abbreviations.find((abbr) => {
+        return value >= abbr.value;
+    });
+
+    const roundedValue = Math.round((value / abbreviation.value) * 10) / 10;
+    const formattedValue = roundedValue.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: roundedValue >= 100 ? 0 : 1,
+        maximumFractionDigits: roundedValue >= 100 ? 0 : 1,
+    });
+
+    return formattedValue + abbreviation.symbol;
 };
 
-module.exports = { formatCurrency };
+const formatCurrency = (value, removeCents = false) => {
+    if (removeCents) {
+        return value.toLocaleString("en-US", {
+            style: "currency",
+            currency: "USD",
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+        });
+    }
+    return value.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    });
+};
+
+module.exports = { abbreviateCurrency, formatCurrency };
