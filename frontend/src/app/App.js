@@ -33,12 +33,12 @@ const router = createBrowserRouter([
                 element: <DashboardScreen />,
                 errorElement: <ErrorScreen />,
             },
+            {
+                path: "/price",
+                element: <CryptoPriceScreen />,
+                errorElement: <ErrorScreen />,
+            },
         ],
-    },
-    {
-        path: "/price",
-        element: <CryptoPriceScreen />,
-        errorElement: <ErrorScreen />,
     },
 ]);
 

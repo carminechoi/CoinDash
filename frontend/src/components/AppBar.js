@@ -41,7 +41,7 @@ function AppBar() {
                     )}
                 </Container>
             </MuiAppBar>
-            <Toolbar />
+            <Toolbar sx={{ py: 1 }} />
         </div>
     );
 }
@@ -187,7 +187,7 @@ function LoggedIn({ userEmail }) {
                             >
                                 <Avatar />
                             </IconButton>
-                            <Menu {...bindMenu(popupState)}>
+                            <Menu {...bindMenu(popupState)} disableScrollLock>
                                 <MenuItem onClick={handleLogout}>
                                     <Typography textAlign="center">
                                         Logout

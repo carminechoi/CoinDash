@@ -1,11 +1,11 @@
-var express = require("express");
+const express = require("express");
 const { authenticateToken } = require("../utils/auth.util");
 
 const router = express.Router();
 
 /**
  * Get User information
- * @auth none
+ * @auth required
  * @route {GET} /user
  * @bodyparam { }
  * @returns { id, email, role }
