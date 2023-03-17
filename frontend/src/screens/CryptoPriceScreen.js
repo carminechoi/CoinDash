@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Box, Container, Typography } from "@mui/material";
 import AppBar from "../components/AppBar";
 import CryptoPriceTable from "../components/CryptoPriceTable";
-import TabsGroup from "../components/TabsGroup";
+import TabsGroup from "../components/tabs/TabsGroup";
 
 import { useGetAllCoinsMutation } from "../features/coin/coinApi";
 
