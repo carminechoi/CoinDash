@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -12,7 +12,6 @@ import { styled } from "@mui/system";
 import { useSelector } from "react-redux";
 
 import Paper from "@mui/material/Paper";
-import { Typography } from "@mui/material";
 
 const PercentageTableCell = styled(TableCell)(({ percent }) => ({
     color: Number(percent) < 0 ? "red" : "green",
