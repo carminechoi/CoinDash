@@ -41,7 +41,7 @@ function AppBar() {
                     )}
                 </Container>
             </MuiAppBar>
-            <Toolbar />
+            <Toolbar sx={{ py: 1 }} />
         </div>
     );
 }

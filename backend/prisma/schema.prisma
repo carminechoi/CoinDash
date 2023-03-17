@@ -40,9 +40,9 @@ model Coin {
   volume24h                         String          @default("")
   marketCap                         String          @default("")
   marketCapRank                     Int             @default(0)
-  priceChangePercentage1h           Float           @default(0)
-  priceChangePercentage24h          Float           @default(0)
-  priceChangePercentage7d           Float           @default(0)
+  priceChangePercentage1h           String          @default("0.0")
+  priceChangePercentage24h          String          @default("0.0")
+  priceChangePercentage7d           String          @default("0.0")
   circulatingSupply                 String          @default("")
   lastUpdated                       String          @default("")
   users                             User[]

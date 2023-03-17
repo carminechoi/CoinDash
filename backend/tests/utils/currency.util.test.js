@@ -1,6 +1,7 @@
 const {
     abbreviateCurrency,
     formatCurrency,
+    formatPercentage,
 } = require("../../src/utils/currency.util");
 
 describe("Abbreviate numbers into currency Strings", () => {
@@ -33,5 +34,14 @@ describe("Format numbers into currency Strings", () => {
     test("should format without decimals", () => {
         expect(formatCurrency(58758784784, true)).toBe("$58,758,784,784");
         expect(formatCurrency(74251902617.1817, true)).toBe("$74,251,902,617");
+    });
+});
+
+describe("Format numbers to have one decimal place", () => {
+    test("should format with one decimal place", () => {
+        expect(formatPercentage(123)).toBe("123.0");
+        expect(formatPercentage(5135.1817)).toBe("5135.2");
+        expect(formatPercentage(0.0)).toBe("0.0");
+        expect(formatPercentage(0)).toBe("0.0");
     });
 });

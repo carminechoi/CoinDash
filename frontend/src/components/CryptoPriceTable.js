@@ -1,38 +1,47 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
+import Avatar from "@mui/material/Avatar";
+import { styled } from "@mui/system";
 import { useSelector } from "react-redux";
 
 import Paper from "@mui/material/Paper";
+import { Typography } from "@mui/material";
 
-import { useGetAllCoinsMutation } from "../features/coin/coinApi";
+const PercentageTableCell = styled(TableCell)(({ percent }) => ({
+    color: Number(percent) < 0 ? "red" : "green",
+    textAlign: "right",
+}));
 
 function CryptoPriceTable({ type }) {
     const { coins } = useSelector((state) => state.coinState);
-    const [getAllCoins, { isLoading, isError }] = useGetAllCoinsMutation();
 
     useEffect(() => {
         switch (type) {
             default:
-                getAllCoins();
         }
-    }, [getAllCoins, type]);
+    }, [type]);
 
     return (
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} sx={{ pt: 2 }}>
             <Table aria-label="simple table">
                 <TableHead>
                     <TableRow>
                         <TableCell></TableCell>
                         <TableCell>Coin</TableCell>
                         <TableCell align="right">Price</TableCell>
-                        <TableCell align="right">24h change</TableCell>
-                        <TableCell align="right">Market cap</TableCell>
-                        <TableCell align="right">24h volume</TableCell>
+                        <TableCell align="right">1h</TableCell>
+                        <TableCell align="right">24h</TableCell>
+                        <TableCell align="right">7d</TableCell>
+                        <TableCell align="right">24h Volume</TableCell>
+                        <TableCell align="right">Market Cap</TableCell>
+                        <TableCell align="right">Circulating Supply</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -46,18 +55,58 @@ function CryptoPriceTable({ type }) {
                             }}
                         >
                             <TableCell>{coin.marketCapRank}</TableCell>
-                            <TableCell>{coin.name}</TableCell>
+                            <TableCell>
+                                <Card elevation={0}>
+                                    <CardHeader
+                                        avatar={
+                                            <Avatar
+                                                alt="CoinLogo"
+                                                src={coin.image}
+                                                sx={{ pr: 2 }}
+                                            />
+                                        }
+                                        title={coin.symbol}
+                                        subheader={coin.name}
+                                        sx={{ padding: 0 }}
+                                    />
+                                </Card>
+                            </TableCell>
                             <TableCell align="right">
                                 {coin.currentPrice}
                             </TableCell>
+                            <PercentageTableCell>
+                                {coin.priceChangePercentage1h}%
+                            </PercentageTableCell>
+                            <TableCell
+                                align="right"
+                                style={{
+                                    color:
+                                        coin.priceChangePercentage1h < 0
+                                            ? "red"
+                                            : "green",
+                                }}
+                            >
+                                {coin.priceChangePercentage24h}%
+                            </TableCell>
+                            <TableCell
+                                align="right"
+                                style={{
+                                    color:
+                                        coin.priceChangePercentage1h < 0
+                                            ? "red"
+                                            : "green",
+                                }}
+                            >
+                                {coin.priceChangePercentage7d}%
+                            </TableCell>
                             <TableCell align="right">
-                                {coin.priceChange24h}
+                                {coin.volume24h}
                             </TableCell>
                             <TableCell align="right">
                                 {coin.marketCap}
                             </TableCell>
                             <TableCell align="right">
-                                {coin.marketCapChange24h}
+                                {coin.circulatingSupply}
                             </TableCell>
                         </TableRow>
                     ))}

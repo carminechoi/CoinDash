@@ -40,4 +40,8 @@ const formatCurrency = (value, removeCents = false) => {
     });
 };
 
-module.exports = { abbreviateCurrency, formatCurrency };
+const formatPercentage = (value) => {
+    return value.toFixed(1);
+};
+
+module.exports = { abbreviateCurrency, formatCurrency, formatPercentage };

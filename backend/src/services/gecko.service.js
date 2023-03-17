@@ -2,6 +2,7 @@ const { prisma } = require("../../prisma/prisma.client");
 const {
     abbreviateCurrency,
     formatCurrency,
+    formatPercentage,
 } = require("../utils/currency.util");
 
 const fetchAllCoins = async () => {
@@ -32,14 +33,14 @@ const fetchAllCoins = async () => {
                     volume24h: formatCurrency(coin.total_volume, true),
                     marketCap: formatCurrency(coin.market_cap),
                     marketCapRank: coin.market_cap_rank,
-                    priceChangePercentage1h: parseFloat(
-                        coin.price_change_percentage_1h_in_currency.toFixed(1)
+                    priceChangePercentage1h: formatPercentage(
+                        coin.price_change_percentage_1h_in_currency
                     ),
-                    priceChangePercentage24h: parseFloat(
-                        coin.price_change_percentage_24h_in_currency.toFixed(1)
+                    priceChangePercentage24h: formatPercentage(
+                        coin.price_change_percentage_24h_in_currency
                     ),
-                    priceChangePercentage7d: parseFloat(
-                        coin.price_change_percentage_7d_in_currency.toFixed(1)
+                    priceChangePercentage7d: formatPercentage(
+                        coin.price_change_percentage_7d_in_currency
                     ),
                     circulatingSupply: abbreviateCurrency(
                         coin.circulating_supply
@@ -48,21 +49,21 @@ const fetchAllCoins = async () => {
                 },
                 create: {
                     coinId: coin.id,
-                    symbol: coin.symbol,
+                    symbol: coin.symbol.toUpperCase(),
                     name: coin.name,
                     image: coin.image,
                     currentPrice: formatCurrency(coin.current_price),
                     volume24h: formatCurrency(coin.total_volume, true),
                     marketCap: formatCurrency(coin.market_cap, true),
                     marketCapRank: coin.market_cap_rank,
-                    priceChangePercentage1h: parseFloat(
-                        coin.price_change_percentage_1h_in_currency.toFixed(1)
+                    priceChangePercentage1h: formatPercentage(
+                        coin.price_change_percentage_1h_in_currency
                     ),
-                    priceChangePercentage24h: parseFloat(
-                        coin.price_change_percentage_24h_in_currency.toFixed(1)
+                    priceChangePercentage24h: formatPercentage(
+                        coin.price_change_percentage_24h_in_currency
                     ),
-                    priceChangePercentage7d: parseFloat(
-                        coin.price_change_percentage_7d_in_currency.toFixed(1)
+                    priceChangePercentage7d: formatPercentage(
+                        coin.price_change_percentage_7d_in_currency
                     ),
                     circulatingSupply: abbreviateCurrency(
                         coin.circulating_supply
