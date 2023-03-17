@@ -19,7 +19,7 @@ const { fetchAllCoins } = require("./src/services/gecko.service");
 // │ │ │ │ │ │
 // │ │ │ │ │ │
 // * * * * * *
-cron.schedule("*/1 * * * *", function () {
+cron.schedule("* 1 * * *", function () {
     fetchAllCoins();
 });
 
