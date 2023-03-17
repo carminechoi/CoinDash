@@ -55,8 +55,10 @@ function LoggedIn({ userEmail }) {
         navigate("/");
     };
 
-    const handleCryptoPrices = () => navigate("/price");
     const handleDashboard = () => navigate("/u/dashboard");
+    const handleWallets = () => navigate("/u/wallets");
+    const handleAddWallet = () => navigate("/u/wallets/add-wallet");
+    const handleCryptoPrices = () => navigate("/price");
 
     return (
         <Toolbar>
@@ -127,14 +129,14 @@ function LoggedIn({ userEmail }) {
                                     horizontal: "left",
                                 }}
                             >
-                                <MenuItem>
+                                <MenuItem onClick={handleWallets}>
                                     <Typography>Wallets</Typography>
                                 </MenuItem>
                                 <MenuItem>
                                     <Typography>Transactions</Typography>
                                 </MenuItem>
                                 <Divider />
-                                <MenuItem>
+                                <MenuItem onClick={handleAddWallet}>
                                     <Typography>+ Add Wallet</Typography>
                                 </MenuItem>
                             </HoverMenu>

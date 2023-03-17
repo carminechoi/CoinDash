@@ -13,10 +13,14 @@ import { useSelector } from "react-redux";
 
 import Paper from "@mui/material/Paper";
 
-const PercentageTableCell = styled(TableCell)(({ percent }) => ({
-    color: Number(percent) < 0 ? "red" : "green",
-    textAlign: "right",
-}));
+const PercentageTableCell = styled(TableCell)(({ percent }) => {
+    const color = percent < 0 || percent.includes("-") ? "red" : "green";
+
+    return {
+        color: color,
+        textAlign: "right",
+    };
+});
 
 function CryptoPriceTable({ type }) {
     const { coins } = useSelector((state) => state.coinState);
@@ -73,31 +77,23 @@ function CryptoPriceTable({ type }) {
                             <TableCell align="right">
                                 {coin.currentPrice}
                             </TableCell>
-                            <PercentageTableCell>
+
+                            <PercentageTableCell
+                                percent={coin.priceChangePercentage1h}
+                            >
                                 {coin.priceChangePercentage1h}%
                             </PercentageTableCell>
-                            <TableCell
-                                align="right"
-                                style={{
-                                    color:
-                                        coin.priceChangePercentage1h < 0
-                                            ? "red"
-                                            : "green",
-                                }}
+                            <PercentageTableCell
+                                percent={coin.priceChangePercentage24h}
                             >
                                 {coin.priceChangePercentage24h}%
-                            </TableCell>
-                            <TableCell
-                                align="right"
-                                style={{
-                                    color:
-                                        coin.priceChangePercentage1h < 0
-                                            ? "red"
-                                            : "green",
-                                }}
+                            </PercentageTableCell>
+                            <PercentageTableCell
+                                percent={coin.priceChangePercentage7d}
                             >
                                 {coin.priceChangePercentage7d}%
-                            </TableCell>
+                            </PercentageTableCell>
+
                             <TableCell align="right">
                                 {coin.volume24h}
                             </TableCell>
