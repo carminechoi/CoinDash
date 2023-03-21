@@ -73,7 +73,7 @@ function LoggedIn({ userEmail }) {
                     color: "inherit",
                 }}
             >
-                Better Koinly
+                DogeWisdom
             </Typography>
             <Box
                 sx={{

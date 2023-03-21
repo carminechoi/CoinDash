@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import AppBar from "../components/AppBar";
 import withRoot from "../theme/withRoot";
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
+import Footer from "../components/Footer";
 
 function LandingScreen() {
     const accessToken = useSelector((state) => state.authState.accessToken);
@@ -65,6 +66,7 @@ function LandingScreen() {
                     Try it free
                 </Button>
             </Container>
+            <Footer />
         </Box>
     );
 }
