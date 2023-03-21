@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { Box, Button, Container, Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import AppBar from "../components/AppBar";
+import withRoot from "../theme/withRoot";
+import Footer from "../components/Footer";
 
 function DashboardScreen() {
     // const { userId } = useSelector((state) => state.userState);
@@ -26,7 +28,7 @@ function DashboardScreen() {
                     py={{ xs: 5, sm: 8 }}
                     sx={{ boxShadow: { xs: 0, sm: 2 } }}
                 >
-                    <Grid container spacing={5}>
+                    <Grid container spacing={6}>
                         <Grid xs={12}>
                             <Typography
                                 align="center"
@@ -48,7 +50,7 @@ function DashboardScreen() {
                             </Typography>
                         </Grid>
                         <Grid xs={12}>
-                            <Grid container rowSpacing={2} px={0}>
+                            <Grid container rowSpacing={2} padding={0}>
                                 <Grid xs={12}>
                                     <Button
                                         variant="contained"
@@ -59,7 +61,10 @@ function DashboardScreen() {
                                     </Button>
                                 </Grid>
                                 <Grid xs={12}>
-                                    <Typography variant="body1">
+                                    <Typography
+                                        variant="body1"
+                                        color="text.secondary"
+                                    >
                                         Psst! You can also manually add your
                                         transactions.
                                     </Typography>
@@ -69,8 +74,9 @@ function DashboardScreen() {
                     </Grid>
                 </Box>
             </Container>
+            <Footer />
         </Box>
     );
 }
 
-export default DashboardScreen;
+export default withRoot(DashboardScreen);
