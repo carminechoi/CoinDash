@@ -1,15 +1,16 @@
 import React, { useEffect } from "react";
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Container, Typography, Alert } from "@mui/material";
 import AppBar from "../components/AppBar";
 import CryptoPriceTable from "../components/CryptoPriceTable";
 import TabsGroup from "../components/tabs/TabsGroup";
+import CircularProgress from "../components/CircularProgress";
 
 import { useGetAllCoinsMutation } from "../features/coin/coinApi";
 
 const cryptoTableTabs = ["All", "Portfolio", "Watchlist"];
 
 function CryptoPriceScreen() {
-    const [getAllCoins, { isLoading, isError }] = useGetAllCoinsMutation();
+    const [getAllCoins, { isError, isSuccess }] = useGetAllCoinsMutation();
 
     useEffect(() => {
         getAllCoins();
@@ -30,7 +31,13 @@ function CryptoPriceScreen() {
             </Container>
 
             <TabsGroup tabs={cryptoTableTabs}>
-                <CryptoPriceTable />
+                {isError ? (
+                    <Alert severity="error">Failed to fetch table data</Alert>
+                ) : isSuccess ? (
+                    <CryptoPriceTable />
+                ) : (
+                    <CircularProgress />
+                )}
             </TabsGroup>
         </Box>
     );
