@@ -11,21 +11,23 @@ datasource db {
 }
 
 model User {
-  id          Int              @id @default(autoincrement())
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
-  email       String           @unique
-  password    String
-  role        RoleEnumType     @default(USER)
-  watchList   Coin[]
+  id            Int              @id @default(autoincrement())
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  email         String           @unique
+  password      String
+  role          RoleEnumType     @default(USER)
+  watchList     Coin[]
+  wallets       Wallet[]
+  transactions  Transaction[]
 }
 
 model RefreshToken {
-  id          Int              @id @default(autoincrement())
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt @default(now())
-  userId      Int              @unique
-  token       String           @default("")
+  id            Int              @id @default(autoincrement())
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt @default(now())
+  userId        Int              @unique
+  token         String           @default("")
 }
 
 model Coin {
@@ -48,7 +50,34 @@ model Coin {
   users                             User[]
 }
 
+model Wallet {
+  id              Int              @id @default(autoincrement())
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt @default(now())
+  type            WalletEnumType
+  address         String?
+  user            User             @relation(fields: [userId], references: [id])
+  userId          Int
+  transactions    Transaction[]
+}
+
+model Transaction {
+  id              Int              @id @default(autoincrement())
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt @default(now())
+
+  wallet          Wallet           @relation(fields: [walletId], references: [id])
+  walletId        Int
+  user            User             @relation(fields: [userId], references: [id])
+  userId          Int
+}
+
+
 enum RoleEnumType {
   USER
   ADMIN
+}
+
+enum WalletEnumType {
+  ETHEREUM
 }
