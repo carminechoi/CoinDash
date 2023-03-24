@@ -1,4 +1,4 @@
-var { Router } = require("express");
+const { Router } = require("express");
 const authcontroller = require("../controllers/auth.controller");
 const userController = require("../controllers/user.controller");
 const coinController = require("../controllers/coin.controller");

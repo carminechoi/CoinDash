@@ -41,7 +41,7 @@ const formatCurrency = (value, removeCents = false) => {
 };
 
 const formatPercentage = (value) => {
-    return value.toFixed(1);
+    return value != null ? value.toFixed(1) : undefined;
 };
 
 module.exports = { abbreviateCurrency, formatCurrency, formatPercentage };

@@ -5,8 +5,8 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cron = require("node-cron");
 
-var app = express();
-var routes = require("./src/routes/routes");
+const app = express();
+const routes = require("./src/routes/routes");
 const { fetchAllCoins } = require("./src/services/gecko.service");
 
 // Cron setup
