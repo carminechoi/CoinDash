@@ -63,13 +63,18 @@ model Wallet {
 
 model Transaction {
   id              Int              @id @default(autoincrement())
+  walletId        Int
+  userId          Int
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt @default(now())
-
+  hash            String
+  value           String
+  gas             String
+  gasPrice        String
+  to              String
+  from            String
   wallet          Wallet           @relation(fields: [walletId], references: [id])
-  walletId        Int
   user            User             @relation(fields: [userId], references: [id])
-  userId          Int
 }
 
 
