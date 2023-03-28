@@ -27,22 +27,15 @@ function AppBar() {
     const { userId: loggedIn, email } = useSelector((state) => state.userState);
 
     return (
-        <div>
-            <MuiAppBar
-                position="absolute"
-                elevation={0}
-                sx={{ color: "black", bgcolor: "#FFFFFF", py: 1 }}
-            >
-                <Container maxWidth="xxl">
-                    {loggedIn ? (
-                        <LoggedIn userEmail={email} />
-                    ) : (
-                        <NotLoggedIn />
-                    )}
-                </Container>
-            </MuiAppBar>
-            <Toolbar sx={{ py: 1 }} />
-        </div>
+        <MuiAppBar
+            position="static"
+            elevation={0}
+            sx={{ color: "black", bgcolor: "#FFFFFF", py: 1 }}
+        >
+            <Container maxWidth="xxl">
+                {loggedIn ? <LoggedIn userEmail={email} /> : <NotLoggedIn />}
+            </Container>
+        </MuiAppBar>
     );
 }
 
@@ -61,7 +54,7 @@ function LoggedIn({ userEmail }) {
     const handleCryptoPrices = () => navigate("/price");
 
     return (
-        <Toolbar>
+        <Toolbar disableGutters>
             <Typography
                 variant="h6"
                 noWrap
