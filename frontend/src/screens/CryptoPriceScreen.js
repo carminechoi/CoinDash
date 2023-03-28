@@ -6,6 +6,8 @@ import TabsGroup from "../components/tabs/TabsGroup";
 import CircularProgress from "../components/CircularProgress";
 
 import { useGetAllCoinsMutation } from "../features/coin/coinApi";
+import Footer from "../components/Footer";
+import withRoot from "../theme/withRoot";
 
 const cryptoTableTabs = ["All", "Portfolio", "Watchlist"];
 
@@ -39,8 +41,9 @@ function CryptoPriceScreen() {
                     <CircularProgress />
                 )}
             </TabsGroup>
+            <Footer />
         </Box>
     );
 }
 
-export default CryptoPriceScreen;
+export default withRoot(CryptoPriceScreen);
