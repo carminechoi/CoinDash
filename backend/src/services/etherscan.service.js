@@ -8,28 +8,28 @@ class EtherscanService {
             );
 
             const transactions = await response.json();
-            // if (transactions.status == "1") {
-            //     transactions.result.map(async (transaction) => {
-            //         await prisma.upsert({
-            //             where: {
-            //                 hash: transaction.hash,
-            //             },
-            //             update: {},
-            //             create: {
-            //                 hash: transaction.hash,
-            //                 value: transaction.value,
-            //                 gas: transaction.gas,
-            //                 gasPrice: transaction.gasPrice,
-            //                 to: transaction.to,
-            //                 from: transaction.from,
-            //                 wallet: { connect: { id: walletId } },
-            //                 user: { connect: { id: userId } },
-            //             },
-            //         });
-            //     });
-            // } else {
-            //     next();
-            // }
+            if (transactions.status == "1") {
+                transactions.result.map(async (transaction) => {
+                    await prisma.upsert({
+                        where: {
+                            hash: transaction.hash,
+                        },
+                        update: {},
+                        create: {
+                            hash: transaction.hash,
+                            value: transaction.value,
+                            gas: transaction.gas,
+                            gasPrice: transaction.gasPrice,
+                            to: transaction.to,
+                            from: transaction.from,
+                            wallet: { connect: { id: walletId } },
+                            user: { connect: { id: userId } },
+                        },
+                    });
+                });
+            } else {
+                next();
+            }
             console.log("done");
         } catch (error) {
             console.log(`error: ${error}`);
