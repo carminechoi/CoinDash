@@ -22,7 +22,7 @@ function LandingScreen() {
             }}
         >
             <AppBar />
-            <Container maxWidth="md" sx={{ px: 5 }}>
+            <Container maxWidth="md" sx={{ mt: 14, mb: 18, px: 5 }}>
                 <Grid container direction="column" spacing={2}>
                     <Grid item>
                         <Typography

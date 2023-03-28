@@ -23,7 +23,8 @@ function DashboardScreen() {
             <AppBar />
             <Container maxWidth="sm">
                 <Box
-                    my={{ xs: 1, sm: 8 }}
+                    mt={{ xs: 1, sm: 8 }}
+                    mb={{ xs: 6, sm: 14 }}
                     px={{ xs: 1, sm: 5 }}
                     py={{ xs: 5, sm: 8 }}
                     sx={{ boxShadow: { xs: 0, sm: 2 } }}

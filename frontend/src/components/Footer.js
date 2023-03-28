@@ -20,7 +20,6 @@ function Footer() {
             sx={{
                 display: "flex",
                 flexDirection: "column",
-                minHeight: "100vh",
             }}
         >
             <Box
@@ -35,7 +34,7 @@ function Footer() {
             >
                 <Container maxWidth="lg" sx={{ py: 4 }}>
                     <Grid container spacing={4}>
-                        <Grid xs={12} sm={4}>
+                        <Grid xs={12} sm={12} md={4}>
                             <Grid container spacing={2} padding={0}>
                                 <Grid xs={12}>
                                     <Typography
@@ -55,7 +54,7 @@ function Footer() {
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Grid xs={2} mdOffset="auto">
+                        <Grid xs={6} sm={4} md={2} mdOffset="auto">
                             <Grid container spacing={2} padding={0}>
                                 <Grid xs={12}>
                                     <Typography
@@ -82,7 +81,7 @@ function Footer() {
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Grid xs={2}>
+                        <Grid xs={6} sm={4} md={2}>
                             <Grid container spacing={2} padding={0}>
                                 <Grid xs={12}>
                                     <Typography
@@ -100,7 +99,7 @@ function Footer() {
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Grid xs={3}>
+                        <Grid xs={12} sm={4} md={3}>
                             <Grid container spacing={2} padding={0}>
                                 <Grid xs={12}>
                                     <Typography
