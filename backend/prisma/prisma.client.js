@@ -1,5 +1,5 @@
-const { PrismaClient } = require("@prisma/client");
+const { PrismaClient, WalletCategoryEnum } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
-module.exports = { prisma };
+module.exports = { prisma, WalletCategoryEnum };

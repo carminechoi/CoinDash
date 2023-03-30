@@ -9,6 +9,7 @@ const app = express();
 const routes = require("./src/routes/routes");
 const { GeckoService } = require("./src/services/gecko.service");
 const { EtherscanService } = require("./src/services/etherscan.service");
+const { WalletCategoryEnum } = require("@prisma/client");
 
 // Cron setup
 // ┌────────────── second (optional)
@@ -25,6 +26,7 @@ cron.schedule("*/1 * * * *", function () {
     // EthercanService.fetchTransactions(
     //     "0xb794f5ea0ba39494ce839613fffba74279579268"
     // );
+    // console.log(WalletCategoryEnum);
 });
 
 // Enable CORS for specific origins only
