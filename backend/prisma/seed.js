@@ -4,19 +4,25 @@ const prisma = new PrismaClient();
 async function seedWalletType() {
     const ethereumWalletType = await prisma.walletType.upsert({
         where: { name: "Ethereum" },
-        update: {},
+        update: {
+            image: "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
+        },
         create: {
             name: "Ethereum",
             category: WalletCategoryEnum.CRYPTO,
+            image: "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880",
         },
     });
 
     const coinbaseWalletType = await prisma.walletType.upsert({
         where: { name: "Coinbase" },
-        update: {},
+        update: {
+            image: "https://assets.coingecko.com/markets/images/23/small/Coinbase_Coin_Primary.png?1621471875",
+        },
         create: {
             name: "Coinbase",
             category: WalletCategoryEnum.EXCHANGE,
+            image: "https://assets.coingecko.com/markets/images/23/small/Coinbase_Coin_Primary.png?1621471875",
         },
     });
 
