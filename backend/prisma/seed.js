@@ -1,8 +1,8 @@
 const { PrismaClient, WalletCategoryEnum } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-async function main() {
-    const ethereum = await prisma.walletType.upsert({
+async function seedWalletType() {
+    const ethereumWalletType = await prisma.walletType.upsert({
         where: { name: "Ethereum" },
         update: {},
         create: {
@@ -11,7 +11,7 @@ async function main() {
         },
     });
 
-    const coinbase = await prisma.walletType.upsert({
+    const coinbaseWalletType = await prisma.walletType.upsert({
         where: { name: "Coinbase" },
         update: {},
         create: {
@@ -20,7 +20,11 @@ async function main() {
         },
     });
 
-    console.log({ ethereum, coinbase });
+    console.log({ ethereumWalletType, coinbaseWalletType });
+}
+
+async function main() {
+    await seedWalletType();
 }
 
 main()
@@ -28,7 +32,6 @@ main()
         await prisma.$disconnect();
     })
     .catch(async (e) => {
-        console.error(e);
         await prisma.$disconnect();
         process.exit(1);
     });
