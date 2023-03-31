@@ -40,6 +40,11 @@ const router = createBrowserRouter([
                 errorElement: <ErrorScreen />,
             },
             {
+                path: "/u/wallets/add-wallet",
+                element: <WalletsScreen addWallet={true} />,
+                errorElement: <ErrorScreen />,
+            },
+            {
                 path: "/price",
                 element: <PriceScreen />,
                 errorElement: <ErrorScreen />,

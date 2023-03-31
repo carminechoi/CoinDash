@@ -7,6 +7,7 @@ function AddWalletCard() {
     const navigate = useNavigate();
 
     const handleAddWallet = () => navigate("/u/wallets/add-wallet");
+
     return (
         <Container maxWidth="sm">
             <Box
