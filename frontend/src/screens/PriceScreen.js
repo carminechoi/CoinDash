@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Box, Container, Typography, Alert } from "@mui/material";
 import AppBar from "../components/AppBar";
-import CryptoPriceTable from "../components/CryptoPriceTable";
+import PriceTable from "../sections/price/PriceTable";
 import TabsGroup from "../components/tabs/TabsGroup";
 import CircularProgress from "../components/CircularProgress";
 
@@ -9,9 +9,9 @@ import { useGetAllCoinsMutation } from "../features/coin/coinApi";
 import Footer from "../components/Footer";
 import withRoot from "../theme/withRoot";
 
-const cryptoTableTabs = ["All", "Portfolio", "Watchlist"];
+const priceTableTabs = ["All", "Portfolio", "Watchlist"];
 
-function CryptoPriceScreen() {
+function PriceScreen() {
     const [getAllCoins, { isError, isSuccess }] = useGetAllCoinsMutation();
 
     useEffect(() => {
@@ -32,11 +32,11 @@ function CryptoPriceScreen() {
                 </Typography>
             </Container>
 
-            <TabsGroup tabs={cryptoTableTabs}>
+            <TabsGroup tabs={priceTableTabs}>
                 {isError ? (
                     <Alert severity="error">Failed to fetch table data</Alert>
                 ) : isSuccess ? (
-                    <CryptoPriceTable />
+                    <PriceTable />
                 ) : (
                     <CircularProgress />
                 )}
@@ -46,4 +46,4 @@ function CryptoPriceScreen() {
     );
 }
 
-export default withRoot(CryptoPriceScreen);
+export default withRoot(PriceScreen);
