@@ -13,12 +13,14 @@ import {
     Paper,
     Dialog,
     DialogTitle,
+    DialogContent,
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import SyncIcon from "@mui/icons-material/Sync";
 import AppBar from "../components/AppBar";
 import Footer from "../components/Footer";
 import withRoot from "../theme/withRoot";
+import SearchTextField from "../components/SearchTextField";
 
 const walletCategories = [
     "Exchanges",
@@ -39,8 +41,11 @@ function AddWalletDialog(props) {
     };
 
     return (
-        <Dialog onClose={handleClose} open={open}>
+        <Dialog fullWidth maxWidth="sm" onClose={handleClose} open={open}>
             <DialogTitle>Add wallet</DialogTitle>
+            <DialogContent>
+                <SearchTextField />
+            </DialogContent>
         </Dialog>
     );
 }
