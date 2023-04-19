@@ -7,20 +7,21 @@ import Footer from "../components/Footer";
 import AddWalletCard from "../sections/dashboard/AddWalletCard";
 
 function DashboardScreen() {
-    // const { userId } = useSelector((state) => state.userState);
+	// const { userId } = useSelector((state) => state.userState);
 
-    return (
-        <Box
-            sx={{
-                display: "flex",
-                flexDirection: "column",
-            }}
-        >
-            <AppBar />
-            <AddWalletCard />
-            <Footer />
-        </Box>
-    );
+	return (
+		<Box
+			sx={{
+				display: "flex",
+				flexDirection: "column",
+				minHeight: "100vh",
+			}}
+		>
+			<AppBar />
+			<AddWalletCard />
+			<Footer />
+		</Box>
+	);
 }
 
 export default withRoot(DashboardScreen);

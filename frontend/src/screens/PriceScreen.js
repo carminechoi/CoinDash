@@ -12,38 +12,39 @@ import withRoot from "../theme/withRoot";
 const priceTableTabs = ["All", "Portfolio", "Watchlist"];
 
 function PriceScreen() {
-    const [getAllCoins, { isError, isSuccess }] = useGetAllCoinsMutation();
+	const [getAllCoins, { isError, isSuccess }] = useGetAllCoinsMutation();
 
-    useEffect(() => {
-        getAllCoins();
-    }, [getAllCoins]);
+	useEffect(() => {
+		getAllCoins();
+	}, [getAllCoins]);
 
-    return (
-        <Box
-            sx={{
-                display: "flex",
-                flexDirection: "column",
-            }}
-        >
-            <AppBar />
-            <Container>
-                <Typography variant="h6" sx={{ py: 2 }}>
-                    Top 100 cryptocurrency prices, live charts, and market caps
-                </Typography>
-            </Container>
+	return (
+		<Box
+			sx={{
+				display: "flex",
+				flexDirection: "column",
+				minHeight: "100vh",
+			}}
+		>
+			<AppBar />
+			<Container>
+				<Typography variant="h6" sx={{ py: 2 }}>
+					Top 100 cryptocurrency prices, live charts, and market caps
+				</Typography>
+			</Container>
 
-            <TabsGroup tabs={priceTableTabs}>
-                {isError ? (
-                    <Alert severity="error">Failed to fetch table data</Alert>
-                ) : isSuccess ? (
-                    <PriceTable />
-                ) : (
-                    <CircularProgress />
-                )}
-            </TabsGroup>
-            <Footer />
-        </Box>
-    );
+			<TabsGroup tabs={priceTableTabs}>
+				{isError ? (
+					<Alert severity="error">Failed to fetch table data</Alert>
+				) : isSuccess ? (
+					<PriceTable />
+				) : (
+					<CircularProgress />
+				)}
+			</TabsGroup>
+			<Footer />
+		</Box>
+	);
 }
 
 export default withRoot(PriceScreen);

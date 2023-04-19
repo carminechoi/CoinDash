@@ -17,122 +17,115 @@ function Copyright() {
 function Footer() {
 	return (
 		<Box
+			component="footer"
+			color="#8695AA"
 			sx={{
-				display: "flex",
-				flexDirection: "column",
+				py: 3,
+				px: 2,
+				mt: "auto",
+				backgroundColor: "#05122E",
 			}}
 		>
-			<Box
-				component="footer"
-				color="#8695AA"
-				sx={{
-					py: 3,
-					px: 2,
-					mt: "auto",
-					backgroundColor: "#05122E",
-				}}
-			>
-				<Container maxWidth="lg" sx={{ py: 4 }}>
-					<Grid container spacing={4}>
-						<Grid xs={12} sm={12} md={4}>
-							<Grid container spacing={2} padding={0}>
-								<Grid xs={12}>
-									<Typography
-										variant="h5"
-										color="white"
-										sx={{ fontWeight: "bold" }}
-									>
-										CoinDash
-									</Typography>
-								</Grid>
-								<Grid xs={12}>
-									<Typography>
-										Connect your cryptocurrency wallets and exchanges. Get your
-										crypto taxes done in minutes
-									</Typography>
-								</Grid>
+			<Container maxWidth="lg" sx={{ py: 4 }}>
+				<Grid container spacing={4}>
+					<Grid xs={12} sm={12} md={4}>
+						<Grid container spacing={2} padding={0}>
+							<Grid xs={12}>
+								<Typography
+									variant="h5"
+									color="white"
+									sx={{ fontWeight: "bold" }}
+								>
+									CoinDash
+								</Typography>
 							</Grid>
-						</Grid>
-						<Grid xs={6} sm={4} md={2} mdOffset="auto">
-							<Grid container spacing={2} padding={0}>
-								<Grid xs={12}>
-									<Typography
-										color="white"
-										sx={{
-											fontSize: 18,
-											fontWeight: "bold",
-										}}
-									>
-										Platform
-									</Typography>
-								</Grid>
-								<Grid xs={12}>
-									<Typography>Crypto Prices</Typography>
-								</Grid>
-								<Grid xs={12}>
-									<Typography>Terms of Use</Typography>
-								</Grid>
-								<Grid xs={12}>
-									<Typography>Privacy Policy</Typography>
-								</Grid>
-								<Grid xs={12}>
-									<Typography>Disclaimer</Typography>
-								</Grid>
+							<Grid xs={12}>
+								<Typography>
+									Connect your cryptocurrency wallets and exchanges. Get your
+									crypto taxes done in minutes
+								</Typography>
 							</Grid>
-						</Grid>
-						<Grid xs={6} sm={4} md={2}>
-							<Grid container spacing={2} padding={0}>
-								<Grid xs={12}>
-									<Typography
-										color="white"
-										sx={{
-											fontSize: 18,
-											fontWeight: "bold",
-										}}
-									>
-										Company
-									</Typography>
-								</Grid>
-								<Grid xs={12}>
-									<Typography>About</Typography>
-								</Grid>
-							</Grid>
-						</Grid>
-						<Grid xs={12} sm={4} md={3}>
-							<Grid container spacing={2} padding={0}>
-								<Grid xs={12}>
-									<Typography
-										color="white"
-										sx={{
-											fontSize: 18,
-											fontWeight: "bold",
-										}}
-									>
-										Newsletter
-									</Typography>
-								</Grid>
-								<Grid xs={12}>
-									<TextField
-										fullWidth
-										label="Email"
-										variant="filled"
-										size="small"
-										sx={{ background: "white" }}
-									/>
-								</Grid>
-								<Grid xs={12}>
-									<Button fullWidth size="large" variant="contained">
-										Subscribe
-									</Button>
-								</Grid>
-							</Grid>
-						</Grid>
-						<Grid xs={12}>
-							<Copyright />
 						</Grid>
 					</Grid>
-				</Container>
-			</Box>
+					<Grid xs={6} sm={4} md={2} mdOffset="auto">
+						<Grid container spacing={2} padding={0}>
+							<Grid xs={12}>
+								<Typography
+									color="white"
+									sx={{
+										fontSize: 18,
+										fontWeight: "bold",
+									}}
+								>
+									Platform
+								</Typography>
+							</Grid>
+							<Grid xs={12}>
+								<Typography>Crypto Prices</Typography>
+							</Grid>
+							<Grid xs={12}>
+								<Typography>Terms of Use</Typography>
+							</Grid>
+							<Grid xs={12}>
+								<Typography>Privacy Policy</Typography>
+							</Grid>
+							<Grid xs={12}>
+								<Typography>Disclaimer</Typography>
+							</Grid>
+						</Grid>
+					</Grid>
+					<Grid xs={6} sm={4} md={2}>
+						<Grid container spacing={2} padding={0}>
+							<Grid xs={12}>
+								<Typography
+									color="white"
+									sx={{
+										fontSize: 18,
+										fontWeight: "bold",
+									}}
+								>
+									Company
+								</Typography>
+							</Grid>
+							<Grid xs={12}>
+								<Typography>About</Typography>
+							</Grid>
+						</Grid>
+					</Grid>
+					<Grid xs={12} sm={4} md={3}>
+						<Grid container spacing={2} padding={0}>
+							<Grid xs={12}>
+								<Typography
+									color="white"
+									sx={{
+										fontSize: 18,
+										fontWeight: "bold",
+									}}
+								>
+									Newsletter
+								</Typography>
+							</Grid>
+							<Grid xs={12}>
+								<TextField
+									fullWidth
+									label="Email"
+									variant="filled"
+									size="small"
+									sx={{ background: "white" }}
+								/>
+							</Grid>
+							<Grid xs={12}>
+								<Button fullWidth size="large" variant="contained">
+									Subscribe
+								</Button>
+							</Grid>
+						</Grid>
+					</Grid>
+					<Grid xs={12}>
+						<Copyright />
+					</Grid>
+				</Grid>
+			</Container>
 		</Box>
 	);
 }
