@@ -6,7 +6,7 @@ import Footer from "../components/Footer";
 import withRoot from "../theme/withRoot";
 import TransactionList from "../sections/wallets/TransactionList";
 import WalletList from "../sections/wallets/WalletList";
-import Header from "../sections/wallets/Header";
+import WalletHeader from "../sections/wallets/WalletHeader";
 
 function WalletsScreen({ addWallet = false }) {
 	return (
@@ -19,7 +19,7 @@ function WalletsScreen({ addWallet = false }) {
 		>
 			<AppBar />
 			<Container sx={{ px: { sm: 12, md: "auto" }, py: 2 }}>
-				<Header />
+				<WalletHeader addWallet={addWallet} />
 				<Grid
 					container
 					justifyContent="space-between"
