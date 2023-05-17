@@ -5,9 +5,11 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cron = require("node-cron");
 
-var app = express();
-var routes = require("./src/routes/routes");
-const { fetchAllCoins } = require("./src/services/gecko.service");
+const app = express();
+const routes = require("./src/routes/routes");
+const { GeckoService } = require("./src/services/gecko.service");
+const { EtherscanService } = require("./src/services/etherscan.service");
+const { WalletCategoryEnum } = require("@prisma/client");
 
 // Cron setup
 // ┌────────────── second (optional)
@@ -19,18 +21,24 @@ const { fetchAllCoins } = require("./src/services/gecko.service");
 // │ │ │ │ │ │
 // │ │ │ │ │ │
 // * * * * * *
-cron.schedule("* 1 * * *", function () {
-    fetchAllCoins();
-});
+// cron.schedule("*/1 * * * *", function () {
+// 	GeckoService.fetchAllCoins();
+// 	EthercanService.fetchTransactions(
+// 	    "0xb794f5ea0ba39494ce839613fffba74279579268"
+// 	);
+// 	console.log(WalletCategoryEnum);
+// });
 
 // Enable CORS for specific origins only
 let corsOptions = {
-    origin: [
-        "http://localhost:3000",
-        "http://localhost:3001",
-        "http://localhost:3002",
-    ],
-    credentials: true,
+	origin: [
+		"http://localhost:3000",
+		"http://localhost:3001",
+		"http://localhost:3002",
+		'https://dogewisdom.com', 
+		'https://www.dogewisdom.com',
+	],
+	credentials: true,
 };
 
 // App Conficuration

@@ -89,6 +89,7 @@ export const userApi = createApi({
                 }
             },
         }),
+        // getUserWallets: builder.mutation({})
     }),
 });
 

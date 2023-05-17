@@ -17,9 +17,7 @@ function LoginScreen() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (isSuccess || userId) {
-            navigate("/u/dashboard");
-        }
+        if (isSuccess || userId) navigate("/u/dashboard");
     }, [isSuccess, navigate, userId]);
 
     const validationSchema = Yup.object().shape({

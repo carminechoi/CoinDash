@@ -16,7 +16,7 @@ model User {
   updatedAt     DateTime         @updatedAt
   email         String           @unique
   password      String
-  role          RoleEnumType     @default(USER)
+  role          RoleEnum     @default(USER)
   watchList     Coin[]
   wallets       Wallet[]
   transactions  Transaction[]
@@ -42,9 +42,9 @@ model Coin {
   volume24h                         String          @default("")
   marketCap                         String          @default("")
   marketCapRank                     Int             @default(0)
-  priceChangePercentage1h           String          @default("0.0")
-  priceChangePercentage24h          String          @default("0.0")
-  priceChangePercentage7d           String          @default("0.0")
+  priceChangePercentage1h           String?
+  priceChangePercentage24h          String?
+  priceChangePercentage7d           String?
   circulatingSupply                 String          @default("")
   lastUpdated                       String          @default("")
   users                             User[]
@@ -52,32 +52,48 @@ model Coin {
 
 model Wallet {
   id              Int              @id @default(autoincrement())
+  walletTypeId    Int
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt @default(now())
-  type            WalletEnumType
+  type            WalletType       @relation(fields: [walletTypeId], references: [id])
   address         String?
   user            User             @relation(fields: [userId], references: [id])
   userId          Int
   transactions    Transaction[]
 }
 
+model WalletType {
+  id              Int             @id @default(autoincrement())
+  name            String          @unique
+  category        WalletCategoryEnum
+  image           String          @default("")
+  wallets         Wallet[]
+}
+
 model Transaction {
   id              Int              @id @default(autoincrement())
+  walletId        Int
+  userId          Int
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt @default(now())
-
+  hash            String
+  value           String
+  gas             String
+  gasPrice        String
+  to              String
+  from            String
   wallet          Wallet           @relation(fields: [walletId], references: [id])
-  walletId        Int
   user            User             @relation(fields: [userId], references: [id])
-  userId          Int
 }
 
 
-enum RoleEnumType {
+enum RoleEnum {
   USER
   ADMIN
 }
 
-enum WalletEnumType {
-  ETHEREUM
+enum WalletCategoryEnum {
+  EXCHANGE
+  CRYPTO
+  IMPORTED
 }

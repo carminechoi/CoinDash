@@ -22,7 +22,7 @@ const PercentageTableCell = styled(TableCell)(({ percent }) => {
     };
 });
 
-function CryptoPriceTable({ type }) {
+function PriceTable({ type }) {
     const { coins } = useSelector((state) => state.coinState);
 
     useEffect(() => {
@@ -111,4 +111,4 @@ function CryptoPriceTable({ type }) {
     );
 }
 
-export default CryptoPriceTable;
+export default PriceTable;
