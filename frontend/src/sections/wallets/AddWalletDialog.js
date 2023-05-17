@@ -71,6 +71,10 @@ function AddWalletDialog(props) {
 		onClose(selectedValue);
 	};
 
+	const handleClose = () => {
+		onClose(selectedValue);
+	  };
+
 	return (
 		<Dialog fullWidth maxWidth="sm" onClose={handleClose} open={open}>
 			<DialogTitle>Add wallet</DialogTitle>
@@ -82,5 +86,5 @@ function AddWalletDialog(props) {
 		</Dialog>
 	);
 }
-
+ 
 export default AddWalletDialog;

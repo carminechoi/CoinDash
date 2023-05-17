@@ -21,13 +21,13 @@ const { WalletCategoryEnum } = require("@prisma/client");
 // │ │ │ │ │ │
 // │ │ │ │ │ │
 // * * * * * *
-cron.schedule("*/1 * * * *", function () {
-	GeckoService.fetchAllCoins();
-	// EthercanService.fetchTransactions(
-	//     "0xb794f5ea0ba39494ce839613fffba74279579268"
-	// );
-	// console.log(WalletCategoryEnum);
-});
+// cron.schedule("*/1 * * * *", function () {
+// 	GeckoService.fetchAllCoins();
+// 	EthercanService.fetchTransactions(
+// 	    "0xb794f5ea0ba39494ce839613fffba74279579268"
+// 	);
+// 	console.log(WalletCategoryEnum);
+// });
 
 // Enable CORS for specific origins only
 let corsOptions = {
@@ -35,6 +35,8 @@ let corsOptions = {
 		"http://localhost:3000",
 		"http://localhost:3001",
 		"http://localhost:3002",
+		'https://dogewisdom.com', 
+		'https://www.dogewisdom.com',
 	],
 	credentials: true,
 };
