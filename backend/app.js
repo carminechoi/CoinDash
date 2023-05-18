@@ -37,6 +37,7 @@ let corsOptions = {
 		"http://localhost:3002",
 		'https://dogewisdom.com', 
 		'https://www.dogewisdom.com',
+		'https://d32jey2ehxi8yg.cloudfront.net'
 	],
 	credentials: true,
 };
