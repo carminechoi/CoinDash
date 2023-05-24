@@ -97,7 +97,7 @@ function LoginScreen() {
                                 error={error}
                                 visibility={true}
                             />
-
+                            {isError && !error.message && <Typography color="red">Could not reach server</Typography>}
                             <Button
                                 type="submit"
                                 fullWidth
@@ -126,6 +126,7 @@ function LoginScreen() {
                                     </Typography>
                                 </Grid>
                             </Grid>
+                            {/* {isE} */}
                         </form>
                     </Box>
                 </Box>
@@ -142,7 +143,7 @@ function LoginScreen() {
                     align="center"
                     color="text.secondary"
                 >
-                    agree to theTerms and Privacy Policy.
+                    agree to the Terms and Privacy Policy.
                 </Typography>
             </Grid>
         </Container>
