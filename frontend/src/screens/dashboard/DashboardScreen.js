@@ -1,10 +1,10 @@
 import React from "react";
 // import { useSelector } from "react-redux";
 import { Box } from "@mui/material";
-import AppBar from "../components/AppBar";
-import withRoot from "../theme/withRoot";
-import Footer from "../components/Footer";
-import AddWalletCard from "../sections/dashboard/AddWalletCard";
+import AppBar from "../../components/AppBar";
+import withRoot from "../../theme/withRoot";
+import Footer from "../../components/Footer";
+import AddWalletCard from "./components/AddWalletCard";
 
 function DashboardScreen() {
 	// const { userId } = useSelector((state) => state.userState);

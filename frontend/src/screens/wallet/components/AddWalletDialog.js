@@ -12,9 +12,9 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 
-import SearchTextField from "../../components/SearchTextField";
-import { useGetWalletTypesQuery } from "../../features/wallet/walletApi";
-import Progress from "../../components/Progress";
+import SearchTextField from "../../../components/SearchTextField";
+import { useGetWalletTypesQuery } from "../../../features/wallet/walletApi";
+import Progress from "../../../components/Progress";
 
 function WalletTypeSelection({ setCurrentType }) {
 	const { data: walletTypes, error, isLoading } = useGetWalletTypesQuery();

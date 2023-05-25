@@ -4,10 +4,10 @@ import ErrorScreen from "../screens/ErrorScreen";
 import LandingScreen from "../screens/LandingScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import LoginScreen from "../screens/LoginScreen";
-import DashboardScreen from "../screens/DashboardScreen";
+import DashboardScreen from "../screens/dashboard/DashboardScreen";
 import PriceScreen from "../screens/price/PriceScreen";
 import ProtectedRoute from "../routing/ProtectedRoute";
-import WalletsScreen from "../screens/WalletsScreen";
+import WalletsScreen from "../screens/wallet/WalletsScreen";
 
 const router = createBrowserRouter([
     {

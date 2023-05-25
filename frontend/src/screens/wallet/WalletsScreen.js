@@ -1,12 +1,12 @@
 import React from "react";
 import { Box, Container } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import AppBar from "../components/AppBar";
-import Footer from "../components/Footer";
-import withRoot from "../theme/withRoot";
-import TransactionList from "../sections/wallets/TransactionList";
-import WalletList from "../sections/wallets/WalletList";
-import WalletHeader from "../sections/wallets/WalletHeader";
+import AppBar from "../../components/AppBar";
+import Footer from "../../components/Footer";
+import withRoot from "../../theme/withRoot";
+import TransactionList from "./components/TransactionList";
+import WalletList from "./components/WalletList";
+import WalletHeader from "./components/WalletHeader";
 
 function WalletsScreen({ addWallet = false }) {
 	return (
