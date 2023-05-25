@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import { Box, Container, Typography, Alert } from "@mui/material";
-import AppBar from "../components/AppBar";
-import PriceTable from "../sections/price/PriceTable";
-import TabsGroup from "../components/tabs/TabsGroup";
-import CircularProgress from "../components/CircularProgress";
+import AppBar from "../../components/AppBar";
+import PriceTable from "./components/PriceTable";
+import TabsGroup from "../../components/tabs/TabsGroup";
+import CircularProgress from "../../components/CircularProgress";
 
-import { useGetAllCoinsMutation } from "../features/coin/coinApi";
-import Footer from "../components/Footer";
-import withRoot from "../theme/withRoot";
+import { useGetAllCoinsMutation } from "../../features/coin/coinApi";
+import Footer from "../../components/Footer";
+import withRoot from "../../theme/withRoot";
 
 const priceTableTabs = ["All", "Portfolio", "Watchlist"];
 

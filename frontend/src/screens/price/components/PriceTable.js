@@ -58,14 +58,13 @@ function PriceTable({ type }) {
                             }}
                         >
                             <TableCell>{coin.marketCapRank}</TableCell>
-                            <TableCell>
+                            <TableCell >
                                 <Card elevation={0}>
                                     <CardHeader
                                         avatar={
                                             <Avatar
                                                 alt="CoinLogo"
                                                 src={coin.image}
-                                                sx={{ pr: 2 }}
                                             />
                                         }
                                         title={coin.symbol}
