@@ -1,20 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Typography, Toolbar } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import SyncIcon from "@mui/icons-material/Sync";
 import AddWalletDialog from "./AddWalletDialog";
 
 function WalletHeader({ addWallet }) {
-	const [open, setOpen] = React.useState(addWallet);
-	const [selectedValue, setSelectedValue] = React.useState(0);
+	const [open, setOpen] = useState(false);
+	const [selectedOption, setSelectedOption] = useState("");
+	const [inputValue, setInputValue] = useState("");
 
-	const handleClickOpen = () => {
+	const handleOpen = () => {
 		setOpen(true);
 	};
 
-	const handleClose = (value) => {
+	const handleClose = () => {
 		setOpen(false);
-		setSelectedValue(value);
+		setSelectedOption("");
+		setInputValue("");
+	};
+
+	const handleInputChange = (event) => {
+		setInputValue(event.target.value);
+	};
+
+	const handleSubmit = () => {
+		if (selectedOption === "coinbase") {
+			// Handle Coinbase API key input
+			console.log("Coinbase API key:", inputValue);
+		} else if (selectedOption === "ethereum") {
+			// Handle Ethereum wallet address input
+			console.log("Ethereum wallet address:", inputValue);
+		}
+
+		setSelectedOption("");
+		setInputValue("");
 	};
 
 	return (
@@ -47,7 +66,7 @@ function WalletHeader({ addWallet }) {
 							fullWidth
 							variant="contained"
 							size="large"
-							onClick={handleClickOpen}
+							onClick={handleOpen}
 							sx={{ textTransform: "none" }}
 						>
 							Add Wallet
