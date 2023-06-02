@@ -4,6 +4,7 @@ import {
 	Dialog,
 	DialogTitle,
 	DialogContent,
+	Button,
 	Card,
 	CardActionArea,
 	CardMedia,
@@ -69,13 +70,15 @@ import Progress from "../../../components/Progress";
 // 	);
 // }
 
-function AddWalletDialog( ) {
-	const [open, setOpen] = useState(false);
+function AddWalletDialog({ open, setOpen }) {
+	// const [open, setOpen] = useState(false);
 	const [selectedOption, setSelectedOption] = useState("");
 	const [inputValue, setInputValue] = useState("");
 
-	const handleOpen = () => {
-		setOpen(true);
+	const handleClose = () => {
+		setOpen(false);
+		setSelectedOption("");
+		setInputValue("");
 	};
 
 	const handleInputChange = (event) => {

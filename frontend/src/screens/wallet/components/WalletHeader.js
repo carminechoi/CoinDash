@@ -6,34 +6,9 @@ import AddWalletDialog from "./AddWalletDialog";
 
 function WalletHeader({ addWallet }) {
 	const [open, setOpen] = useState(false);
-	const [selectedOption, setSelectedOption] = useState("");
-	const [inputValue, setInputValue] = useState("");
 
 	const handleOpen = () => {
 		setOpen(true);
-	};
-
-	const handleClose = () => {
-		setOpen(false);
-		setSelectedOption("");
-		setInputValue("");
-	};
-
-	const handleInputChange = (event) => {
-		setInputValue(event.target.value);
-	};
-
-	const handleSubmit = () => {
-		if (selectedOption === "coinbase") {
-			// Handle Coinbase API key input
-			console.log("Coinbase API key:", inputValue);
-		} else if (selectedOption === "ethereum") {
-			// Handle Ethereum wallet address input
-			console.log("Ethereum wallet address:", inputValue);
-		}
-
-		setSelectedOption("");
-		setInputValue("");
 	};
 
 	return (
@@ -71,11 +46,7 @@ function WalletHeader({ addWallet }) {
 						>
 							Add Wallet
 						</Button>
-						<AddWalletDialog
-							selectedValue={selectedValue}
-							open={open}
-							onClose={handleClose}
-						/>
+						<AddWalletDialog open={open} setOpen={setOpen} />
 					</Grid>
 				</Grid>
 			</Grid>
