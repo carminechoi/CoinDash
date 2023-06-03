@@ -12,44 +12,45 @@ import {
 	CardContent,
 	Typography,
 	DialogActions,
-	Input,
-	InputLabel,
-	FormControl,
+	TextField,
 	IconButton,
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import CloseIcon from "@mui/icons-material/Close";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import SearchTextField from "../../../components/SearchTextField";
 import { useGetWalletTypesQuery } from "../../../features/wallet/walletApi";
 import Progress from "../../../components/Progress";
 
 function CoinbaseMenu() {
-	return <></>;
+	return <DialogContent></DialogContent>;
 }
 
 function EthereumMenu({ setSelectedOption }) {
-	const [inputValue, setInputValue] = useState("");
-
-	const handleInputChange = (event) => {
-		setInputValue(event.target.value);
-	};
-
 	const handleSubmit = () => {
-		console.log("Ethereum wallet address:", inputValue);
-
 		setSelectedOption("Wallet");
 	};
 
 	return (
 		<DialogContent>
-			<FormControl>
-				<InputLabel>Ethereum Wallet Address</InputLabel>
+			{/* <FormControl>
+				<InputLabel>Paste a public address</InputLabel>
 				<Input value={inputValue} onChange={handleInputChange} />
-			</FormControl>
+			</FormControl> */}
+			<Typography>
+				We are only requesting view permissions. This does not give us
+				access to your private keys nor the ability move your funds.
+			</Typography>
+			<Typography>Public address</Typography>
+			<TextField
+				placeholder="Paste a public address"
+				variant="outlined"
+				fullWidth
+			/>
 			<DialogActions>
 				<Button variant="contained" onClick={handleSubmit} fullWidth>
-					Submit
+					Add Ethereum
 				</Button>
 			</DialogActions>
 		</DialogContent>
@@ -104,20 +105,37 @@ function WalletDialog({ open, setOpen }) {
 
 	const handleClose = () => {
 		setOpen(false);
+		resetWalletDialog();
+	};
+
+	const resetWalletDialog = () => {
 		setSelectedOption("Wallet");
 	};
 
 	return (
 		<Dialog open={open} onClose={handleClose}>
-			<DialogTitle>
+			<DialogTitle sx={{ display: "flex", alignItems: "center" }}>
+				{selectedOption !== "Wallet" && (
+					<IconButton
+						aria-label="close"
+						onClick={resetWalletDialog}
+						sx={{
+							py: 0,
+							pl: 0,
+							color: (theme) => theme.palette.grey[500],
+						}}
+					>
+						<ArrowBackIcon />
+					</IconButton>
+					
+				)}
 				Add {selectedOption}
 				<IconButton
+					edge="end"
 					aria-label="close"
 					onClick={handleClose}
 					sx={{
-						position: "absolute",
-						right: 8,
-						top: 10,
+						marginLeft: "auto",
 						color: (theme) => theme.palette.grey[500],
 					}}
 				>
