@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Typography, Toolbar } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import SyncIcon from "@mui/icons-material/Sync";
-import AddWalletDialog from "./AddWalletDialog";
+import WalletDialog from "./WalletDialog";
 
 function WalletHeader({ addWallet }) {
 	const [open, setOpen] = useState(false);
@@ -46,7 +46,7 @@ function WalletHeader({ addWallet }) {
 						>
 							Add Wallet
 						</Button>
-						<AddWalletDialog open={open} setOpen={setOpen} />
+						<WalletDialog open={open} setOpen={setOpen} />
 					</Grid>
 				</Grid>
 			</Grid>
