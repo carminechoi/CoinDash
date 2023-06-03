@@ -4,6 +4,7 @@ import {
 	Dialog,
 	DialogTitle,
 	DialogContent,
+	Box,
 	Button,
 	Divider,
 	Card,
@@ -11,7 +12,6 @@ import {
 	CardMedia,
 	CardContent,
 	Typography,
-	DialogActions,
 	TextField,
 	IconButton,
 } from "@mui/material";
@@ -34,25 +34,29 @@ function EthereumMenu({ setSelectedOption }) {
 
 	return (
 		<DialogContent>
-			{/* <FormControl>
-				<InputLabel>Paste a public address</InputLabel>
-				<Input value={inputValue} onChange={handleInputChange} />
-			</FormControl> */}
 			<Typography>
 				We are only requesting view permissions. This does not give us
 				access to your private keys nor the ability move your funds.
 			</Typography>
-			<Typography>Public address</Typography>
-			<TextField
-				placeholder="Paste a public address"
-				variant="outlined"
+			<Box paddingY={3}>
+				<Typography sx={{ fontWeight: "medium" }}>
+					Public address
+				</Typography>
+				<TextField
+					placeholder="Paste a public address"
+					variant="outlined"
+					fullWidth
+				/>
+			</Box>
+
+			<Button
+				variant="contained"
+				size="large"
+				onClick={handleSubmit}
 				fullWidth
-			/>
-			<DialogActions>
-				<Button variant="contained" onClick={handleSubmit} fullWidth>
-					Add Ethereum
-				</Button>
-			</DialogActions>
+			>
+				Add Ethereum
+			</Button>
 		</DialogContent>
 	);
 }
@@ -127,7 +131,6 @@ function WalletDialog({ open, setOpen }) {
 					>
 						<ArrowBackIcon />
 					</IconButton>
-					
 				)}
 				Add {selectedOption}
 				<IconButton
