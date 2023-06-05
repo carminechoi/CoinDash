@@ -27,36 +27,53 @@ function CoinbaseMenu() {
 	return <DialogContent></DialogContent>;
 }
 
-function EthereumMenu({ setSelectedOption }) {
-	const handleSubmit = () => {
-		setSelectedOption("Wallet");
+function EthereumMenu() {
+	const handleSubmit = (event) => {
+		event.preventDefault();
+		const data = new FormData(event.target.form);
+		console.log(data.get("address"));
 	};
 
 	return (
 		<DialogContent>
-			<Typography>
+			<Typography
+				sx={{
+					color: (theme) => theme.palette.grey[600],
+				}}
+			>
 				We are only requesting view permissions. This does not give us
 				access to your private keys nor the ability move your funds.
 			</Typography>
-			<Box paddingY={3}>
-				<Typography sx={{ fontWeight: "medium" }}>
-					Public address
-				</Typography>
-				<TextField
-					placeholder="Paste a public address"
-					variant="outlined"
-					fullWidth
-				/>
-			</Box>
-
-			<Button
-				variant="contained"
-				size="large"
-				onClick={handleSubmit}
-				fullWidth
+			<Box
+				component="form"
+				onSubmit={handleSubmit}
+				noValidate
+				paddingBottom={4}
 			>
-				Add Ethereum
-			</Button>
+				<Box paddingY={3}>
+					<Typography sx={{ fontWeight: "medium" }}>
+						Public address
+					</Typography>
+					<TextField
+						placeholder="Paste a public address"
+						variant="outlined"
+						fullWidth
+						id="address"
+						name="address"
+						autoFocus
+					/>
+				</Box>
+
+				<Button
+					type="submit"
+					variant="contained"
+					size="large"
+					onClick={handleSubmit}
+					fullWidth
+				>
+					Add Ethereum
+				</Button>
+			</Box>
 		</DialogContent>
 	);
 }
@@ -109,7 +126,6 @@ function WalletDialog({ open, setOpen }) {
 
 	const handleClose = () => {
 		setOpen(false);
-		resetWalletDialog();
 	};
 
 	const resetWalletDialog = () => {
@@ -149,9 +165,7 @@ function WalletDialog({ open, setOpen }) {
 			<Divider />
 
 			{{
-				Ethereum: (
-					<EthereumMenu setSelectedOption={setSelectedOption} />
-				),
+				Ethereum: <EthereumMenu />,
 				Coinbase: (
 					<CoinbaseMenu setSelectedOption={setSelectedOption} />
 				),
