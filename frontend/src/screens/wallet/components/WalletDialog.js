@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
 	Alert,
+	LinearProgress,
 	Dialog,
 	DialogTitle,
 	DialogContent,
@@ -20,7 +21,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import SearchTextField from "../../../components/SearchTextField";
-import { useGetWalletTypesQuery } from "../../../features/wallet/walletApi";
+import {
+	useGetWalletTypesQuery,
+	useAddNewWalletMutation,
+} from "../../../features/wallet/walletApi";
 import Progress from "../../../components/Progress";
 
 function CoinbaseMenu() {
@@ -28,15 +32,17 @@ function CoinbaseMenu() {
 }
 
 function EthereumMenu() {
+	const [addNewWallet, response] = useAddNewWalletMutation();
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		const data = new FormData(event.target.form);
-		console.log(data.get("address"));
+		addNewWallet({ type: "Ethereum", address: data.get("address") });
 	};
 
 	return (
 		<DialogContent>
 			<Typography
+				paddingBottom={2}
 				sx={{
 					color: (theme) => theme.palette.grey[600],
 				}}
@@ -50,7 +56,24 @@ function EthereumMenu() {
 				noValidate
 				paddingBottom={4}
 			>
-				<Box paddingY={3}>
+				{/* Show loading state */}
+				{response.isLoading && <LinearProgress />}
+
+				{/* Show error message if the mutation fails */}
+				{response.isError && (
+					<Alert severity="error">
+						An error occurred, please try again.
+					</Alert>
+				)}
+
+				{/* Show success message if the mutation succeeds */}
+				{response.isSuccess && (
+					<Alert severity="success">
+						New wallet added successfully!
+					</Alert>
+				)}
+
+				<Box paddingTop={1} paddingBottom={3}>
 					<Typography sx={{ fontWeight: "medium" }}>
 						Public address
 					</Typography>
