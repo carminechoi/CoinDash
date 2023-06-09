@@ -1,5 +1,5 @@
 const { prisma } = require("../../prisma/prisma.client");
-const { EthereumWalletIsValid } = require("../utils/wallet.util");
+const { EtherscanService } = require("./etherscan.service");
 
 const getWalletTypes = async () => {
 	const walletTypes = await prisma.walletType.findMany();
@@ -11,7 +11,8 @@ const createWallet = async (user, walletData) => {
 
 	switch (walletData.type) {
 		case "Ethereum":
-			if (!(await EthereumWalletIsValid(walletData.address))) {
+			console.log("here");
+			if (!(await EtherscanService.addressIsValid(walletData.address))) {
 				console.log("here");
 				throw new Error(
 					"Address is invalid. Please enter a valid address."
