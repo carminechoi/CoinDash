@@ -1,9 +1,9 @@
 const express = require("express");
 const {
-    registerUser,
-    loginUser,
-    logoutUser,
-    refresh,
+	registerUser,
+	loginUser,
+	logoutUser,
+	refresh,
 } = require("../services/auth.service");
 
 const router = express.Router();
@@ -16,29 +16,29 @@ const router = express.Router();
  * @returns { accessToken }
  **/
 router.post("/register", async (req, res, next) => {
-    try {
-        const { email, password } = req.body;
-        const tokens = await registerUser(email, password);
+	try {
+		const { email, password } = req.body;
+		const tokens = await registerUser(email, password);
 
-        res.cookie("refreshToken", tokens.refreshToken, {
-            httpOnly: true,
-            secure: true,
-            maxAge: 24 * 60 * 60 * 1000,
-            expires: 24 * 60 * 60 * 1000,
-        });
+		res.cookie("refreshToken", tokens.refreshToken, {
+			httpOnly: true,
+			secure: true,
+			maxAge: 24 * 60 * 60 * 1000,
+			expires: 24 * 60 * 60 * 1000,
+		});
 
-        res.status(200).json({
-            accessToken: tokens.accessToken,
-        });
-    } catch (e) {
-        if (e.code === "P2002") {
-            return res.status(409).json({
-                state: false,
-                message: "Email already exists",
-            });
-        }
-        next(e);
-    }
+		res.status(200).json({
+			accessToken: tokens.accessToken,
+		});
+	} catch (e) {
+		if (e.code === "P2002") {
+			return res.status(409).json({
+				state: false,
+				message: "Email already exists",
+			});
+		}
+		next(e);
+	}
 });
 
 /**
@@ -49,23 +49,23 @@ router.post("/register", async (req, res, next) => {
  * @returns { accessToken }
  **/
 router.post("/login", async (req, res, next) => {
-    try {
-        const { email, password } = req.body;
-        const tokens = await loginUser(email, password);
+	try {
+		const { email, password } = req.body;
+		const tokens = await loginUser(email, password);
 
-        res.cookie("refreshToken", tokens.refreshToken, {
-            httpOnly: true,
-            secure: true,
-            maxAge: 24 * 60 * 60 * 1000,
-            expires: 24 * 60 * 60 * 1000,
-        });
+		res.cookie("refreshToken", tokens.refreshToken, {
+			httpOnly: true,
+			secure: true,
+			maxAge: 24 * 60 * 60 * 1000,
+			expires: 24 * 60 * 60 * 1000,
+		});
 
-        res.status(200).json({
-            accessToken: tokens.accessToken,
-        });
-    } catch (e) {
-        next(e);
-    }
+		res.status(200).json({
+			accessToken: tokens.accessToken,
+		});
+	} catch (e) {
+		next(e);
+	}
 });
 
 /**
@@ -76,13 +76,13 @@ router.post("/login", async (req, res, next) => {
  * @returns { }
  **/
 router.post("/logout", async (req, res, next) => {
-    try {
-        const refreshToken = req.cookies["refreshToken"];
-        await logoutUser(refreshToken);
-        res.json({});
-    } catch (e) {
-        next(e);
-    }
+	try {
+		const refreshToken = req.cookies["refreshToken"];
+		await logoutUser(refreshToken);
+		res.json({});
+	} catch (e) {
+		next(e);
+	}
 });
 
 /**
@@ -93,17 +93,17 @@ router.post("/logout", async (req, res, next) => {
  * @returns { accessToken }
  **/
 router.get("/refresh", async (req, res, next) => {
-    try {
-        const refreshToken = req.cookies["refreshToken"];
+	try {
+		const refreshToken = req.cookies["refreshToken"];
+		console.log("in controller");
+		const accessToken = await refresh(refreshToken);
 
-        accessToken = await refresh(refreshToken);
-
-        res.status(200).json({
-            accessToken: accessToken,
-        });
-    } catch (e) {
-        next(e);
-    }
+		res.status(200).json({
+			accessToken: accessToken,
+		});
+	} catch (e) {
+		next(e);
+	}
 });
 
 module.exports = router;

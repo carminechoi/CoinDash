@@ -19,8 +19,12 @@ const baseQueryWithReauth = async (args, api, extraOptions, queryFn) => {
 	await mutex.waitForUnlock();
 
 	let result = await queryFn(args, api, extraOptions);
-
-	if (result.error && result.error.status === 401) {
+	console.log(result);
+	if (
+		result.error &&
+		(result.error.status === 401 ||
+			result.error.data.message === "jwt expired")
+	) {
 		// Check whether the mutex is locked
 		if (!mutex.isLocked()) {
 			const release = await mutex.acquire();
