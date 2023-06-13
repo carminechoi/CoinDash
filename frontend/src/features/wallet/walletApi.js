@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { createBaseQueryWithReauth } from "../utils/reauthUtils";
+import { setWallets } from "./walletSlice";
 
 const BASE_URL = process.env.REACT_APP_SERVER_ENDPOINT;
 
@@ -31,6 +32,20 @@ export const walletApi = createApi({
 				method: "GET",
 			}),
 		}),
+		getUserWallets: builder.mutation({
+			query: () => ({
+				url: "/all",
+				method: "GET",
+			}),
+			async onQueryStarted(args, { dispatch, queryFulfilled }) {
+				try {
+					const { data } = await queryFulfilled;
+					dispatch(setWallets(data));
+				} catch (e) {
+					dispatch(setWallets([]));
+				}
+			},
+		}),
 		addNewWallet: builder.mutation({
 			query: (payload) => ({
 				url: "/add",
@@ -41,4 +56,8 @@ export const walletApi = createApi({
 	}),
 });
 
-export const { useGetWalletTypesQuery, useAddNewWalletMutation } = walletApi;
+export const {
+	useGetWalletTypesQuery,
+	useGetUserWalletsMutation,
+	useAddNewWalletMutation,
+} = walletApi;

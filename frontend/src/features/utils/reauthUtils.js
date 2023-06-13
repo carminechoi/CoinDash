@@ -19,7 +19,7 @@ const baseQueryWithReauth = async (args, api, extraOptions, queryFn) => {
 	await mutex.waitForUnlock();
 
 	let result = await queryFn(args, api, extraOptions);
-	console.log(result);
+
 	if (
 		result.error &&
 		(result.error.status === 401 ||
