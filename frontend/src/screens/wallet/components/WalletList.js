@@ -61,17 +61,7 @@ function WalletList() {
 											</TableCell>
 										</TableRow>
 									);
-								} else {
-									return (
-										<TableRow>
-											<TableCell>
-												<Typography>
-													None added
-												</Typography>
-											</TableCell>
-										</TableRow>
-									);
-								}
+								} else return null;
 							})}
 						</>
 					))}

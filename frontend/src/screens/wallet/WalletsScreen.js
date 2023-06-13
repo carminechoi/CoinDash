@@ -17,7 +17,7 @@ function WalletsScreen({ addWallet = false }) {
 
 	useEffect(() => {
 		getUserWallets();
-	}, [getUserWallets]);
+	}, [getUserWallets, addWalletSuccess]);
 
 	return (
 		<Box

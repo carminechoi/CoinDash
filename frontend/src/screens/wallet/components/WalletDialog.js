@@ -31,7 +31,7 @@ function CoinbaseMenu() {
 	return <DialogContent></DialogContent>;
 }
 
-function EthereumMenu({ setOpen, setAddWalletSuccess }) {
+function EthereumMenu({ handleClose, setOpen, setAddWalletSuccess }) {
 	const [addNewWallet, response] = useAddNewWalletMutation();
 
 	const handleSubmit = (event) => {
@@ -43,9 +43,9 @@ function EthereumMenu({ setOpen, setAddWalletSuccess }) {
 	useEffect(() => {
 		if (response.isSuccess) {
 			setAddWalletSuccess(true);
-			setOpen(false);
+			handleClose();
 		}
-	}, [response.isSuccess, setAddWalletSuccess, setOpen]);
+	}, [handleClose, response.isSuccess, setAddWalletSuccess]);
 
 	return (
 		<DialogContent>
@@ -149,6 +149,7 @@ function WalletDialog({ open, setOpen, setAddWalletSuccess }) {
 	const [selectedOption, setSelectedOption] = useState("Wallet");
 
 	const handleClose = () => {
+		resetWalletDialog();
 		setOpen(false);
 	};
 
@@ -191,6 +192,7 @@ function WalletDialog({ open, setOpen, setAddWalletSuccess }) {
 			{{
 				Ethereum: (
 					<EthereumMenu
+						handleClose={handleClose}
 						setOpen={setOpen}
 						setAddWalletSuccess={setAddWalletSuccess}
 					/>
