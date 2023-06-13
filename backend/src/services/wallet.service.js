@@ -6,6 +6,14 @@ const getWalletTypes = async () => {
 	return walletTypes;
 };
 
+const getUserWallets = async (user) => {
+	const userWallets = await prisma.wallet.findMany({
+		where: { userId: user.id },
+	});
+
+	return userWallets;
+};
+
 const createWallet = async (user, walletData) => {
 	let wallet = {};
 
@@ -36,7 +44,6 @@ const createWallet = async (user, walletData) => {
 	} catch (e) {
 		if (e instanceof Prisma.PrismaClientKnownRequestError) {
 			if (e.code === "P2002") {
-				console.log("in here");
 				throw new Error("Address is already added");
 			}
 		}
@@ -44,4 +51,4 @@ const createWallet = async (user, walletData) => {
 	}
 };
 
-module.exports = { getWalletTypes, createWallet };
+module.exports = { getWalletTypes, getUserWallets, createWallet };

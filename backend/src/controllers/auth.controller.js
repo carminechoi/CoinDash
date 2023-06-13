@@ -95,7 +95,7 @@ router.post("/logout", async (req, res, next) => {
 router.get("/refresh", async (req, res, next) => {
 	try {
 		const refreshToken = req.cookies["refreshToken"];
-		console.log("in controller");
+
 		const accessToken = await refresh(refreshToken);
 
 		res.status(200).json({
