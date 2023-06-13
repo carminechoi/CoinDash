@@ -56,10 +56,12 @@ model Wallet {
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @default(now()) @updatedAt
   type         WalletType    @relation(fields: [walletTypeId], references: [id])
-  address      String?       @unique
+  address      String?
   user         User          @relation(fields: [userId], references: [id])
   userId       Int
   transactions Transaction[]
+
+  @@unique([userId, address])
 }
 
 model WalletType {
