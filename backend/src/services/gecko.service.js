@@ -80,3 +80,7 @@ class GeckoService {
 		}
 	};
 }
+
+module.exports = {
+	GeckoService,
+};
