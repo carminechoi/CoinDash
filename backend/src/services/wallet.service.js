@@ -9,6 +9,12 @@ const getWalletTypes = async () => {
 const getUserWallets = async (user) => {
 	const userWallets = await prisma.wallet.findMany({
 		where: { userId: user.id },
+		select: {
+			address: true,
+			type: {
+				select: { name: true, category: true },
+			},
+		},
 	});
 
 	return userWallets;

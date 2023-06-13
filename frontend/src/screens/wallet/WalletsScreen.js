@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Alert, Box, Container } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import AppBar from "../../components/AppBar";
@@ -8,8 +8,16 @@ import TransactionList from "./components/TransactionList";
 import WalletList from "./components/WalletList";
 import WalletHeader from "./components/WalletHeader";
 
+import { useGetUserWalletsMutation } from "../../features/wallet/walletApi";
+
 function WalletsScreen({ addWallet = false }) {
 	const [addWalletSuccess, setAddWalletSuccess] = useState(false);
+	const [getUserWallets, { isError, isSuccess }] =
+		useGetUserWalletsMutation();
+
+	useEffect(() => {
+		getUserWallets();
+	}, [getUserWallets]);
 
 	return (
 		<Box
