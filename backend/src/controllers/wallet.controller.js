@@ -17,7 +17,6 @@ router.post("/add", authenticateToken, async (req, res, next) => {
 	try {
 		const user = req.authData;
 		const walletData = req.body;
-		console.log("in controller");
 		await createWallet(user, walletData);
 		res.status(200).json({ message: "success" });
 	} catch (e) {

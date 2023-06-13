@@ -1,4 +1,4 @@
-const { prisma } = require("../../prisma/prisma.client");
+const { prisma, Prisma } = require("../../prisma/prisma.client");
 const { EtherscanService } = require("./etherscan.service");
 
 const getWalletTypes = async () => {
@@ -11,9 +11,7 @@ const createWallet = async (user, walletData) => {
 
 	switch (walletData.type) {
 		case "Ethereum":
-			console.log("here");
 			if (!(await EtherscanService.addressIsValid(walletData.address))) {
-				console.log("here");
 				throw new Error(
 					"Address is invalid. Please enter a valid address."
 				);
@@ -32,7 +30,18 @@ const createWallet = async (user, walletData) => {
 
 		default:
 	}
-	await prisma.Wallet.create({ data: wallet });
+
+	try {
+		await prisma.Wallet.create({ data: wallet });
+	} catch (e) {
+		if (e instanceof Prisma.PrismaClientKnownRequestError) {
+			if (e.code === "P2002") {
+				console.log("in here");
+				throw new Error("Address is already added");
+			}
+		}
+		throw new Error("An error occured, please try again.");
+	}
 };
 
 module.exports = { getWalletTypes, createWallet };

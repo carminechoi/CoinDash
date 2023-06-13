@@ -7,7 +7,7 @@ const createError = require("http-errors");
 
 const api = Router()
 	.use("/auth", authcontroller)
-	.use("/user", userController)
+	.use("/users", userController)
 	.use("/coins", coinController)
 	.use("/wallet", walletController)
 

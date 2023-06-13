@@ -6,7 +6,7 @@ import { createBaseQueryWithReauth } from "../utils/reauthUtils";
 const BASE_URL = process.env.REACT_APP_SERVER_ENDPOINT;
 
 const baseQuery = fetchBaseQuery({
-	baseUrl: `${BASE_URL}/api/user`,
+	baseUrl: `${BASE_URL}/api/users`,
 	credentials: "include",
 	prepareHeaders: async (headers, { getState }) => {
 		headers.set("Accept", "application/json");

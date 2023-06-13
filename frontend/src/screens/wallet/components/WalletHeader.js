@@ -4,15 +4,15 @@ import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import SyncIcon from "@mui/icons-material/Sync";
 import WalletDialog from "./WalletDialog";
 
-function WalletHeader({ addWallet }) {
-	const [open, setOpen] = useState(false);
+function WalletHeader({ addWallet, setAddWalletSuccess }) {
+	const [open, setOpen] = useState(addWallet);
 
 	const handleOpen = () => {
 		setOpen(true);
 	};
 
 	return (
-		<Toolbar disableGutters>
+		<Toolbar disableGutters sx={{ mb: 2 }}>
 			<Grid
 				container
 				alignItems="center"
@@ -46,7 +46,11 @@ function WalletHeader({ addWallet }) {
 						>
 							Add Wallet
 						</Button>
-						<WalletDialog open={open} setOpen={setOpen} />
+						<WalletDialog
+							open={open}
+							setOpen={setOpen}
+							setAddWalletSuccess={setAddWalletSuccess}
+						/>
 					</Grid>
 				</Grid>
 			</Grid>

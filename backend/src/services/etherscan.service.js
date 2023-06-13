@@ -30,9 +30,8 @@ class EtherscanService {
 			} else {
 				next();
 			}
-			console.log("done");
 		} catch (error) {
-			console.log(`error: ${error}`);
+			console.error(`error: ${error}`);
 		}
 	};
 
@@ -54,6 +53,7 @@ class EtherscanService {
 			}
 		} catch (error) {
 			// Handle fetch or API errors
+			console.error(`error: ${error}`);
 			return false;
 		}
 	};

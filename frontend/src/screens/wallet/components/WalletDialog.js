@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	Alert,
 	LinearProgress,
@@ -31,13 +31,21 @@ function CoinbaseMenu() {
 	return <DialogContent></DialogContent>;
 }
 
-function EthereumMenu() {
+function EthereumMenu({ setOpen, setAddWalletSuccess }) {
 	const [addNewWallet, response] = useAddNewWalletMutation();
+
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		const data = new FormData(event.target.form);
 		addNewWallet({ type: "Ethereum", address: data.get("address") });
 	};
+
+	useEffect(() => {
+		if (response.isSuccess) {
+			setAddWalletSuccess(true);
+			setOpen(false);
+		}
+	}, [response.isSuccess, setAddWalletSuccess, setOpen]);
 
 	return (
 		<DialogContent>
@@ -62,14 +70,7 @@ function EthereumMenu() {
 				{/* Show error message if the mutation fails */}
 				{response.isError && (
 					<Alert severity="error">
-						An error occurred, please try again.
-					</Alert>
-				)}
-
-				{/* Show success message if the mutation succeeds */}
-				{response.isSuccess && (
-					<Alert severity="success">
-						New wallet added successfully!
+						{response.error.data.message}
 					</Alert>
 				)}
 
@@ -144,7 +145,7 @@ function WalletTypeMenu({ setSelectedOption }) {
 	);
 }
 
-function WalletDialog({ open, setOpen }) {
+function WalletDialog({ open, setOpen, setAddWalletSuccess }) {
 	const [selectedOption, setSelectedOption] = useState("Wallet");
 
 	const handleClose = () => {
@@ -188,7 +189,12 @@ function WalletDialog({ open, setOpen }) {
 			<Divider />
 
 			{{
-				Ethereum: <EthereumMenu />,
+				Ethereum: (
+					<EthereumMenu
+						setOpen={setOpen}
+						setAddWalletSuccess={setAddWalletSuccess}
+					/>
+				),
 				Coinbase: (
 					<CoinbaseMenu setSelectedOption={setSelectedOption} />
 				),

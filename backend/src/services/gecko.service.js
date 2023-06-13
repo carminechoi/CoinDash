@@ -75,7 +75,7 @@ class GeckoService {
 			});
 			console.log("saved coins");
 		} catch (error) {
-			console.log(`error: ${error}`);
+			console.error(`error: ${error}`);
 			// prisma.$disconnect();
 		}
 	};
