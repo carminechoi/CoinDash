@@ -1,13 +1,13 @@
 import React from "react";
 import {
+	Accordion,
+	AccordionSummary,
+	AccordionDetails,
 	Typography,
-	TableContainer,
-	Table,
-	TableBody,
-	TableRow,
-	TableCell,
-	Paper,
 } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
+import WalletCard from "./WalletCard";
 
 import { useSelector } from "react-redux";
 
@@ -22,52 +22,47 @@ function WalletList() {
 	const { wallets } = useSelector((state) => state.walletState);
 
 	return (
-		<TableContainer component={Paper} variant="outlined">
-			<Table>
-				<TableBody>
-					{walletCategories.map((category) => (
-						<>
-							<TableRow
-								key={category}
-								sx={{ backgroundColor: "#F7F7F7" }}
-							>
-								<TableCell>
-									<Typography
-										sx={{
-											fontWeight: "medium",
-										}}
-									>
-										{category}
-									</Typography>
-								</TableCell>
-							</TableRow>
-							{wallets.map((wallet) => {
-								if (
-									wallet.type &&
-									wallet.type.category &&
-									category
-										.toUpperCase()
-										.includes(wallet.type.category)
-								) {
-									const type = wallet.type.name ?? "";
-									const addressEnd = wallet.address.slice(-5);
-									return (
-										<TableRow>
-											<TableCell>
-												<Typography>
-													{type} Wallet ...
-													{addressEnd}
-												</Typography>
-											</TableCell>
-										</TableRow>
-									);
-								} else return null;
-							})}
-						</>
-					))}
-				</TableBody>
-			</Table>
-		</TableContainer>
+		<div>
+			{walletCategories.map((category, index) => {
+				const filteredWallets = wallets.filter(
+					(wallet) =>
+						wallet.type &&
+						wallet.type.category &&
+						category.toUpperCase().includes(wallet.type.category)
+				);
+
+				return (
+					<Accordion
+						key={index}
+						defaultExpanded={
+							filteredWallets.length === 0 ? false : true
+						}
+					>
+						<AccordionSummary
+							expandIcon={<ExpandMoreIcon />}
+							aria-controls={`panel-content-${index}`}
+							id={`panel-id-${index}`}
+							sx={{
+								backgroundColor: "#F7F7F7",
+							}}
+						>
+							<Typography fontWeight="medium">
+								{category}
+							</Typography>
+						</AccordionSummary>
+						<AccordionDetails sx={{ padding: 0 }}>
+							{filteredWallets.map((wallet) => (
+								<WalletCard
+									key={wallet.id}
+									type={wallet.type.name ?? ""}
+									address={wallet.address}
+								/>
+							))}
+						</AccordionDetails>
+					</Accordion>
+				);
+			})}
+		</div>
 	);
 }
 
