@@ -59,6 +59,7 @@ model Wallet {
   address      String?
   user         User          @relation(fields: [userId], references: [id])
   userId       Int
+  balance      Float         @default(0)
   transactions Transaction[]
 
   @@unique([userId, address])

@@ -22,38 +22,41 @@ const getUserWallets = async (user) => {
 
 const createWallet = async (user, walletData) => {
 	let wallet = {};
-
-	switch (walletData.type) {
-		case "Ethereum":
-			if (!(await EtherscanService.addressIsValid(walletData.address))) {
-				throw new Error(
-					"Address is invalid. Please enter a valid address."
-				);
-			}
-
-			const walletType = await prisma.walletType.findUnique({
-				where: { name: "Ethereum" },
-			});
-			const walletTypeId = walletType.id;
-
-			wallet = {
-				address: walletData.address,
-				userId: user.id,
-				walletTypeId: walletTypeId,
-			};
-
-		default:
-	}
-
 	try {
+		switch (walletData.type) {
+			case "Ethereum":
+				const balance = await EtherscanService.getAddressBalance(
+					walletData.address
+				);
+
+				const walletType = await prisma.walletType.findUnique({
+					where: { name: "Ethereum" },
+				});
+				const walletTypeId = walletType.id;
+
+				wallet = {
+					address: walletData.address,
+					userId: user.id,
+					walletTypeId: walletTypeId,
+					balance: balance,
+				};
+
+			default:
+		}
+
 		await prisma.Wallet.create({ data: wallet });
 	} catch (e) {
-		if (e instanceof Prisma.PrismaClientKnownRequestError) {
-			if (e.code === "P2002") {
-				throw new Error("Address is already added");
-			}
+		console.log(e);
+		if (e.message === "Address is invalid. Please enter a valid address.") {
+			throw e;
+		} else if (
+			e instanceof Prisma.PrismaClientKnownRequestError &&
+			e.code === "P2002"
+		) {
+			throw new Error("Address is already added");
+		} else {
+			throw new Error("An error occured, please try again.");
 		}
-		throw new Error("An error occured, please try again.");
 	}
 };
 

@@ -2,13 +2,15 @@ const { prisma } = require("../../prisma/prisma.client");
 
 class EtherscanService {
 	static fetchTransactions = async (address) => {
-		try {
-			const response = await fetch(
-				`${process.env.ETHERSCAN_URL}?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&page=1&apikey=${process.env.ETHERSCAN_KEY}`
-			);
+		const etherscanURL = process.env.ETHERSCAN_URL;
+		const etherscanApiKey = process.env.ETHERSCAN_KEY;
+		const apiUrl = `${etherscanURL}?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&page=1&apikey=${etherscanApiKey}`;
 
+		try {
+			const response = await fetch(apiUrl);
 			const transactions = await response.json();
-			if (transactions.status == "1") {
+
+			if (transactions.status === "1") {
 				transactions.result.map(async (transaction) => {
 					await prisma.upsert({
 						where: {
@@ -35,26 +37,26 @@ class EtherscanService {
 		}
 	};
 
-	static addressIsValid = async (walletAddress) => {
-		const apiUrl = `https://api.etherscan.io/api?module=account&action=balance&address=${walletAddress}&apikey=${process.env.ETHERSCAN_KEY}`;
+	static getAddressBalance = async (walletAddress) => {
+		const etherscanURL = process.env.ETHERSCAN_URL;
+		const etherscanApiKey = process.env.ETHERSCAN_KEY;
+		const apiUrl = `${etherscanURL}?module=account&action=balance&address=${walletAddress}&apikey=${etherscanApiKey}`;
 
 		try {
 			const response = await fetch(apiUrl);
 			const data = await response.json();
 
-			// Check if the API response indicates a valid wallet address
 			if (data.status === "1") {
-				return true;
-			} else if (data.status === "0") {
-				return false;
+				const balanceWei = data.result;
+				const balanceEth = balanceWei / 10 ** 18;
+				return balanceEth;
 			} else {
-				// Handle other error cases
-				throw new Error(data.message);
+				throw new Error(
+					"Address is invalid. Please enter a valid address."
+				);
 			}
 		} catch (error) {
-			// Handle fetch or API errors
-			console.error(`error: ${error}`);
-			return false;
+			throw error;
 		}
 	};
 }
