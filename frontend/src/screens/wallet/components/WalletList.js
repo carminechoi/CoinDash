@@ -4,6 +4,7 @@ import {
 	AccordionSummary,
 	AccordionDetails,
 	Typography,
+	Divider,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
@@ -51,12 +52,21 @@ function WalletList() {
 							</Typography>
 						</AccordionSummary>
 						<AccordionDetails sx={{ padding: 0 }}>
-							{filteredWallets.map((wallet) => (
-								<WalletCard
-									key={wallet.id}
-									type={wallet.type.name ?? ""}
-									address={wallet.address}
-								/>
+							{filteredWallets.map((wallet, index) => (
+								<div>
+									<WalletCard
+										key={wallet.id}
+										type={wallet.type.name ?? ""}
+										address={wallet.address}
+										balance={wallet.balance}
+										isSquare={
+											index !== filteredWallets.length - 1
+										}
+									/>
+									{index < filteredWallets.length - 1 && (
+										<Divider />
+									)}
+								</div>
 							))}
 						</AccordionDetails>
 					</Accordion>

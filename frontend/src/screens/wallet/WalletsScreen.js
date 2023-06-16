@@ -12,12 +12,11 @@ import { useGetUserWalletsMutation } from "../../features/wallet/walletApi";
 
 function WalletsScreen({ addWallet = false }) {
 	const [addWalletSuccess, setAddWalletSuccess] = useState(false);
-	const [getUserWallets, { isError, isSuccess }] =
-		useGetUserWalletsMutation();
+	const [getUserWallets] = useGetUserWalletsMutation();
 
 	useEffect(() => {
 		getUserWallets();
-	}, [getUserWallets, addWalletSuccess]);
+	}, [getUserWallets]);
 
 	return (
 		<Box

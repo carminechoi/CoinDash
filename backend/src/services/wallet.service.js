@@ -11,6 +11,7 @@ const getUserWallets = async (user) => {
 		where: { userId: user.id },
 		select: {
 			address: true,
+			balance: true,
 			type: {
 				select: { name: true, category: true },
 			},
@@ -46,7 +47,6 @@ const createWallet = async (user, walletData) => {
 
 		await prisma.Wallet.create({ data: wallet });
 	} catch (e) {
-		console.log(e);
 		if (e.message === "Address is invalid. Please enter a valid address.") {
 			throw e;
 		} else if (

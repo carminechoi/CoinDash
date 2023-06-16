@@ -32,7 +32,8 @@ router.post("/add", authenticateToken, async (req, res, next) => {
 		const user = req.authData;
 		const walletData = req.body;
 		await createWallet(user, walletData);
-		res.status(200).json({ message: "success" });
+		const userWallets = await getUserWallets(user);
+		res.status(200).json(userWallets);
 	} catch (e) {
 		next(e);
 	}

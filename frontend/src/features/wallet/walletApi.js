@@ -52,6 +52,14 @@ export const walletApi = createApi({
 				method: "POST",
 				body: payload,
 			}),
+			async onQueryStarted(args, { dispatch, queryFulfilled }) {
+				try {
+					const { data } = await queryFulfilled;
+					dispatch(setWallets(data));
+				} catch (e) {
+					dispatch(setWallets([]));
+				}
+			},
 		}),
 	}),
 });
