@@ -94,7 +94,7 @@ function LoggedIn({ userEmail }) {
 					{(popupState) => (
 						<React.Fragment>
 							<Button
-								// onClick={handleCloseNavMenu}
+								onClick={handleWallets}
 								{...bindHover(popupState)}
 								sx={{
 									my: 2,
@@ -105,7 +105,9 @@ function LoggedIn({ userEmail }) {
 								}}
 							>
 								Wallets{" "}
-								<ArrowDropDownIcon style={{ verticalAlign: "middle" }} />
+								<ArrowDropDownIcon
+									style={{ verticalAlign: "middle" }}
+								/>
 							</Button>
 
 							<HoverMenu
@@ -123,10 +125,6 @@ function LoggedIn({ userEmail }) {
 								<MenuItem onClick={handleWallets}>
 									<Typography>Wallets</Typography>
 								</MenuItem>
-								<MenuItem>
-									<Typography>Transactions</Typography>
-								</MenuItem>
-								<Divider />
 								<MenuItem onClick={handleAddWallet}>
 									<Typography>+ Add Wallet</Typography>
 								</MenuItem>
@@ -174,12 +172,17 @@ function LoggedIn({ userEmail }) {
 				<PopupState variant="popover">
 					{(popupState) => (
 						<React.Fragment>
-							<IconButton {...bindTrigger(popupState)} sx={{ p: 0 }}>
+							<IconButton
+								{...bindTrigger(popupState)}
+								sx={{ p: 0 }}
+							>
 								<Avatar />
 							</IconButton>
 							<Menu {...bindMenu(popupState)} disableScrollLock>
 								<MenuItem onClick={handleLogout}>
-									<Typography textAlign="center">Logout</Typography>
+									<Typography textAlign="center">
+										Logout
+									</Typography>
 								</MenuItem>
 							</Menu>
 						</React.Fragment>
