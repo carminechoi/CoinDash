@@ -60,4 +60,6 @@ const createWallet = async (user, walletData) => {
 	}
 };
 
+const deleteWallet = async (user, walletData) => {};
+
 module.exports = { getWalletTypes, getUserWallets, createWallet };

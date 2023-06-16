@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
 	Accordion,
 	AccordionSummary,
@@ -21,6 +21,24 @@ const walletCategories = [
 
 function WalletList() {
 	const { wallets } = useSelector((state) => state.walletState);
+	const [expandedAccordions, setExpandedAccordions] = useState([]);
+
+	useEffect(() => {
+		if (wallets.length > 0) {
+			const expandedAccordions = walletCategories.map((_, index) => {
+				const filteredWallets = wallets.filter(
+					(wallet) =>
+						wallet.type &&
+						wallet.type.category &&
+						walletCategories[index]
+							.toUpperCase()
+							.includes(wallet.type.category)
+				);
+				return filteredWallets.length > 0;
+			});
+			setExpandedAccordions(expandedAccordions);
+		}
+	}, [wallets]);
 
 	return (
 		<div>
@@ -35,9 +53,7 @@ function WalletList() {
 				return (
 					<Accordion
 						key={index}
-						defaultExpanded={
-							filteredWallets.length === 0 ? false : true
-						}
+						defaultExpanded={expandedAccordions[index]}
 					>
 						<AccordionSummary
 							expandIcon={<ExpandMoreIcon />}
@@ -53,9 +69,8 @@ function WalletList() {
 						</AccordionSummary>
 						<AccordionDetails sx={{ padding: 0 }}>
 							{filteredWallets.map((wallet, index) => (
-								<div>
+								<div key={index}>
 									<WalletCard
-										key={wallet.id}
 										type={wallet.type.name ?? ""}
 										address={wallet.address}
 										balance={wallet.balance}

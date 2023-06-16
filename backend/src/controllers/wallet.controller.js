@@ -39,4 +39,16 @@ router.post("/add", authenticateToken, async (req, res, next) => {
 	}
 });
 
+router.post("/delete", authenticateToken, async (req, res, next) => {
+	try {
+		const user = req.authData;
+		const walletData = req.body;
+		await deleteWallet(user, walletData);
+		const userWallets = await getUserWallets(user);
+		res.status(200).json(userWallets);
+	} catch (e) {
+		next(e);
+	}
+});
+
 module.exports = router;
