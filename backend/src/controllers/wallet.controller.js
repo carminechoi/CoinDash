@@ -4,6 +4,7 @@ const {
 	getWalletTypes,
 	getUserWallets,
 	createWallet,
+	deleteWallet,
 } = require("../services/wallet.service");
 
 const router = express.Router();
@@ -39,14 +40,17 @@ router.post("/add", authenticateToken, async (req, res, next) => {
 	}
 });
 
-router.post("/delete", authenticateToken, async (req, res, next) => {
+router.delete("/delete", authenticateToken, async (req, res, next) => {
 	try {
 		const user = req.authData;
 		const walletData = req.body;
+		console.log(walletData);
 		await deleteWallet(user, walletData);
 		const userWallets = await getUserWallets(user);
+		console.log(userWallets);
 		res.status(200).json(userWallets);
 	} catch (e) {
+		console.log(e);
 		next(e);
 	}
 });

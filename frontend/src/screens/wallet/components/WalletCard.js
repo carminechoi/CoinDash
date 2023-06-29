@@ -1,16 +1,36 @@
 import React from "react";
-import { Card, CardContent, CardActionArea, Typography } from "@mui/material";
+import {
+	Card,
+	CardContent,
+	CardActionArea,
+	Typography,
+	IconButton,
+} from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import ClearIcon from "@mui/icons-material/Clear";
 
-function WalletCard({ type, address, balance, isSquare }) {
+import { useDeleteUserWalletMutation } from "../../../features/wallet/walletApi";
+
+function WalletCard({ id, type, address, balance, isSquare }) {
+	const [deleteUserWallet] = useDeleteUserWalletMutation();
+
+	const handleDeleteClick = (event) => {
+		event.stopPropagation();
+		event.preventDefault();
+		deleteUserWallet({ id: id });
+	};
+
 	return (
-		<CardActionArea component="a" href="#">
-			<Card
-				square={isSquare}
-				sx={{
-					display: "flex",
-					boxShadow: "none",
-				}}
+		<Card
+			square={isSquare}
+			sx={{
+				display: "flex",
+				boxShadow: "none",
+			}}
+		>
+			<CardActionArea
+				component="a"
+				onClick={() => console.log("card click")}
 			>
 				<CardContent
 					sx={{
@@ -20,7 +40,7 @@ function WalletCard({ type, address, balance, isSquare }) {
 					}}
 				>
 					<Grid container padding={0}>
-						<Grid xs={8}>
+						<Grid xs={6}>
 							<Typography fontWeight="medium">
 								{type} Wallet
 							</Typography>
@@ -53,10 +73,26 @@ function WalletCard({ type, address, balance, isSquare }) {
 									: `${balance}`}
 							</Typography>
 						</Grid>
+						<Grid
+							xs={2}
+							sx={{
+								display: "flex",
+								alignItems: "center",
+								justifyContent: "right",
+							}}
+						>
+							<IconButton
+								aria-label="delete"
+								onMouseDown={(event) => event.stopPropagation()}
+								onClick={handleDeleteClick}
+							>
+								<ClearIcon />
+							</IconButton>
+						</Grid>
 					</Grid>
 				</CardContent>
-			</Card>
-		</CardActionArea>
+			</CardActionArea>
+		</Card>
 	);
 }
 

@@ -46,10 +46,25 @@ export const walletApi = createApi({
 				}
 			},
 		}),
-		addNewWallet: builder.mutation({
+		addUserWallet: builder.mutation({
 			query: (payload) => ({
 				url: "/add",
 				method: "POST",
+				body: payload,
+			}),
+			async onQueryStarted(args, { dispatch, queryFulfilled }) {
+				try {
+					const { data } = await queryFulfilled;
+					dispatch(setWallets(data));
+				} catch (e) {
+					dispatch(setWallets([]));
+				}
+			},
+		}),
+		deleteUserWallet: builder.mutation({
+			query: (payload) => ({
+				url: "/delete",
+				method: "DELETE",
 				body: payload,
 			}),
 			async onQueryStarted(args, { dispatch, queryFulfilled }) {
@@ -67,5 +82,6 @@ export const walletApi = createApi({
 export const {
 	useGetWalletTypesQuery,
 	useGetUserWalletsMutation,
-	useAddNewWalletMutation,
+	useAddUserWalletMutation,
+	useDeleteUserWalletMutation,
 } = walletApi;

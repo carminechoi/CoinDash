@@ -47,7 +47,7 @@ function WalletsScreen({ addWallet = false }) {
 					pt={2}
 				>
 					<Grid xs={12} md={5}>
-						<WalletList />
+						<WalletList addWalletSuccess={addWalletSuccess} />
 					</Grid>
 					<Grid xs={12} md={7}>
 						<TransactionList />

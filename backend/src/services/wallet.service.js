@@ -10,6 +10,7 @@ const getUserWallets = async (user) => {
 	const userWallets = await prisma.wallet.findMany({
 		where: { userId: user.id },
 		select: {
+			id: true,
 			address: true,
 			balance: true,
 			type: {
@@ -60,6 +61,14 @@ const createWallet = async (user, walletData) => {
 	}
 };
 
-const deleteWallet = async (user, walletData) => {};
+const deleteWallet = async (user, walletData) => {
+	try {
+		await prisma.Wallet.delete({
+			where: { id: walletData.id },
+		});
+	} catch (e) {
+		throw e;
+	}
+};
 
-module.exports = { getWalletTypes, getUserWallets, createWallet };
+module.exports = { getWalletTypes, getUserWallets, createWallet, deleteWallet };

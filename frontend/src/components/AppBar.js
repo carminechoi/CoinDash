@@ -12,7 +12,6 @@ import {
 	Avatar,
 	Menu,
 	MenuItem,
-	Divider,
 } from "@mui/material";
 import PopupState, {
 	bindTrigger,

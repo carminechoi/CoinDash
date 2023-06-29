@@ -23,7 +23,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SearchTextField from "../../../components/SearchTextField";
 import {
 	useGetWalletTypesQuery,
-	useAddNewWalletMutation,
+	useAddUserWalletMutation,
 } from "../../../features/wallet/walletApi";
 import Progress from "../../../components/Progress";
 
@@ -32,12 +32,12 @@ function CoinbaseMenu() {
 }
 
 function EthereumMenu({ handleClose, setOpen, setAddWalletSuccess }) {
-	const [addNewWallet, response] = useAddNewWalletMutation();
+	const [addUserWallet, response] = useAddUserWalletMutation();
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		const data = new FormData(event.target.form);
-		addNewWallet({ type: "Ethereum", address: data.get("address") });
+		addUserWallet({ type: "Ethereum", address: data.get("address") });
 	};
 
 	useEffect(() => {
