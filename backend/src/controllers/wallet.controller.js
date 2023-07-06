@@ -48,8 +48,6 @@ router.post("/add", authenticateToken, async (req, res, next) => {
 		const userWallets = await getUserWallets(user);
 		res.status(200).json(userWallets);
 	} catch (e) {
-		await deleteWallet(user, walletData);
-		await deleteTransactions(user, walletData);
 		next(e);
 	}
 });
@@ -59,8 +57,8 @@ router.delete("/delete", authenticateToken, async (req, res, next) => {
 		const user = req.authData;
 		const walletData = req.body;
 
-		await deleteWallet(user, walletData);
-		await deleteTransactions(user, walletData);
+		await deleteTransactions(user.id, walletData.id);
+		await deleteWallet(walletData.id);
 
 		const userWallets = await getUserWallets(user);
 		res.status(200).json(userWallets);

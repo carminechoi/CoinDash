@@ -31,20 +31,21 @@ const createTransactions = async (
 			default:
 		}
 	} catch (e) {
-		console.log(e);
 		throw e;
 	}
 };
 
-const deleteTransactions = async (user, walletData) => {
+const deleteTransactions = async (userId, walletId) => {
 	try {
 		await prisma.Transaction.deleteMany({
 			where: {
-				userId: user.id,
-				walletId: walletData.id,
+				userId: userId,
+				walletId: walletId,
 			},
 		});
 	} catch (e) {
+		console.log(e);
+
 		throw e;
 	}
 };

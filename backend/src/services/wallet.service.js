@@ -63,11 +63,9 @@ const createWallet = async (user, walletData) => {
 	}
 };
 
-const deleteWallet = async (user, walletData) => {
+const deleteWallet = async (walletId) => {
 	try {
-		await prisma.Wallet.delete({
-			where: { id: walletData.id },
-		});
+		await prisma.Wallet.delete({ where: { id: walletId } });
 	} catch (e) {
 		throw e;
 	}
