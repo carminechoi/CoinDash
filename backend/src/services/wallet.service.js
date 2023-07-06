@@ -13,6 +13,7 @@ const getUserWallets = async (user) => {
 			id: true,
 			address: true,
 			balance: true,
+			transactions: true,
 			type: {
 				select: { name: true, category: true },
 			},

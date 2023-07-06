@@ -26,6 +26,7 @@ router.get("/all", authenticateToken, async (req, res, next) => {
 	try {
 		const user = req.authData;
 		const userWallets = await getUserWallets(user);
+		console.log(userWallets[0].transactions);
 		res.status(200).json(userWallets);
 	} catch (e) {
 		next(e);

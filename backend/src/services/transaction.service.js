@@ -44,8 +44,6 @@ const deleteTransactions = async (userId, walletId) => {
 			},
 		});
 	} catch (e) {
-		console.log(e);
-
 		throw e;
 	}
 };
