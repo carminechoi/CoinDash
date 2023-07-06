@@ -46,7 +46,9 @@ const createWallet = async (user, walletData) => {
 			default:
 		}
 
-		await prisma.Wallet.create({ data: wallet });
+		const addedWallet = await prisma.Wallet.create({ data: wallet });
+
+		return addedWallet;
 	} catch (e) {
 		if (e.message === "Address is invalid. Please enter a valid address.") {
 			throw e;

@@ -11,24 +11,25 @@ class EtherscanService {
 			const transactions = await response.json();
 
 			if (transactions.status === "1") {
-				transactions.result.map(async (transaction) => {
-					await prisma.upsert({
-						where: {
-							hash: transaction.hash,
-						},
-						update: {},
-						create: {
-							hash: transaction.hash,
-							value: transaction.value,
-							gas: transaction.gas,
-							gasPrice: transaction.gasPrice,
-							to: transaction.to,
-							from: transaction.from,
-							wallet: { connect: { id: walletId } },
-							user: { connect: { id: userId } },
-						},
-					});
-				});
+				// transactions.result.map(async (transaction) => {
+				// 	await prisma.upsert({
+				// 		where: {
+				// 			hash: transaction.hash,
+				// 		},
+				// 		update: {},
+				// 		create: {
+				// 			hash: transaction.hash,
+				// 			value: transaction.value,
+				// 			gas: transaction.gas,
+				// 			gasPrice: transaction.gasPrice,
+				// 			to: transaction.to,
+				// 			from: transaction.from,
+				// 			wallet: { connect: { id: walletId } },
+				// 			user: { connect: { id: userId } },
+				// 		},
+				// 	});
+				// });
+				return transactions.result;
 			} else {
 				next();
 			}
@@ -37,10 +38,10 @@ class EtherscanService {
 		}
 	};
 
-	static getAddressBalance = async (walletAddress) => {
+	static getAddressBalance = async (address) => {
 		const etherscanURL = process.env.ETHERSCAN_URL;
 		const etherscanApiKey = process.env.ETHERSCAN_KEY;
-		const apiUrl = `${etherscanURL}?module=account&action=balance&address=${walletAddress}&apikey=${etherscanApiKey}`;
+		const apiUrl = `${etherscanURL}?module=account&action=balance&address=${address}&apikey=${etherscanApiKey}`;
 
 		try {
 			const response = await fetch(apiUrl);

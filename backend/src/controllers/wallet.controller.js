@@ -6,6 +6,10 @@ const {
 	createWallet,
 	deleteWallet,
 } = require("../services/wallet.service");
+const {
+	createTransactions,
+	deleteTransactions,
+} = require("../services/transaction.service");
 
 const router = express.Router();
 
@@ -32,10 +36,20 @@ router.post("/add", authenticateToken, async (req, res, next) => {
 	try {
 		const user = req.authData;
 		const walletData = req.body;
-		await createWallet(user, walletData);
+
+		const wallet = await createWallet(user, walletData);
+		await createTransactions(
+			user,
+			wallet.id,
+			walletData.type,
+			wallet.address
+		);
+
 		const userWallets = await getUserWallets(user);
 		res.status(200).json(userWallets);
 	} catch (e) {
+		await deleteWallet(user, walletData);
+		await deleteTransactions(user, walletData);
 		next(e);
 	}
 });
@@ -44,13 +58,13 @@ router.delete("/delete", authenticateToken, async (req, res, next) => {
 	try {
 		const user = req.authData;
 		const walletData = req.body;
-		console.log(walletData);
+
 		await deleteWallet(user, walletData);
+		await deleteTransactions(user, walletData);
+
 		const userWallets = await getUserWallets(user);
-		console.log(userWallets);
 		res.status(200).json(userWallets);
 	} catch (e) {
-		console.log(e);
 		next(e);
 	}
 });
