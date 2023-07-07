@@ -10,9 +10,12 @@ import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import ClearIcon from "@mui/icons-material/Clear";
 
 import { useDeleteUserWalletMutation } from "../../../features/wallet/walletApi";
+import { useDispatch } from "react-redux";
 
 function WalletCard({ id, type, address, balance, isSquare }) {
 	const [deleteUserWallet] = useDeleteUserWalletMutation();
+
+	const dispatch = useDispatch();
 
 	const handleDeleteClick = (event) => {
 		event.stopPropagation();
@@ -30,7 +33,7 @@ function WalletCard({ id, type, address, balance, isSquare }) {
 		>
 			<CardActionArea
 				component="a"
-				onClick={() => console.log("card click")}
+				onClick={() => dispatch(setTransactions)}
 			>
 				<CardContent
 					sx={{

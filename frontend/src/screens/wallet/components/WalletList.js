@@ -63,7 +63,7 @@ function WalletAccordian({ category, wallets }) {
 	);
 }
 
-function WalletList({ addWalletSuccess }) {
+function WalletList() {
 	const { wallets } = useSelector((state) => state.walletState);
 
 	const [exchangeWallets, setExchangeWallets] = useState([]);
