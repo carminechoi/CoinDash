@@ -52,9 +52,7 @@ class EtherscanService {
 				const balanceEth = balanceWei / 10 ** 18;
 				return balanceEth;
 			} else {
-				throw new Error(
-					"Address is invalid. Please enter a valid address."
-				);
+				throw new Error("Address is invalid. Please enter a valid address.");
 			}
 		} catch (error) {
 			throw error;

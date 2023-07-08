@@ -26,7 +26,7 @@ router.get("/all", authenticateToken, async (req, res, next) => {
 	try {
 		const user = req.authData;
 		const userWallets = await getUserWallets(user);
-		console.log(userWallets[0].transactions);
+
 		res.status(200).json(userWallets);
 	} catch (e) {
 		next(e);
@@ -39,12 +39,7 @@ router.post("/add", authenticateToken, async (req, res, next) => {
 		const walletData = req.body;
 
 		const wallet = await createWallet(user, walletData);
-		await createTransactions(
-			user,
-			wallet.id,
-			walletData.type,
-			wallet.address
-		);
+		await createTransactions(user, wallet.id, walletData.type, wallet.address);
 
 		const userWallets = await getUserWallets(user);
 		res.status(200).json(userWallets);
