@@ -26,7 +26,7 @@ function FormikField({
                 isError
             }
             helperText={
-                isError
+                isError && error.data
                     ? error.data.message
                     : formik.touched[type] && formik.errors[type]
             }

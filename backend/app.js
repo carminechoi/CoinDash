@@ -9,7 +9,6 @@ const app = express();
 const routes = require("./src/routes/routes");
 const { GeckoService } = require("./src/services/gecko.service");
 const { EtherscanService } = require("./src/services/etherscan.service");
-const { WalletCategoryEnum } = require("@prisma/client");
 
 // Cron setup
 // ┌────────────── second (optional)
@@ -21,12 +20,11 @@ const { WalletCategoryEnum } = require("@prisma/client");
 // │ │ │ │ │ │
 // │ │ │ │ │ │
 // * * * * * *
-// cron.schedule("*/1 * * * *", function () {
+// cron.schedule("* * * * *", function () {
 // 	GeckoService.fetchAllCoins();
 // 	EthercanService.fetchTransactions(
-// 	    "0xb794f5ea0ba39494ce839613fffba74279579268"
+// 		"0xb794f5ea0ba39494ce839613fffba74279579268"
 // 	);
-// 	console.log(WalletCategoryEnum);
 // });
 
 // Enable CORS for specific origins only
@@ -35,9 +33,9 @@ let corsOptions = {
 		"http://localhost:3000",
 		"http://localhost:3001",
 		"http://localhost:3002",
-		'https://dogewisdom.com', 
-		'https://www.dogewisdom.com',
-		'https://d32jey2ehxi8yg.cloudfront.net'
+		"https://dogewisdom.com",
+		"https://www.dogewisdom.com",
+		"https://d32jey2ehxi8yg.cloudfront.net",
 	],
 	credentials: true,
 };

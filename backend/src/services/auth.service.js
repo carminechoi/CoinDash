@@ -37,7 +37,8 @@ const loginUser = async (email, password) => {
 	}
 
 	const checkPassword = await bcrypt.compare(password, user.password);
-	if (!checkPassword) throw createError.Unauthorized("Wrong email or password");
+	if (!checkPassword)
+		throw createError.Unauthorized("Wrong email or password");
 
 	const accessToken = await generateAccessToken(user);
 	const refreshToken = await generateRefreshToken(user);
@@ -54,14 +55,15 @@ const refresh = async (refreshToken) => {
 		return next(createError.Unauthorized("Refresh token is required"));
 	}
 
-	const decoded = await verifyRefreshToken(token, tokenType);
+	const decoded = await verifyRefreshToken(refreshToken);
+
 	if (!decoded) {
-		return next(createError.Unauthorized(`Invalid ${tokenType} Token`));
+		return next(createError.Unauthorized(`Invalid Refresh Token`));
 	}
 
 	const user = await prisma.user.findUnique({
 		where: {
-			id: decoded.id,
+			id: decoded.user.id,
 		},
 	});
 
@@ -71,7 +73,7 @@ const refresh = async (refreshToken) => {
 
 	const accessToken = await generateAccessToken(user);
 
-	return { accessToken };
+	return accessToken;
 };
 
 module.exports = {

@@ -101,7 +101,7 @@ function RegisterScreen() {
                                 error={error}
                                 visibility={true}
                             />
-
+                            {isError && !error.message && <Typography color="red">Could not reach server</Typography>}
                             <Button
                                 type="submit"
                                 fullWidth

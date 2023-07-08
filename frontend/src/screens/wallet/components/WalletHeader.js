@@ -1,24 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Typography, Toolbar } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import SyncIcon from "@mui/icons-material/Sync";
-import AddWalletDialog from "./AddWalletDialog";
+import WalletDialog from "./WalletDialog";
 
-function WalletHeader({ addWallet }) {
-	const [open, setOpen] = React.useState(addWallet);
-	const [selectedValue, setSelectedValue] = React.useState(0);
+function WalletHeader({ addWallet, setAddWalletSuccess }) {
+	const [open, setOpen] = useState(addWallet);
 
-	const handleClickOpen = () => {
+	const handleOpen = () => {
 		setOpen(true);
 	};
 
-	const handleClose = (value) => {
-		setOpen(false);
-		setSelectedValue(value);
-	};
-
 	return (
-		<Toolbar disableGutters>
+		<Toolbar disableGutters sx={{ mb: 2 }}>
 			<Grid
 				container
 				alignItems="center"
@@ -47,15 +41,15 @@ function WalletHeader({ addWallet }) {
 							fullWidth
 							variant="contained"
 							size="large"
-							onClick={handleClickOpen}
+							onClick={handleOpen}
 							sx={{ textTransform: "none" }}
 						>
 							Add Wallet
 						</Button>
-						<AddWalletDialog
-							selectedValue={selectedValue}
+						<WalletDialog
 							open={open}
-							onClose={handleClose}
+							setOpen={setOpen}
+							setAddWalletSuccess={setAddWalletSuccess}
 						/>
 					</Grid>
 				</Grid>

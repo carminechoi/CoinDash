@@ -11,81 +11,83 @@ datasource db {
 }
 
 model User {
-  id            Int              @id @default(autoincrement())
-  createdAt     DateTime         @default(now())
-  updatedAt     DateTime         @updatedAt
-  email         String           @unique
-  password      String
-  role          RoleEnum     @default(USER)
-  watchList     Coin[]
-  wallets       Wallet[]
-  transactions  Transaction[]
+  id           Int           @id @default(autoincrement())
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  email        String        @unique
+  password     String
+  role         RoleEnum      @default(USER)
+  watchList    Coin[]
+  wallets      Wallet[]
+  transactions Transaction[]
 }
 
 model RefreshToken {
-  id            Int              @id @default(autoincrement())
-  createdAt     DateTime         @default(now())
-  updatedAt     DateTime         @updatedAt @default(now())
-  userId        Int              @unique
-  token         String           @default("")
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  userId    Int      @unique
+  token     String   @default("")
 }
 
 model Coin {
-  id                                Int             @id @default(autoincrement())
-  createdAt                         DateTime        @default(now())
-  updatedAt                         DateTime        @updatedAt @default(now())
-  coinId                            String          @unique
-  symbol                            String          @default("")
-  name                              String          @default("")
-  image                             String          @default("")
-  currentPrice                      String          @default("")
-  volume24h                         String          @default("")
-  marketCap                         String          @default("")
-  marketCapRank                     Int             @default(0)
-  priceChangePercentage1h           String?
-  priceChangePercentage24h          String?
-  priceChangePercentage7d           String?
-  circulatingSupply                 String          @default("")
-  lastUpdated                       String          @default("")
-  users                             User[]
+  id                       Int      @id @default(autoincrement())
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @default(now()) @updatedAt
+  coinId                   String   @unique
+  symbol                   String   @default("")
+  name                     String   @default("")
+  image                    String   @default("")
+  currentPrice             String   @default("")
+  volume24h                String   @default("")
+  marketCap                String   @default("")
+  marketCapRank            Int      @default(0)
+  priceChangePercentage1h  String?
+  priceChangePercentage24h String?
+  priceChangePercentage7d  String?
+  circulatingSupply        String   @default("")
+  lastUpdated              String   @default("")
+  users                    User[]
 }
 
 model Wallet {
-  id              Int              @id @default(autoincrement())
-  walletTypeId    Int
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt @default(now())
-  type            WalletType       @relation(fields: [walletTypeId], references: [id])
-  address         String?
-  user            User             @relation(fields: [userId], references: [id])
-  userId          Int
-  transactions    Transaction[]
+  id           Int           @id @default(autoincrement())
+  walletTypeId Int
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @default(now()) @updatedAt
+  type         WalletType    @relation(fields: [walletTypeId], references: [id])
+  address      String?
+  user         User          @relation(fields: [userId], references: [id])
+  userId       Int
+  balance      Float         @default(0)
+  transactions Transaction[]
+
+  @@unique([userId, address])
 }
 
 model WalletType {
-  id              Int             @id @default(autoincrement())
-  name            String          @unique
-  category        WalletCategoryEnum
-  image           String          @default("")
-  wallets         Wallet[]
+  id       Int                @id @default(autoincrement())
+  name     String             @unique
+  category WalletCategoryEnum
+  image    String             @default("")
+  wallets  Wallet[]
 }
 
 model Transaction {
-  id              Int              @id @default(autoincrement())
-  walletId        Int
-  userId          Int
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt @default(now())
-  hash            String
-  value           String
-  gas             String
-  gasPrice        String
-  to              String
-  from            String
-  wallet          Wallet           @relation(fields: [walletId], references: [id])
-  user            User             @relation(fields: [userId], references: [id])
+  id        Int      @id @default(autoincrement())
+  walletId  Int
+  userId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  hash      String
+  value     String
+  gas       String
+  gasPrice  String
+  to        String
+  from      String
+  wallet    Wallet   @relation(fields: [walletId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 }
-
 
 enum RoleEnum {
   USER
