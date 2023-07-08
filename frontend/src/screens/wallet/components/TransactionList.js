@@ -11,6 +11,7 @@ import {
 	AccordionSummary,
 	AccordionDetails,
 	Divider,
+	Pagination,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
@@ -19,6 +20,15 @@ import TransactionCard from "./TransactionCard";
 
 function TransactionAccordian({ transactions }) {
 	const [isExpanded, setExpandedAccordions] = useState(transactions.length > 0);
+	const [page, setPage] = useState(1);
+
+	const handleChangePage = (event, newPage) => {
+		setPage(newPage);
+	};
+
+	const startIndex = (page - 1) * 10;
+	const endIndex = page * 10;
+	const currentTransactions = transactions.slice(startIndex, endIndex);
 
 	const handleAccordionChange = () => {
 		setExpandedAccordions(!isExpanded);
@@ -44,16 +54,21 @@ function TransactionAccordian({ transactions }) {
 				<Typography fontWeight="medium">Transactions</Typography>
 			</AccordionSummary>
 			<AccordionDetails sx={{ padding: 0 }}>
-				{transactions.map((transaction, index) => (
+				{currentTransactions.map((transaction, index) => (
 					<div key={index}>
 						<TransactionCard
 							value={transaction.value}
 							toAddress={transaction.to}
-							isSquare={index !== transactions.length - 1}
+							isSquare={index !== currentTransactions.length - 1}
 						/>
-						{index < transactions.length - 1 && <Divider />}
+						{index < currentTransactions.length - 1 && <Divider />}
 					</div>
 				))}
+				<Pagination
+					count={Math.ceil(transactions.length / 10)}
+					page={page}
+					onChange={handleChangePage}
+				/>
 			</AccordionDetails>
 		</Accordion>
 	);
