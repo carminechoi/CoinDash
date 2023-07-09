@@ -57,8 +57,7 @@ function TransactionAccordian({ transactions }) {
 				{currentTransactions.map((transaction, index) => (
 					<div key={index}>
 						<TransactionCard
-							value={transaction.value}
-							toAddress={transaction.to}
+							transaction={transaction}
 							isSquare={index !== currentTransactions.length - 1}
 						/>
 						{index < currentTransactions.length - 1 && <Divider />}
@@ -80,29 +79,6 @@ function TransactionList() {
 	return (
 		<div>
 			<TransactionAccordian transactions={wallet.transactions ?? []} />
-			{/* <Table>
-				<TableBody>
-					<TableRow sx={{ backgroundColor: "#F7F7F7" }}>
-						<TableCell>
-							<Typography
-								sx={{
-									fontWeight: "medium",
-								}}
-							>
-								Transactions
-							</Typography>
-						</TableCell>
-					</TableRow>
-					<TableRow>
-						
-						{wallet.transactions.map((transaction) => (
-							<TableCell>
-								<Typography>None added</Typography>
-							</TableCell>
-						))}
-					</TableRow>
-				</TableBody>
-			</Table> */}
 		</div>
 	);
 }
