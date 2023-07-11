@@ -10,16 +10,23 @@ import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import ClearIcon from "@mui/icons-material/Clear";
 
 import { useDeleteUserWalletMutation } from "../../../features/wallet/walletApi";
-import { setWalletWithId } from "../../../features/wallet/walletSlice";
+import {
+	setWalletWithId,
+	deleteWallet,
+} from "../../../features/wallet/walletSlice";
 import { useDispatch } from "react-redux";
 
-function WalletCard({ id, type, address, balance, isSquare }) {
+function WalletCard({ id, type, address, balance, isSquare, isSelected }) {
 	const [deleteUserWallet] = useDeleteUserWalletMutation();
 
 	const dispatch = useDispatch();
 
 	const handleCardClick = () => {
-		dispatch(setWalletWithId(id));
+		if (isSelected) {
+			dispatch(deleteWallet());
+		} else {
+			dispatch(setWalletWithId(id));
+		}
 	};
 
 	const handleDeleteClick = (event) => {
@@ -34,6 +41,7 @@ function WalletCard({ id, type, address, balance, isSquare }) {
 			sx={{
 				display: "flex",
 				boxShadow: "none",
+				backgroundColor: isSelected ? "#1976d2" : "inherit",
 			}}
 		>
 			<CardActionArea component="a" onClick={handleCardClick}>
@@ -46,9 +54,15 @@ function WalletCard({ id, type, address, balance, isSquare }) {
 				>
 					<Grid container padding={0}>
 						<Grid xs={6}>
-							<Typography fontWeight="medium">{type} Wallet</Typography>
+							<Typography
+								fontWeight="medium"
+								color={isSelected ? "#ffffff" : "inherit"}
+							>
+								{type} Wallet
+							</Typography>
 							<Typography
 								fontSize={14}
+								color={isSelected ? "#ffffff" : "inherit"}
 								sx={{
 									overflow: "hidden",
 									textOverflow: "ellipsis",
@@ -66,6 +80,7 @@ function WalletCard({ id, type, address, balance, isSquare }) {
 							}}
 						>
 							<Typography
+								color={isSelected ? "#ffffff" : "inherit"}
 								sx={{
 									overflow: "hidden",
 									textOverflow: "ellipsis",
