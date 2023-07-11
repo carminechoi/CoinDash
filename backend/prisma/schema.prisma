@@ -85,6 +85,7 @@ model Transaction {
   gasPrice  String
   to        String
   from      String
+  timeStamp String
   wallet    Wallet   @relation(fields: [walletId], references: [id])
   user      User     @relation(fields: [userId], references: [id])
 }

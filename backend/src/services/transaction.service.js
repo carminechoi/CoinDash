@@ -1,5 +1,10 @@
 const { prisma, Prisma } = require("../../prisma/prisma.client");
 const { EtherscanService } = require("./etherscan.service");
+const {
+	convertWeiToEth,
+	convertGasToGwei,
+	convertTimeStampToDateString,
+} = require("../utils/currency.util");
 
 const createTransactions = async (
 	user,
@@ -18,11 +23,12 @@ const createTransactions = async (
 					await prisma.Transaction.create({
 						data: {
 							hash: transaction.hash,
-							value: transaction.value,
+							value: convertWeiToEth(transaction.value),
 							gas: transaction.gas,
-							gasPrice: transaction.gasPrice,
+							gasPrice: convertGasToGwei(transaction.gasPrice),
 							to: transaction.to,
 							from: transaction.from,
+							timeStamp: convertTimeStampToDateString(transaction.timeStamp),
 							walletId: walletId,
 							userId: user.id,
 						},

@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { createBaseQueryWithReauth } from "../utils/reauthUtils";
-import { setWallets } from "./walletSlice";
+import { deleteWallet, setWallets } from "./walletSlice";
 
 const BASE_URL = process.env.REACT_APP_SERVER_ENDPOINT;
 
@@ -71,8 +71,10 @@ export const walletApi = createApi({
 				try {
 					const { data } = await queryFulfilled;
 					dispatch(setWallets(data));
+					dispatch(deleteWallet());
 				} catch (e) {
 					dispatch(setWallets([]));
+					dispatch(deleteWallet());
 				}
 			},
 		}),

@@ -15,9 +15,13 @@ const walletSlice = createSlice({
 		setWalletWithId: (state, { payload: id }) => {
 			state.wallet = state.wallets.find((wallet) => wallet.id === id);
 		},
+		deleteWallet: (state) => {
+			state.wallet = {};
+		},
 	},
 });
 
 export default walletSlice.reducer;
 
-export const { setWallets, setWalletWithId } = walletSlice.actions;
+export const { setWallets, setWalletWithId, deleteWallet } =
+	walletSlice.actions;

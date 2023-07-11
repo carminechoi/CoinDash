@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from "react";
 import {
 	Typography,
-	// TableContainer,
-	// Table,
-	// TableBody,
-	// TableRow,
-	// TableCell,
-	// Paper,
 	Accordion,
 	AccordionSummary,
 	AccordionDetails,
 	Divider,
-	Pagination,
+	TablePagination,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
@@ -20,15 +14,21 @@ import TransactionCard from "./TransactionCard";
 
 function TransactionAccordian({ transactions }) {
 	const [isExpanded, setExpandedAccordions] = useState(transactions.length > 0);
-	const [page, setPage] = useState(1);
+	const [page, setPage] = useState(0);
+	const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+	const startIndex = page * rowsPerPage;
+	const endIndex = (page + 1) * rowsPerPage;
+	const currentTransactions = transactions.slice(startIndex, endIndex);
 
 	const handleChangePage = (event, newPage) => {
 		setPage(newPage);
 	};
 
-	const startIndex = (page - 1) * 10;
-	const endIndex = page * 10;
-	const currentTransactions = transactions.slice(startIndex, endIndex);
+	const handleChangeRowsPerPage = (event) => {
+		setRowsPerPage(parseInt(event.target.value, 10));
+		setPage(0);
+	};
 
 	const handleAccordionChange = () => {
 		setExpandedAccordions(!isExpanded);
@@ -63,10 +63,13 @@ function TransactionAccordian({ transactions }) {
 						{index < currentTransactions.length - 1 && <Divider />}
 					</div>
 				))}
-				<Pagination
-					count={Math.ceil(transactions.length / 10)}
+				<TablePagination
+					count={transactions.length}
 					page={page}
 					onChange={handleChangePage}
+					onPageChange={handleChangePage}
+					rowsPerPage={rowsPerPage}
+					onRowsPerPageChange={handleChangeRowsPerPage}
 				/>
 			</AccordionDetails>
 		</Accordion>
