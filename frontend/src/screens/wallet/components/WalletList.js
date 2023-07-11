@@ -54,7 +54,7 @@ function WalletAccordian({ category, wallets, currentWallet }) {
 							address={wallet.address}
 							balance={wallet.balance}
 							isSquare={index !== wallets.length - 1}
-							isSelected={wallet.id == currentWallet.id}
+							isSelected={wallet.id === currentWallet.id}
 						/>
 						{index < wallets.length - 1 && <Divider />}
 					</div>
