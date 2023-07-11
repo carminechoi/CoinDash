@@ -24,7 +24,7 @@ function WalletsScreen({ addWallet = false }) {
 			getUserWallets();
 			setWalletsLoaded(true);
 		}
-	}, [getUserWallets]);
+	}, [getUserWallets, walletsLoaded]);
 
 	return (
 		<Box

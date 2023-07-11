@@ -68,17 +68,18 @@ function LoginScreen() {
 						}}
 					>
 						<Typography
-							variant="h6"
-							paddingBottom={2}
+							fontSize={32}
+							fontWeight="bold"
 							color="primary"
+							component="a"
+							href="/"
+							sx={{
+								textDecoration: "none",
+							}}
 						>
 							Better Koinly
 						</Typography>
-						<Typography
-							variant="h5"
-							fontWeight="bold"
-							paddingBottom={2}
-						>
+						<Typography fontSize={20} fontWeight="semibold" paddingBottom={2}>
 							Welcome back
 						</Typography>
 						<form onSubmit={formik.handleSubmit} sx={{ mt: 3 }}>
@@ -98,9 +99,7 @@ function LoginScreen() {
 								visibility={true}
 							/>
 							{isError && !error && (
-								<Typography color="red">
-									Could not reach server
-								</Typography>
+								<Typography color="red">Could not reach server</Typography>
 							)}
 							<Button
 								type="submit"
@@ -120,11 +119,7 @@ function LoginScreen() {
 								<Grid item>
 									<Typography variant="body2">
 										Don't have an account?{" "}
-										<Link
-											to="/u/signup"
-											variant="body2"
-											underline="none"
-										>
+										<Link to="/u/signup" variant="body2" underline="none">
 											Sign up
 										</Link>
 									</Typography>
@@ -142,11 +137,7 @@ function LoginScreen() {
 				>
 					When you create a Better Koinly account, you
 				</Typography>
-				<Typography
-					variant="body2"
-					align="center"
-					color="text.secondary"
-				>
+				<Typography variant="body2" align="center" color="text.secondary">
 					agree to the Terms and Privacy Policy.
 				</Typography>
 			</Grid>
