@@ -34,7 +34,7 @@ function AddWalletCard() {
 					<Grid xs={12}>
 						<Typography variant="body1">
 							Connect all your wallets and exchanges to view your personalized
-							crypto dashboard.
+							crypto dashboard in minutes.
 						</Typography>
 					</Grid>
 					<Grid xs={12}>

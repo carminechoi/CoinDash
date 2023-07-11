@@ -41,8 +41,8 @@ function Footer() {
 							</Grid>
 							<Grid xs={12}>
 								<Typography>
-									Connect your cryptocurrency wallets and exchanges. Get your
-									crypto taxes done in minutes
+									Connect your cryptocurrency wallets and exchanges. View your
+									personalized crypto dashboard in minutes.
 								</Typography>
 							</Grid>
 						</Grid>

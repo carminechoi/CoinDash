@@ -104,9 +104,7 @@ function LoggedIn({ userEmail }) {
 								}}
 							>
 								Wallets{" "}
-								<ArrowDropDownIcon
-									style={{ verticalAlign: "middle" }}
-								/>
+								<ArrowDropDownIcon style={{ verticalAlign: "middle" }} />
 							</Button>
 
 							<HoverMenu
@@ -144,18 +142,6 @@ function LoggedIn({ userEmail }) {
 				>
 					Crypto Prices
 				</Button>
-				<Button
-					// onClick={handleCloseNavMenu}
-					sx={{
-						my: 2,
-						px: 2,
-						color: "black",
-						display: "block",
-						textTransform: "none",
-					}}
-				>
-					Taxes
-				</Button>
 			</Box>
 			<Box
 				sx={{
@@ -171,17 +157,12 @@ function LoggedIn({ userEmail }) {
 				<PopupState variant="popover">
 					{(popupState) => (
 						<React.Fragment>
-							<IconButton
-								{...bindTrigger(popupState)}
-								sx={{ p: 0 }}
-							>
+							<IconButton {...bindTrigger(popupState)} sx={{ p: 0 }}>
 								<Avatar />
 							</IconButton>
 							<Menu {...bindMenu(popupState)} disableScrollLock>
 								<MenuItem onClick={handleLogout}>
-									<Typography textAlign="center">
-										Logout
-									</Typography>
+									<Typography textAlign="center">Logout</Typography>
 								</MenuItem>
 							</Menu>
 						</React.Fragment>
