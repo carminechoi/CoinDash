@@ -35,7 +35,7 @@ function WalletsScreen({ addWallet = false }) {
 			}}
 		>
 			<AppBar />
-			<Container sx={{ px: { sm: 12, md: "auto" }, pt: 2, py: 8 }}>
+			<Container sx={{ px: { sm: 12, md: "auto" }, pt: 2, py: 6 }}>
 				<WalletHeader
 					addWallet={addWallet}
 					setAddWalletSuccess={setAddWalletSuccess}

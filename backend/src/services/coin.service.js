@@ -9,7 +9,7 @@ const getAllCoins = async () => {
 		});
 		return coins;
 	} catch (e) {
-		console.error(`error: ${error}`);
+		throw e;
 	}
 };
 
