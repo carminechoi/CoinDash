@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Container, Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 
+import { useSelector } from "react-redux";
+import { useGetCryptoNewsMutation } from "../../../features/news/newsApi";
+
 function AddWalletCard({ wallets }) {
+	const { news } = useSelector((state) => state.newsState);
+	const [newsLoaded, setNewsLoaded] = useState(news.length !== 0);
+
+	const [getCryptoNews] = useGetCryptoNewsMutation();
+
 	const portfolioBalances = wallets.reduce((accumulator, wallet) => {
 		const {
 			type: { name },
@@ -16,6 +24,13 @@ function AddWalletCard({ wallets }) {
 		return accumulator;
 	}, {});
 
+	useEffect(() => {
+		if (!newsLoaded) {
+			getCryptoNews();
+			setNewsLoaded(true);
+		}
+	}, [getCryptoNews, newsLoaded]);
+
 	return (
 		<Container sx={{ px: { sm: 12, md: "auto" }, pt: 2, py: 6 }}>
 			<Typography fontSize={48} fontWeight="bold">
@@ -26,7 +41,9 @@ function AddWalletCard({ wallets }) {
 					Portfolio value
 				</Typography>
 				{Object.keys(portfolioBalances).map((asset) => (
-					<Typography>{asset + " " + portfolioBalances[asset]}</Typography>
+					<Typography key={asset}>
+						{asset + " " + portfolioBalances[asset]}
+					</Typography>
 				))}
 			</Card>
 		</Container>
