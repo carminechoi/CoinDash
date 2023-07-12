@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { Card, Container, Typography } from "@mui/material";
+import {
+	Card,
+	CardActionArea,
+	CardContent,
+	CardMedia,
+	Container,
+	Typography,
+} from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 
 import { useSelector } from "react-redux";
 import { useGetCryptoNewsMutation } from "../../../features/news/newsApi";
 
-function AddWalletCard({ wallets }) {
+function DashboardContent({ wallets }) {
 	const { news } = useSelector((state) => state.newsState);
 	const [newsLoaded, setNewsLoaded] = useState(news.length !== 0);
 
@@ -24,6 +31,10 @@ function AddWalletCard({ wallets }) {
 		return accumulator;
 	}, {});
 
+	const handleCardClick = (url) => {
+		window.open(url, "_blank", "noreferrer");
+	};
+
 	useEffect(() => {
 		if (!newsLoaded) {
 			getCryptoNews();
@@ -41,13 +52,44 @@ function AddWalletCard({ wallets }) {
 					Portfolio value
 				</Typography>
 				{Object.keys(portfolioBalances).map((asset) => (
-					<Typography key={asset}>
+					<Typography key={asset} fontSize={28} fontWeight="bold">
 						{asset + " " + portfolioBalances[asset]}
 					</Typography>
 				))}
 			</Card>
+			<Grid container spacing={4}>
+				{news.map((data) => (
+					<Grid key={data.title} xs={12} sm={6} md={4}>
+						<Card
+							sx={{ height: "100%", display: "flex", flexDirection: "column" }}
+						>
+							<CardActionArea
+								component="a"
+								onClick={() => handleCardClick(data.link)}
+							>
+								<CardMedia
+									component="div"
+									image={data.image_url}
+									sx={{ pt: "56.25%" }}
+								/>
+								<CardContent sx={{ flexGrow: 1 }}>
+									<Typography
+										gutterBottom
+										fontSize={20}
+										fontWeight="medium"
+										component="h2"
+									>
+										{data.title}
+									</Typography>
+									<Typography>{data.description}</Typography>
+								</CardContent>
+							</CardActionArea>
+						</Card>
+					</Grid>
+				))}
+			</Grid>
 		</Container>
 	);
 }
 
-export default AddWalletCard;
+export default DashboardContent;
