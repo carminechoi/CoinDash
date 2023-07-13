@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { createBaseQueryWithReauth } from "../utils/reauthUtils";
-import { setCoins } from "./coinSlice";
+import { setCoins, setDashboardCoins } from "./coinSlice";
 
 const BASE_URL = process.env.REACT_APP_SERVER_ENDPOINT;
 
@@ -40,7 +40,21 @@ export const coinApi = createApi({
 				}
 			},
 		}),
+		getDashboardCoins: builder.mutation({
+			query: () => ({
+				url: "dashboard",
+				method: "GET",
+			}),
+			async onQueryStarted(args, { dispatch, queryFulfilled }) {
+				try {
+					const { data } = await queryFulfilled;
+					dispatch(setDashboardCoins(data));
+				} catch (e) {
+					dispatch(setDashboardCoins([]));
+				}
+			},
+		}),
 	}),
 });
 
-export const { useGetAllCoinsMutation } = coinApi;
+export const { useGetAllCoinsMutation, useGetDashboardCoinsMutation } = coinApi;

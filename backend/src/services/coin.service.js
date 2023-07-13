@@ -19,7 +19,7 @@ const getDashboardCoins = async () => {
 			SELECT *
 			FROM "Coin"
 			ORDER BY "marketCapRank"
-			LIMIT 5;
+			LIMIT 4;
 		`;
 		return topFiveRows;
 	} catch (e) {
