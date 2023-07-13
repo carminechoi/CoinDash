@@ -92,8 +92,6 @@ function LoggedIn({ userEmail }) {
 					justifyContent: "center",
 					flexGrow: 1,
 					display: { xs: "none", md: "flex" },
-					marginLeft: 12,
-					marginRight: "auto",
 					alignItems: "center",
 				}}
 			>
@@ -162,34 +160,34 @@ function LoggedIn({ userEmail }) {
 				>
 					Crypto Prices
 				</Button>
-				<Box
-					sx={{
-						display: "flex",
-						flexGrow: 1,
-						justifyContent: "flex-end",
-						alignItems: "center",
-					}}
-				>
-					<Typography textAlign="center" sx={{ pr: 2 }}>
-						{userEmail}
-					</Typography>
-					<PopupState variant="popover">
-						{(popupState) => (
-							<React.Fragment>
-								<IconButton {...bindTrigger(popupState)} sx={{ p: 0 }}>
-									<Avatar />
-								</IconButton>
-								<Menu {...bindMenu(popupState)} disableScrollLock>
-									<MenuItem onClick={handleLogout}>
-										<Typography textAlign="center">Logout</Typography>
-									</MenuItem>
-								</Menu>
-							</React.Fragment>
-						)}
-					</PopupState>
-				</Box>
 			</Box>
 
+			<Box
+				sx={{
+					display: { xs: "none", md: "flex" },
+
+					justifyContent: "flex-end",
+					alignItems: "center",
+				}}
+			>
+				<Typography textAlign="center" sx={{ pr: 2 }}>
+					{userEmail}
+				</Typography>
+				<PopupState variant="popover">
+					{(popupState) => (
+						<React.Fragment>
+							<IconButton {...bindTrigger(popupState)} sx={{ p: 0 }}>
+								<Avatar />
+							</IconButton>
+							<Menu {...bindMenu(popupState)} disableScrollLock>
+								<MenuItem onClick={handleLogout}>
+									<Typography textAlign="center">Logout</Typography>
+								</MenuItem>
+							</Menu>
+						</React.Fragment>
+					)}
+				</PopupState>
+			</Box>
 			<IconButton
 				edge="end"
 				aria-label="open drawer"
