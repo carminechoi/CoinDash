@@ -11,6 +11,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import { useSelector } from "react-redux";
 import TransactionCard from "./TransactionCard";
+import { current } from "@reduxjs/toolkit";
 
 function TransactionAccordian({ transactions }) {
 	const [isExpanded, setExpandedAccordions] = useState(transactions.length > 0);
@@ -53,7 +54,9 @@ function TransactionAccordian({ transactions }) {
 			>
 				<Typography fontWeight="medium">Transactions</Typography>
 			</AccordionSummary>
-			<AccordionDetails sx={{ padding: 0 }}>
+			<AccordionDetails
+				sx={{ padding: 0, display: "flex", flexDirection: "column" }}
+			>
 				{currentTransactions.map((transaction, index) => (
 					<div key={index}>
 						<TransactionCard
@@ -64,6 +67,7 @@ function TransactionAccordian({ transactions }) {
 					</div>
 				))}
 				<TablePagination
+					component="div"
 					count={transactions.length}
 					page={page}
 					onChange={handleChangePage}
