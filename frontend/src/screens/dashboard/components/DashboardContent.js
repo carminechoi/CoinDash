@@ -111,8 +111,8 @@ function DashboardContent({ wallets }) {
 						Prices
 					</Typography>
 					<Grid container spacing={1} sx={{ px: 0 }}>
-						{dashboardCoins.map((coin) => (
-							<Grid xs={12} md={6} lg={3}>
+						{dashboardCoins.map((coin, index) => (
+							<Grid key={index} xs={12} md={6} lg={3}>
 								<Card sx={{ px: 2, py: 2 }}>
 									<Grid container alignItems="center" sx={{ p: 0 }}>
 										<Grid xs={7}>

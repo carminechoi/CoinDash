@@ -7,7 +7,7 @@ const fetchCryptoNews = async () => {
 		const responseJson = await response.json();
 
 		if (responseJson.status === "success") {
-			return responseJson.results;
+			return responseJson.results.slice(0, 9);
 		} else {
 			throw responseJson.message;
 		}

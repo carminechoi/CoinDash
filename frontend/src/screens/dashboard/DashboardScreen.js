@@ -32,7 +32,7 @@ function DashboardScreen() {
 			}}
 		>
 			<AppBar />
-			{walletsLoaded ? (
+			{wallets.length !== 0 ? (
 				<DashboardContent wallets={wallets} />
 			) : (
 				<AddWalletCard />

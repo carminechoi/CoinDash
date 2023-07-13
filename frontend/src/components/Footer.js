@@ -42,7 +42,7 @@ function Footer() {
 							<Grid xs={12}>
 								<Typography>
 									Connect your cryptocurrency wallets and exchanges. View your
-									personalized crypto dashboard in minutes.
+									personalized crypto dashboard in seconds.
 								</Typography>
 							</Grid>
 						</Grid>
@@ -59,9 +59,6 @@ function Footer() {
 								>
 									Platform
 								</Typography>
-							</Grid>
-							<Grid xs={12}>
-								<Typography>Crypto Prices</Typography>
 							</Grid>
 							<Grid xs={12}>
 								<Typography>Terms of Use</Typography>
