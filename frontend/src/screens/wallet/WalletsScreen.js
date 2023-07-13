@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import { useGetUserWalletsMutation } from "../../features/wallet/walletApi";
 
 function WalletsScreen({ addWallet = false }) {
+	const [openWalletDialog, setOpenWalletDialog] = useState(false);
 	const { wallets } = useSelector((state) => state.walletState);
 
 	const [addWalletSuccess, setAddWalletSuccess] = useState(false);
@@ -20,11 +21,14 @@ function WalletsScreen({ addWallet = false }) {
 	const [getUserWallets] = useGetUserWalletsMutation();
 
 	useEffect(() => {
+		if (addWallet) {
+			setOpenWalletDialog(true);
+		}
 		if (!walletsLoaded) {
 			getUserWallets();
 			setWalletsLoaded(true);
 		}
-	}, [getUserWallets, walletsLoaded]);
+	}, [addWallet, getUserWallets, walletsLoaded]);
 
 	return (
 		<Box
@@ -37,7 +41,8 @@ function WalletsScreen({ addWallet = false }) {
 			<AppBar />
 			<Container sx={{ px: { sm: 12, md: "auto" }, pt: 2, py: 6 }}>
 				<WalletHeader
-					addWallet={addWallet}
+					openWalletDialog={openWalletDialog}
+					setOpenWalletDialog={setOpenWalletDialog}
 					setAddWalletSuccess={setAddWalletSuccess}
 				/>
 
