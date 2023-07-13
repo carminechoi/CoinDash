@@ -12,6 +12,12 @@ import {
 	Avatar,
 	Menu,
 	MenuItem,
+	Drawer,
+	Divider,
+	List,
+	ListItemButton,
+	ListItemIcon,
+	ListItemText,
 } from "@mui/material";
 import PopupState, {
 	bindTrigger,
@@ -20,6 +26,13 @@ import PopupState, {
 } from "material-ui-popup-state";
 import HoverMenu from "material-ui-popup-state/HoverMenu";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import MenuIcon from "@mui/icons-material/Menu";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import AddCardIcon from "@mui/icons-material/AddCard";
+import PaymentIcon from "@mui/icons-material/Payment";
+import PaidIcon from "@mui/icons-material/Paid";
+
 import { useLogoutUserMutation } from "../features/auth/authApi";
 
 function AppBar() {
@@ -39,6 +52,11 @@ function AppBar() {
 }
 
 function LoggedIn({ userEmail }) {
+	const [open, setOpen] = React.useState(false);
+	const toggleDrawer = () => {
+		setOpen(!open);
+	};
+
 	const navigate = useNavigate();
 	const [logoutUser] = useLogoutUserMutation();
 
@@ -67,6 +85,7 @@ function LoggedIn({ userEmail }) {
 			>
 				CoinDash
 			</Typography>
+
 			<Box
 				sx={{
 					justifyContent: "center",
@@ -142,33 +161,88 @@ function LoggedIn({ userEmail }) {
 				>
 					Crypto Prices
 				</Button>
+				<Box
+					sx={{
+						display: "flex",
+						flexGrow: 1,
+						justifyContent: "flex-end",
+						alignItems: "center",
+					}}
+				>
+					<Typography textAlign="center" sx={{ pr: 2 }}>
+						{userEmail}
+					</Typography>
+					<PopupState variant="popover">
+						{(popupState) => (
+							<React.Fragment>
+								<IconButton {...bindTrigger(popupState)} sx={{ p: 0 }}>
+									<Avatar />
+								</IconButton>
+								<Menu {...bindMenu(popupState)} disableScrollLock>
+									<MenuItem onClick={handleLogout}>
+										<Typography textAlign="center">Logout</Typography>
+									</MenuItem>
+								</Menu>
+							</React.Fragment>
+						)}
+					</PopupState>
+				</Box>
 			</Box>
-			<Box
+
+			<IconButton
+				edge="end"
+				aria-label="open drawer"
+				onClick={toggleDrawer}
 				sx={{
-					display: "flex",
-					flexGrow: 0,
-					justifyContent: "flex-end",
-					alignItems: "center",
+					...(open && { display: "none" }),
 				}}
 			>
-				<Typography textAlign="center" sx={{ pr: 2 }}>
-					{userEmail}
-				</Typography>
-				<PopupState variant="popover">
-					{(popupState) => (
-						<React.Fragment>
-							<IconButton {...bindTrigger(popupState)} sx={{ p: 0 }}>
-								<Avatar />
-							</IconButton>
-							<Menu {...bindMenu(popupState)} disableScrollLock>
-								<MenuItem onClick={handleLogout}>
-									<Typography textAlign="center">Logout</Typography>
-								</MenuItem>
-							</Menu>
-						</React.Fragment>
-					)}
-				</PopupState>
-			</Box>
+				<MenuIcon />
+			</IconButton>
+			<Drawer anchor="right" open={open} onClose={toggleDrawer} sx={{ px: 5 }}>
+				<Toolbar
+					sx={{
+						display: "flex",
+						alignItems: "center",
+						justifyContent: "flex-end",
+						px: [1],
+					}}
+				>
+					<IconButton onClick={toggleDrawer}>
+						<ChevronRightIcon />
+					</IconButton>
+				</Toolbar>
+				<Divider />
+				<List component="nav">
+					<ListItemButton sx={{ px: 5 }}>
+						<ListItemIcon sx={{ pr: 5 }}>
+							<DashboardIcon />
+						</ListItemIcon>
+						<ListItemText primary="Dashboard" />
+					</ListItemButton>
+					<Divider sx={{ my: 1 }} />
+					<ListItemButton sx={{ px: 5 }}>
+						<ListItemIcon sx={{ pr: 5 }}>
+							<PaymentIcon />
+						</ListItemIcon>
+						<ListItemText primary="Wallets" />
+					</ListItemButton>
+					<Divider sx={{ my: 1 }} />
+					<ListItemButton sx={{ px: 5 }}>
+						<ListItemIcon sx={{ pr: 5 }}>
+							<AddCardIcon />
+						</ListItemIcon>
+						<ListItemText primary="Add Wallet" />
+					</ListItemButton>
+					<Divider sx={{ my: 1 }} />
+					<ListItemButton sx={{ px: 5 }}>
+						<ListItemIcon sx={{ pr: 5 }}>
+							<PaidIcon />
+						</ListItemIcon>
+						<ListItemText primary="Crypto Prices" />
+					</ListItemButton>
+				</List>
+			</Drawer>
 		</Toolbar>
 	);
 }
