@@ -58,18 +58,18 @@ function DashboardContent({ wallets }) {
 				))}
 			</Card>
 			<Grid container spacing={4}>
-				{news.map((data) => (
-					<Grid key={data.title} xs={12} sm={6} md={4}>
+				{news.map((item) => (
+					<Grid key={item.title} xs={12} sm={6} md={4}>
 						<Card
 							sx={{ height: "100%", display: "flex", flexDirection: "column" }}
 						>
 							<CardActionArea
 								component="a"
-								onClick={() => handleCardClick(data.link)}
+								onClick={() => handleCardClick(item.link)}
 							>
 								<CardMedia
 									component="div"
-									image={data.image_url}
+									image={item.image_url}
 									sx={{ pt: "56.25%" }}
 								/>
 								<CardContent sx={{ flexGrow: 1 }}>
@@ -79,9 +79,9 @@ function DashboardContent({ wallets }) {
 										fontWeight="medium"
 										component="h2"
 									>
-										{data.title}
+										{item.title}
 									</Typography>
-									<Typography>{data.description}</Typography>
+									<Typography>{item.description}</Typography>
 								</CardContent>
 							</CardActionArea>
 						</Card>

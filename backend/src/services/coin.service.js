@@ -13,6 +13,21 @@ const getAllCoins = async () => {
 	}
 };
 
+const getDashboardCoins = async () => {
+	try {
+		const topFiveRows = await prisma.$queryRaw`
+			SELECT *
+			FROM "Coin"
+			ORDER BY "marketCapRank"
+			LIMIT 5;
+		`;
+		return topFiveRows;
+	} catch (e) {
+		throw e;
+	}
+};
+
 module.exports = {
 	getAllCoins,
+	getDashboardCoins,
 };
