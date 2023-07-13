@@ -8,15 +8,27 @@ import TransactionList from "./components/TransactionList";
 import WalletList from "./components/WalletList";
 import WalletHeader from "./components/WalletHeader";
 
+import { useSelector } from "react-redux";
 import { useGetUserWalletsMutation } from "../../features/wallet/walletApi";
 
 function WalletsScreen({ addWallet = false }) {
+	const [openWalletDialog, setOpenWalletDialog] = useState(false);
+	const { wallets } = useSelector((state) => state.walletState);
+
 	const [addWalletSuccess, setAddWalletSuccess] = useState(false);
+	const [walletsLoaded, setWalletsLoaded] = useState(wallets.length !== 0);
+
 	const [getUserWallets] = useGetUserWalletsMutation();
 
 	useEffect(() => {
-		getUserWallets();
-	}, [getUserWallets]);
+		if (addWallet) {
+			setOpenWalletDialog(true);
+		}
+		if (!walletsLoaded) {
+			getUserWallets();
+			setWalletsLoaded(true);
+		}
+	}, [addWallet, getUserWallets, walletsLoaded]);
 
 	return (
 		<Box
@@ -27,25 +39,19 @@ function WalletsScreen({ addWallet = false }) {
 			}}
 		>
 			<AppBar />
-			<Container sx={{ px: { sm: 12, md: "auto" }, pt: 2, py: 8 }}>
+			<Container sx={{ px: { sm: 12, md: "auto" }, pt: 2, py: 6 }}>
 				<WalletHeader
-					addWallet={addWallet}
+					openWalletDialog={openWalletDialog}
+					setOpenWalletDialog={setOpenWalletDialog}
 					setAddWalletSuccess={setAddWalletSuccess}
 				/>
 
 				{/* Show success message if add wallet succeeds */}
 				{addWalletSuccess && (
-					<Alert severity="success">
-						New wallet added successfully!
-					</Alert>
+					<Alert severity="success">New wallet added successfully!</Alert>
 				)}
 
-				<Grid
-					container
-					justifyContent="space-between"
-					spacing={4}
-					pt={2}
-				>
+				<Grid container justifyContent="space-between" spacing={4} pt={2}>
 					<Grid xs={12} md={5}>
 						<WalletList />
 					</Grid>

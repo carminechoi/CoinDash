@@ -1,11 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { createBaseQueryWithReauth } from "../utils/reauthUtils";
-import { setCoins, setDashboardCoins } from "./coinSlice";
+import { setNews } from "./newsSlice";
 
 const BASE_URL = process.env.REACT_APP_SERVER_ENDPOINT;
 
 const baseQuery = fetchBaseQuery({
-	baseUrl: `${BASE_URL}/api/coins`,
+	baseUrl: `${BASE_URL}/api/news`,
 	credentials: "include",
 	prepareHeaders: async (headers, { getState }) => {
 		headers.set("Accept", "application/json");
@@ -15,46 +15,32 @@ const baseQuery = fetchBaseQuery({
 			accessToken = localStorage.getItem("accessToken");
 		}
 		if (accessToken) {
-			headers.set("Authorization", `Bearer ${accessToken}`);
+			await headers.set("Authorization", `Bearer ${accessToken}`);
 		}
 
 		return headers;
 	},
 });
 
-export const coinApi = createApi({
-	reducerPath: "coinApi",
+export const newsApi = createApi({
+	reducerPath: "newsApi",
 	baseQuery: createBaseQueryWithReauth(baseQuery),
 	endpoints: (builder) => ({
-		getAllCoins: builder.mutation({
+		getCryptoNews: builder.mutation({
 			query: () => ({
-				url: "/all",
+				url: "/crypto",
 				method: "GET",
 			}),
 			async onQueryStarted(args, { dispatch, queryFulfilled }) {
 				try {
 					const { data } = await queryFulfilled;
-					dispatch(setCoins(data));
+					dispatch(setNews(data));
 				} catch (e) {
-					dispatch(setCoins([]));
-				}
-			},
-		}),
-		getDashboardCoins: builder.mutation({
-			query: () => ({
-				url: "dashboard",
-				method: "GET",
-			}),
-			async onQueryStarted(args, { dispatch, queryFulfilled }) {
-				try {
-					const { data } = await queryFulfilled;
-					dispatch(setDashboardCoins(data));
-				} catch (e) {
-					dispatch(setDashboardCoins([]));
+					dispatch(setNews([]));
 				}
 			},
 		}),
 	}),
 });
 
-export const { useGetAllCoinsMutation, useGetDashboardCoinsMutation } = coinApi;
+export const { useGetCryptoNewsMutation } = newsApi;

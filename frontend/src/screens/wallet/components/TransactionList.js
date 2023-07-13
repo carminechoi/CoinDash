@@ -1,24 +1,35 @@
 import React, { useState, useEffect } from "react";
 import {
 	Typography,
-	// TableContainer,
-	// Table,
-	// TableBody,
-	// TableRow,
-	// TableCell,
-	// Paper,
 	Accordion,
 	AccordionSummary,
 	AccordionDetails,
 	Divider,
+	TablePagination,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import { useSelector } from "react-redux";
 import TransactionCard from "./TransactionCard";
+import { current } from "@reduxjs/toolkit";
 
 function TransactionAccordian({ transactions }) {
 	const [isExpanded, setExpandedAccordions] = useState(transactions.length > 0);
+	const [page, setPage] = useState(0);
+	const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+	const startIndex = page * rowsPerPage;
+	const endIndex = (page + 1) * rowsPerPage;
+	const currentTransactions = transactions.slice(startIndex, endIndex);
+
+	const handleChangePage = (event, newPage) => {
+		setPage(newPage);
+	};
+
+	const handleChangeRowsPerPage = (event) => {
+		setRowsPerPage(parseInt(event.target.value, 10));
+		setPage(0);
+	};
 
 	const handleAccordionChange = () => {
 		setExpandedAccordions(!isExpanded);
@@ -43,17 +54,27 @@ function TransactionAccordian({ transactions }) {
 			>
 				<Typography fontWeight="medium">Transactions</Typography>
 			</AccordionSummary>
-			<AccordionDetails sx={{ padding: 0 }}>
-				{transactions.map((transaction, index) => (
+			<AccordionDetails
+				sx={{ padding: 0, display: "flex", flexDirection: "column" }}
+			>
+				{currentTransactions.map((transaction, index) => (
 					<div key={index}>
 						<TransactionCard
-							value={transaction.value}
-							toAddress={transaction.to}
-							isSquare={index !== transactions.length - 1}
+							transaction={transaction}
+							isSquare={index !== currentTransactions.length - 1}
 						/>
-						{index < transactions.length - 1 && <Divider />}
+						{index < currentTransactions.length - 1 && <Divider />}
 					</div>
 				))}
+				<TablePagination
+					component="div"
+					count={transactions.length}
+					page={page}
+					onChange={handleChangePage}
+					onPageChange={handleChangePage}
+					rowsPerPage={rowsPerPage}
+					onRowsPerPageChange={handleChangeRowsPerPage}
+				/>
 			</AccordionDetails>
 		</Accordion>
 	);
@@ -65,29 +86,6 @@ function TransactionList() {
 	return (
 		<div>
 			<TransactionAccordian transactions={wallet.transactions ?? []} />
-			{/* <Table>
-				<TableBody>
-					<TableRow sx={{ backgroundColor: "#F7F7F7" }}>
-						<TableCell>
-							<Typography
-								sx={{
-									fontWeight: "medium",
-								}}
-							>
-								Transactions
-							</Typography>
-						</TableCell>
-					</TableRow>
-					<TableRow>
-						
-						{wallet.transactions.map((transaction) => (
-							<TableCell>
-								<Typography>None added</Typography>
-							</TableCell>
-						))}
-					</TableRow>
-				</TableBody>
-			</Table> */}
 		</div>
 	);
 }

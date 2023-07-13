@@ -19,7 +19,7 @@ const walletCategories = [
 	// "Other Transactions",
 ];
 
-function WalletAccordian({ category, wallets }) {
+function WalletAccordian({ category, wallets, currentWallet }) {
 	const [isExpanded, setExpandedAccordions] = useState(wallets.length > 0);
 
 	const handleAccordionChange = () => {
@@ -54,6 +54,7 @@ function WalletAccordian({ category, wallets }) {
 							address={wallet.address}
 							balance={wallet.balance}
 							isSquare={index !== wallets.length - 1}
+							isSelected={wallet.id === currentWallet.id}
 						/>
 						{index < wallets.length - 1 && <Divider />}
 					</div>
@@ -64,7 +65,7 @@ function WalletAccordian({ category, wallets }) {
 }
 
 function WalletList() {
-	const { wallets } = useSelector((state) => state.walletState);
+	const { wallets, wallet } = useSelector((state) => state.walletState);
 
 	const [exchangeWallets, setExchangeWallets] = useState([]);
 	const [cryptoWallets, setCryptoWallets] = useState([]);
@@ -87,10 +88,12 @@ function WalletList() {
 			<WalletAccordian
 				category={walletCategories[0]}
 				wallets={exchangeWallets}
+				currentWallet={wallet}
 			/>
 			<WalletAccordian
 				category={walletCategories[1]}
 				wallets={cryptoWallets}
+				currentWallet={wallet}
 			/>
 		</div>
 	);

@@ -35,7 +35,7 @@ function LandingScreen() {
 								letterSpacing: 2,
 							}}
 						>
-							Crypto & NFT Taxes done fast
+							Create your Crypto Dashboard Now
 						</Typography>
 					</Grid>
 					<Grid item>
@@ -45,7 +45,7 @@ function LandingScreen() {
 							color="text.secondary"
 							sx={{ fontSize: { xs: 16, md: 18 } }}
 						>
-							Easily sync wallets and generate tax forms
+							Easily sync wallets and generate your crypto dashboard
 						</Typography>
 						<Typography
 							variant="body1"

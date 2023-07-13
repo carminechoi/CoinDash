@@ -12,6 +12,12 @@ import {
 	Avatar,
 	Menu,
 	MenuItem,
+	Drawer,
+	Divider,
+	List,
+	ListItemButton,
+	ListItemIcon,
+	ListItemText,
 } from "@mui/material";
 import PopupState, {
 	bindTrigger,
@@ -20,6 +26,14 @@ import PopupState, {
 } from "material-ui-popup-state";
 import HoverMenu from "material-ui-popup-state/HoverMenu";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import MenuIcon from "@mui/icons-material/Menu";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import AddCardIcon from "@mui/icons-material/AddCard";
+import PaymentIcon from "@mui/icons-material/Payment";
+import PaidIcon from "@mui/icons-material/Paid";
+import LogoutIcon from "@mui/icons-material/Logout";
+
 import { useLogoutUserMutation } from "../features/auth/authApi";
 
 function AppBar() {
@@ -39,6 +53,11 @@ function AppBar() {
 }
 
 function LoggedIn({ userEmail }) {
+	const [open, setOpen] = React.useState(false);
+	const toggleDrawer = () => {
+		setOpen(!open);
+	};
+
 	const navigate = useNavigate();
 	const [logoutUser] = useLogoutUserMutation();
 
@@ -67,13 +86,12 @@ function LoggedIn({ userEmail }) {
 			>
 				CoinDash
 			</Typography>
+
 			<Box
 				sx={{
 					justifyContent: "center",
 					flexGrow: 1,
 					display: { xs: "none", md: "flex" },
-					marginLeft: 12,
-					marginRight: "auto",
 					alignItems: "center",
 				}}
 			>
@@ -104,9 +122,7 @@ function LoggedIn({ userEmail }) {
 								}}
 							>
 								Wallets{" "}
-								<ArrowDropDownIcon
-									style={{ verticalAlign: "middle" }}
-								/>
+								<ArrowDropDownIcon style={{ verticalAlign: "middle" }} />
 							</Button>
 
 							<HoverMenu
@@ -144,23 +160,12 @@ function LoggedIn({ userEmail }) {
 				>
 					Crypto Prices
 				</Button>
-				<Button
-					// onClick={handleCloseNavMenu}
-					sx={{
-						my: 2,
-						px: 2,
-						color: "black",
-						display: "block",
-						textTransform: "none",
-					}}
-				>
-					Taxes
-				</Button>
 			</Box>
+
 			<Box
 				sx={{
-					display: "flex",
-					flexGrow: 0,
+					display: { xs: "none", md: "flex" },
+
 					justifyContent: "flex-end",
 					alignItems: "center",
 				}}
@@ -171,23 +176,92 @@ function LoggedIn({ userEmail }) {
 				<PopupState variant="popover">
 					{(popupState) => (
 						<React.Fragment>
-							<IconButton
-								{...bindTrigger(popupState)}
-								sx={{ p: 0 }}
-							>
+							<IconButton {...bindTrigger(popupState)} sx={{ p: 0 }}>
 								<Avatar />
 							</IconButton>
 							<Menu {...bindMenu(popupState)} disableScrollLock>
 								<MenuItem onClick={handleLogout}>
-									<Typography textAlign="center">
-										Logout
-									</Typography>
+									<Typography textAlign="center">Logout</Typography>
 								</MenuItem>
 							</Menu>
 						</React.Fragment>
 					)}
 				</PopupState>
 			</Box>
+			<IconButton
+				edge="end"
+				aria-label="open drawer"
+				onClick={toggleDrawer}
+				sx={{
+					display: { xs: "flex", md: "none" },
+					...(open && { display: "none" }),
+				}}
+			>
+				<MenuIcon />
+			</IconButton>
+			<Drawer anchor="right" open={open} onClose={toggleDrawer} sx={{ px: 5 }}>
+				<Toolbar
+					sx={{
+						display: "flex",
+						alignItems: "center",
+						justifyContent: "flex-end",
+						px: [1],
+					}}
+				>
+					<Box
+						sx={{
+							display: "flex",
+							flexGrow: 1,
+							justifyContent: "flex-end",
+							alignItems: "center",
+						}}
+					>
+						<Typography textAlign="center" sx={{ pr: 2 }}>
+							{userEmail}
+						</Typography>
+					</Box>
+					<IconButton onClick={toggleDrawer}>
+						<ChevronRightIcon />
+					</IconButton>
+				</Toolbar>
+				<Divider />
+				<List component="nav">
+					<ListItemButton onClick={handleDashboard} sx={{ px: 5 }}>
+						<ListItemIcon sx={{ pr: 5 }}>
+							<DashboardIcon />
+						</ListItemIcon>
+						<ListItemText primary="Dashboard" />
+					</ListItemButton>
+					<Divider sx={{ my: 1 }} />
+					<ListItemButton onClick={handleWallets} sx={{ px: 5 }}>
+						<ListItemIcon sx={{ pr: 5 }}>
+							<PaymentIcon />
+						</ListItemIcon>
+						<ListItemText primary="Wallets" />
+					</ListItemButton>
+					<Divider sx={{ my: 1 }} />
+					<ListItemButton onClick={handleAddWallet} sx={{ px: 5 }}>
+						<ListItemIcon sx={{ pr: 5 }}>
+							<AddCardIcon />
+						</ListItemIcon>
+						<ListItemText primary="Add Wallet" />
+					</ListItemButton>
+					<Divider sx={{ my: 1 }} />
+					<ListItemButton onClick={handleCryptoPrices} sx={{ px: 5 }}>
+						<ListItemIcon sx={{ pr: 5 }}>
+							<PaidIcon />
+						</ListItemIcon>
+						<ListItemText primary="Crypto Prices" />
+					</ListItemButton>
+					<Divider sx={{ my: 1 }} />
+					<ListItemButton onClick={handleLogout} sx={{ px: 5 }}>
+						<ListItemIcon sx={{ pr: 5 }}>
+							<LogoutIcon />
+						</ListItemIcon>
+						<ListItemText primary="Logout" />
+					</ListItemButton>
+				</List>
+			</Drawer>
 		</Toolbar>
 	);
 }

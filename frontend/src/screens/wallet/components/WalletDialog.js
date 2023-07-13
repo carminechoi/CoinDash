@@ -31,7 +31,11 @@ function CoinbaseMenu() {
 	return <DialogContent></DialogContent>;
 }
 
-function EthereumMenu({ handleClose, setOpen, setAddWalletSuccess }) {
+function EthereumMenu({
+	handleClose,
+	setOpenWalletDialog,
+	setAddWalletSuccess,
+}) {
 	const [addUserWallet, response] = useAddUserWalletMutation();
 
 	const handleSubmit = (event) => {
@@ -55,8 +59,8 @@ function EthereumMenu({ handleClose, setOpen, setAddWalletSuccess }) {
 					color: (theme) => theme.palette.grey[600],
 				}}
 			>
-				We are only requesting view permissions. This does not give us
-				access to your private keys nor the ability move your funds.
+				We are only requesting view permissions. This does not give us access to
+				your private keys nor the ability move your funds.
 			</Typography>
 			<Box
 				component="form"
@@ -69,15 +73,11 @@ function EthereumMenu({ handleClose, setOpen, setAddWalletSuccess }) {
 
 				{/* Show error message if the mutation fails */}
 				{response.isError && (
-					<Alert severity="error">
-						{response.error.data.message}
-					</Alert>
+					<Alert severity="error">{response.error.data.message}</Alert>
 				)}
 
 				<Box paddingTop={1} paddingBottom={3}>
-					<Typography sx={{ fontWeight: "medium" }}>
-						Public address
-					</Typography>
+					<Typography sx={{ fontWeight: "medium" }}>Public address</Typography>
 					<TextField
 						placeholder="Paste a public address"
 						variant="outlined"
@@ -145,12 +145,16 @@ function WalletTypeMenu({ setSelectedOption }) {
 	);
 }
 
-function WalletDialog({ open, setOpen, setAddWalletSuccess }) {
+function WalletDialog({
+	openWalletDialog,
+	setOpenWalletDialog,
+	setAddWalletSuccess,
+}) {
 	const [selectedOption, setSelectedOption] = useState("Wallet");
 
 	const handleClose = () => {
 		resetWalletDialog();
-		setOpen(false);
+		setOpenWalletDialog(false);
 	};
 
 	const resetWalletDialog = () => {
@@ -158,7 +162,7 @@ function WalletDialog({ open, setOpen, setAddWalletSuccess }) {
 	};
 
 	return (
-		<Dialog open={open} onClose={handleClose}>
+		<Dialog open={openWalletDialog} onClose={handleClose}>
 			<DialogTitle sx={{ display: "flex", alignItems: "center" }}>
 				{selectedOption !== "Wallet" && (
 					<IconButton
@@ -193,16 +197,12 @@ function WalletDialog({ open, setOpen, setAddWalletSuccess }) {
 				Ethereum: (
 					<EthereumMenu
 						handleClose={handleClose}
-						setOpen={setOpen}
+						setOpenWalletDialog={setOpenWalletDialog}
 						setAddWalletSuccess={setAddWalletSuccess}
 					/>
 				),
-				Coinbase: (
-					<CoinbaseMenu setSelectedOption={setSelectedOption} />
-				),
-				Wallet: (
-					<WalletTypeMenu setSelectedOption={setSelectedOption} />
-				),
+				Coinbase: <CoinbaseMenu setSelectedOption={setSelectedOption} />,
+				Wallet: <WalletTypeMenu setSelectedOption={setSelectedOption} />,
 			}[selectedOption] || (
 				<WalletTypeMenu setSelectedOption={setSelectedOption} />
 			)}

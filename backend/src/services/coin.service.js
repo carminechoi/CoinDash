@@ -9,10 +9,25 @@ const getAllCoins = async () => {
 		});
 		return coins;
 	} catch (e) {
-		console.error(`error: ${error}`);
+		throw e;
+	}
+};
+
+const getDashboardCoins = async () => {
+	try {
+		const topFiveRows = await prisma.$queryRaw`
+			SELECT *
+			FROM "Coin"
+			ORDER BY "marketCapRank"
+			LIMIT 4;
+		`;
+		return topFiveRows;
+	} catch (e) {
+		throw e;
 	}
 };
 
 module.exports = {
 	getAllCoins,
+	getDashboardCoins,
 };

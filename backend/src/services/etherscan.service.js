@@ -1,5 +1,3 @@
-const { prisma } = require("../../prisma/prisma.client");
-
 class EtherscanService {
 	static fetchTransactions = async (address) => {
 		const etherscanURL = process.env.ETHERSCAN_URL;
@@ -11,30 +9,10 @@ class EtherscanService {
 			const transactions = await response.json();
 
 			if (transactions.status === "1") {
-				// transactions.result.map(async (transaction) => {
-				// 	await prisma.upsert({
-				// 		where: {
-				// 			hash: transaction.hash,
-				// 		},
-				// 		update: {},
-				// 		create: {
-				// 			hash: transaction.hash,
-				// 			value: transaction.value,
-				// 			gas: transaction.gas,
-				// 			gasPrice: transaction.gasPrice,
-				// 			to: transaction.to,
-				// 			from: transaction.from,
-				// 			wallet: { connect: { id: walletId } },
-				// 			user: { connect: { id: userId } },
-				// 		},
-				// 	});
-				// });
 				return transactions.result;
-			} else {
-				next();
 			}
 		} catch (error) {
-			console.error(`error: ${error}`);
+			throw error;
 		}
 	};
 

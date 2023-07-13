@@ -41,8 +41,8 @@ function Footer() {
 							</Grid>
 							<Grid xs={12}>
 								<Typography>
-									Connect your cryptocurrency wallets and exchanges. Get your
-									crypto taxes done in minutes
+									Connect your cryptocurrency wallets and exchanges. View your
+									personalized crypto dashboard in seconds.
 								</Typography>
 							</Grid>
 						</Grid>
@@ -59,9 +59,6 @@ function Footer() {
 								>
 									Platform
 								</Typography>
-							</Grid>
-							<Grid xs={12}>
-								<Typography>Crypto Prices</Typography>
 							</Grid>
 							<Grid xs={12}>
 								<Typography>Terms of Use</Typography>
