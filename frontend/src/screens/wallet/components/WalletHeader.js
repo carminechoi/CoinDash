@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Button, Typography, Toolbar } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import SyncIcon from "@mui/icons-material/Sync";
 import WalletDialog from "./WalletDialog";
 
 function WalletHeader({ addWallet, setAddWalletSuccess }) {
@@ -25,18 +24,7 @@ function WalletHeader({ addWallet, setAddWalletSuccess }) {
 					</Typography>
 				</Grid>
 				<Grid container xs={12} sm="auto" spacing={2}>
-					<Grid xs={6} sm="auto">
-						<Button
-							fullWidth
-							variant="outlined"
-							startIcon={<SyncIcon />}
-							size="large"
-							sx={{ textTransform: "none" }}
-						>
-							Sync Wallets
-						</Button>
-					</Grid>
-					<Grid xs={6} sm="auto">
+					<Grid xs={12} sm="auto">
 						<Button
 							fullWidth
 							variant="contained"

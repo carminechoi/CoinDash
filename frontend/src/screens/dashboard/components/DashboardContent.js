@@ -7,11 +7,9 @@ import {
 	CardMedia,
 	Avatar,
 	Container,
-	Box,
 	Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
-import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -41,34 +39,6 @@ function DashboardContent({ wallets }) {
 		}
 		return accumulator;
 	}, {});
-
-	const sliderSettings = {
-		dots: false,
-		infinite: false,
-		speed: 500,
-		slidesToShow: 4,
-		slidesToScroll: 4,
-		responsive: [
-			{
-				breakpoint: 1450,
-				settings: {
-					slidesToShow: 3,
-				},
-			},
-			{
-				breakpoint: 1024,
-				settings: {
-					slidesToShow: 2,
-				},
-			},
-			{
-				breakpoint: 700,
-				settings: {
-					slidesToShow: 1,
-				},
-			},
-		],
-	};
 
 	const handleCardClick = (url) => {
 		window.open(url, "_blank", "noreferrer");
