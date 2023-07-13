@@ -32,6 +32,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import AddCardIcon from "@mui/icons-material/AddCard";
 import PaymentIcon from "@mui/icons-material/Payment";
 import PaidIcon from "@mui/icons-material/Paid";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 import { useLogoutUserMutation } from "../features/auth/authApi";
 
@@ -194,6 +195,7 @@ function LoggedIn({ userEmail }) {
 				aria-label="open drawer"
 				onClick={toggleDrawer}
 				sx={{
+					display: { xs: "flex", md: "none" },
 					...(open && { display: "none" }),
 				}}
 			>
@@ -208,38 +210,57 @@ function LoggedIn({ userEmail }) {
 						px: [1],
 					}}
 				>
+					<Box
+						sx={{
+							display: "flex",
+							flexGrow: 1,
+							justifyContent: "flex-end",
+							alignItems: "center",
+						}}
+					>
+						<Typography textAlign="center" sx={{ pr: 2 }}>
+							{userEmail}
+						</Typography>
+					</Box>
 					<IconButton onClick={toggleDrawer}>
 						<ChevronRightIcon />
 					</IconButton>
 				</Toolbar>
 				<Divider />
 				<List component="nav">
-					<ListItemButton sx={{ px: 5 }}>
+					<ListItemButton onClick={handleDashboard} sx={{ px: 5 }}>
 						<ListItemIcon sx={{ pr: 5 }}>
 							<DashboardIcon />
 						</ListItemIcon>
 						<ListItemText primary="Dashboard" />
 					</ListItemButton>
 					<Divider sx={{ my: 1 }} />
-					<ListItemButton sx={{ px: 5 }}>
+					<ListItemButton onClick={handleWallets} sx={{ px: 5 }}>
 						<ListItemIcon sx={{ pr: 5 }}>
 							<PaymentIcon />
 						</ListItemIcon>
 						<ListItemText primary="Wallets" />
 					</ListItemButton>
 					<Divider sx={{ my: 1 }} />
-					<ListItemButton sx={{ px: 5 }}>
+					<ListItemButton onClick={handleAddWallet} sx={{ px: 5 }}>
 						<ListItemIcon sx={{ pr: 5 }}>
 							<AddCardIcon />
 						</ListItemIcon>
 						<ListItemText primary="Add Wallet" />
 					</ListItemButton>
 					<Divider sx={{ my: 1 }} />
-					<ListItemButton sx={{ px: 5 }}>
+					<ListItemButton onClick={handleCryptoPrices} sx={{ px: 5 }}>
 						<ListItemIcon sx={{ pr: 5 }}>
 							<PaidIcon />
 						</ListItemIcon>
 						<ListItemText primary="Crypto Prices" />
+					</ListItemButton>
+					<Divider sx={{ my: 1 }} />
+					<ListItemButton onClick={handleLogout} sx={{ px: 5 }}>
+						<ListItemIcon sx={{ pr: 5 }}>
+							<LogoutIcon />
+						</ListItemIcon>
+						<ListItemText primary="Logout" />
 					</ListItemButton>
 				</List>
 			</Drawer>
