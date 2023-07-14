@@ -36,6 +36,8 @@ let corsOptions = {
 		"https://dogewisdom.com",
 		"https://www.dogewisdom.com",
 		"https://d32jey2ehxi8yg.cloudfront.net",
+		"https://coindash.dev",
+		"https://www.coindash.dev",
 	],
 	credentials: true,
 };
