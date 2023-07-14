@@ -10,22 +10,19 @@ const routes = require("./src/routes/routes");
 const { GeckoService } = require("./src/services/gecko.service");
 const { EtherscanService } = require("./src/services/etherscan.service");
 
-// Cron setup
-// ┌────────────── second (optional)
-// │ ┌──────────── minute
-// │ │ ┌────────── hour
-// │ │ │ ┌──────── day of month
-// │ │ │ │ ┌────── month
-// │ │ │ │ │ ┌──── day of week
-// │ │ │ │ │ │
-// │ │ │ │ │ │
-// * * * * * *
-// cron.schedule("* * * * *", function () {
-// 	GeckoService.fetchAllCoins();
-// 	EthercanService.fetchTransactions(
-// 		"0xb794f5ea0ba39494ce839613fffba74279579268"
-// 	);
-// });
+//             Cron setup
+//             ┌────────────── second (optional)
+//             │ ┌──────────── minute
+//             │ │ ┌────────── hour
+//             │ │ │ ┌──────── day of month
+//             │ │ │ │ ┌────── month
+//             │ │ │ │ │ ┌──── day of week
+//             │ │ │ │ │ │
+//             │ │ │ │ │ │
+//             * * * * * *
+cron.schedule("0 0 * * *", function () {
+	GeckoService.fetchAllCoins();
+});
 
 // Enable CORS for specific origins only
 let corsOptions = {

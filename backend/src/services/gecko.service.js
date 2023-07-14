@@ -43,9 +43,7 @@ class GeckoService {
 						priceChangePercentage7d: formatPercentage(
 							coin.price_change_percentage_7d_in_currency
 						),
-						circulatingSupply: abbreviateCurrency(
-							coin.circulating_supply
-						),
+						circulatingSupply: abbreviateCurrency(coin.circulating_supply),
 						lastUpdated: coin.last_updated,
 					},
 					create: {
@@ -66,14 +64,12 @@ class GeckoService {
 						priceChangePercentage7d: formatPercentage(
 							coin.price_change_percentage_7d_in_currency
 						),
-						circulatingSupply: abbreviateCurrency(
-							coin.circulating_supply
-						),
+						circulatingSupply: abbreviateCurrency(coin.circulating_supply),
 						lastUpdated: coin.last_updated,
 					},
 				});
 			});
-			console.log("saved coins");
+			// console.log("saved coins");
 		} catch (error) {
 			console.error(`error: ${error}`);
 			// prisma.$disconnect();
