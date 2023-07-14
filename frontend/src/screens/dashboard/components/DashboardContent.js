@@ -10,8 +10,6 @@ import {
 	Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 
 import { useSelector } from "react-redux";
 import { useGetCryptoNewsMutation } from "../../../features/news/newsApi";
