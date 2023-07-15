@@ -29,11 +29,9 @@ import Progress from "../../../components/Progress";
 
 function CoinbaseMenu() {
 	return (
-		<DialogContent>
-			<Box justifyContent="center" paddingX={15} paddingY={5}>
-				<Typography>Coming Soon</Typography>
-			</Box>
-		</DialogContent>
+		<Box>
+			<Typography align="center">Coming Soon</Typography>
+		</Box>
 	);
 }
 
@@ -58,7 +56,7 @@ function EthereumMenu({
 	}, [handleClose, response.isSuccess, setAddWalletSuccess]);
 
 	return (
-		<DialogContent>
+		<div>
 			<Typography
 				paddingBottom={2}
 				sx={{
@@ -104,14 +102,16 @@ function EthereumMenu({
 					Add Ethereum
 				</Button>
 			</Box>
-		</DialogContent>
+		</div>
 	);
 }
 
 function WalletTypeMenu({ setSelectedOption }) {
 	const { data: walletTypes, error, isLoading } = useGetWalletTypesQuery();
+	const [filteredWalletTypes, setFilteredWalletTypes] = useState(walletTypes);
+
 	return (
-		<DialogContent>
+		<div>
 			{error ? (
 				<Alert severity="error">Unable to reach server</Alert>
 			) : isLoading ? (
@@ -119,9 +119,13 @@ function WalletTypeMenu({ setSelectedOption }) {
 			) : (
 				<Grid container spacing={2}>
 					<Grid xs={12}>
-						<SearchTextField placeholder="Search for your integration" />
+						<SearchTextField
+							placeholder="Search for your integration"
+							data={walletTypes}
+							setData={setFilteredWalletTypes}
+						/>
 					</Grid>
-					{walletTypes.map((type) => (
+					{filteredWalletTypes.map((type) => (
 						<Grid sm={4} key={type.name}>
 							<Card variant="outlined">
 								<CardActionArea
@@ -147,7 +151,7 @@ function WalletTypeMenu({ setSelectedOption }) {
 					))}
 				</Grid>
 			)}
-		</DialogContent>
+		</div>
 	);
 }
 
@@ -198,20 +202,21 @@ function WalletDialog({
 			</DialogTitle>
 
 			<Divider />
-
-			{{
-				Ethereum: (
-					<EthereumMenu
-						handleClose={handleClose}
-						setOpenWalletDialog={setOpenWalletDialog}
-						setAddWalletSuccess={setAddWalletSuccess}
-					/>
-				),
-				Coinbase: <CoinbaseMenu setSelectedOption={setSelectedOption} />,
-				Wallet: <WalletTypeMenu setSelectedOption={setSelectedOption} />,
-			}[selectedOption] || (
-				<WalletTypeMenu setSelectedOption={setSelectedOption} />
-			)}
+			<DialogContent sx={{ height: { sm: "300px" }, width: { sm: " 600px" } }}>
+				{{
+					Ethereum: (
+						<EthereumMenu
+							handleClose={handleClose}
+							setOpenWalletDialog={setOpenWalletDialog}
+							setAddWalletSuccess={setAddWalletSuccess}
+						/>
+					),
+					Coinbase: <CoinbaseMenu setSelectedOption={setSelectedOption} />,
+					Wallet: <WalletTypeMenu setSelectedOption={setSelectedOption} />,
+				}[selectedOption] || (
+					<WalletTypeMenu setSelectedOption={setSelectedOption} />
+				)}
+			</DialogContent>
 		</Dialog>
 	);
 }
