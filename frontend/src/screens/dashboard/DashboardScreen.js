@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { Box } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import AppBar from "../../components/AppBar";
 import withRoot from "../../theme/withRoot";
 import Footer from "../../components/Footer";
@@ -14,7 +14,7 @@ function DashboardScreen() {
 	const { wallets } = useSelector((state) => state.walletState);
 	const [walletsLoaded, setWalletsLoaded] = useState(wallets.length !== 0);
 
-	const [getUserWallets] = useGetUserWalletsMutation();
+	const [getUserWallets, { isLoading }] = useGetUserWalletsMutation();
 
 	useEffect(() => {
 		if (!walletsLoaded) {
@@ -32,10 +32,21 @@ function DashboardScreen() {
 			}}
 		>
 			<AppBar />
-			{wallets.length !== 0 ? (
-				<DashboardContent wallets={wallets} />
+			{!isLoading ? (
+				wallets.length !== 0 ? (
+					<DashboardContent wallets={wallets} />
+				) : (
+					<AddWalletCard />
+				)
 			) : (
-				<AddWalletCard />
+				<Box
+					display="flex"
+					alignItems="center"
+					justifyContent="center"
+					padding={20}
+				>
+					<CircularProgress />
+				</Box>
 			)}
 			<Footer />
 		</Box>
