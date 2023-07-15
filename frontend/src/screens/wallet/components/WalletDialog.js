@@ -107,8 +107,19 @@ function EthereumMenu({
 }
 
 function WalletTypeMenu({ setSelectedOption }) {
-	const { data: walletTypes, error, isLoading } = useGetWalletTypesQuery();
-	const [filteredWalletTypes, setFilteredWalletTypes] = useState(walletTypes);
+	const {
+		data: walletTypes,
+		error,
+		isLoading,
+		isSuccess,
+	} = useGetWalletTypesQuery();
+	const [filteredWalletTypes, setFilteredWalletTypes] = useState([]);
+
+	useEffect(() => {
+		if (isSuccess) {
+			setFilteredWalletTypes(walletTypes);
+		}
+	}, [isSuccess]);
 
 	return (
 		<div>
