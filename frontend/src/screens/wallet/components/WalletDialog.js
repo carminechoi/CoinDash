@@ -98,6 +98,7 @@ function EthereumMenu({
 					size="large"
 					onClick={handleSubmit}
 					fullWidth
+					disabled={response.isLoading}
 				>
 					Add Ethereum
 				</Button>
@@ -119,7 +120,7 @@ function WalletTypeMenu({ setSelectedOption }) {
 		if (isSuccess) {
 			setFilteredWalletTypes(walletTypes);
 		}
-	}, [isSuccess]);
+	}, [isSuccess, walletTypes]);
 
 	return (
 		<div>
