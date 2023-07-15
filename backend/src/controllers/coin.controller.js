@@ -13,7 +13,6 @@ const router = express.Router();
  **/
 router.get("/all", authenticateToken, async (req, res, next) => {
 	try {
-		console.log("here");
 		const coins = await getAllCoins();
 		res.status(200).json(coins);
 	} catch (e) {
@@ -30,7 +29,6 @@ router.get("/all", authenticateToken, async (req, res, next) => {
  **/
 router.get("/dashboard", authenticateToken, async (req, res, next) => {
 	try {
-		console.log("here");
 		const coins = await getDashboardCoins();
 		res.status(200).json(coins);
 	} catch (e) {
