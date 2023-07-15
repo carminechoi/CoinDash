@@ -11,6 +11,9 @@ const walletSlice = createSlice({
 	reducers: {
 		setWallets: (state, { payload }) => {
 			state.wallets = payload;
+			if (Object.keys(state.wallet).length === 0) {
+				state.wallet = state.wallets[0];
+			}
 		},
 		setWalletWithId: (state, { payload: id }) => {
 			state.wallet = state.wallets.find((wallet) => wallet.id === id);

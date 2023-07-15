@@ -11,7 +11,6 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import { useSelector } from "react-redux";
 import TransactionCard from "./TransactionCard";
-import { current } from "@reduxjs/toolkit";
 
 function TransactionAccordian({ transactions }) {
 	const [isExpanded, setExpandedAccordions] = useState(transactions.length > 0);
