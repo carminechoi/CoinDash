@@ -44,6 +44,7 @@ router.post("/add", authenticateToken, async (req, res, next) => {
 		const userWallets = await getUserWallets(user);
 		res.status(200).json(userWallets);
 	} catch (e) {
+		console.error(e);
 		next(e);
 	}
 });
