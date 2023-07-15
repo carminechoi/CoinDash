@@ -28,7 +28,13 @@ import {
 import Progress from "../../../components/Progress";
 
 function CoinbaseMenu() {
-	return <DialogContent></DialogContent>;
+	return (
+		<DialogContent>
+			<Box justifyContent="center" paddingX={15} paddingY={5}>
+				<Typography>Coming Soon</Typography>
+			</Box>
+		</DialogContent>
+	);
 }
 
 function EthereumMenu({
