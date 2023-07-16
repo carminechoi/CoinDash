@@ -285,7 +285,7 @@ function NotLoggedIn() {
 					color: "inherit",
 				}}
 			>
-				Better Koinly
+				CoinDash
 			</Typography>
 			<Box display="flex" justifyContent="flex-end">
 				<Button

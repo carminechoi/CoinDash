@@ -80,7 +80,7 @@ function RegisterScreen() {
 								textDecoration: "none",
 							}}
 						>
-							Better Koinly
+							CoinDash
 						</Typography>
 						<Typography fontSize={20} fontWeight="semibold" paddingBottom={2}>
 							Create Your Account
@@ -138,7 +138,7 @@ function RegisterScreen() {
 					color="text.secondary"
 					sx={{ mt: 4 }}
 				>
-					When you create a Better Koinly account, you
+					When you create a CoinDash account, you
 				</Typography>
 				<Typography variant="body2" align="center" color="text.secondary">
 					agree to theTerms and Privacy Policy.
