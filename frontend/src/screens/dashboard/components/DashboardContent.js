@@ -8,6 +8,7 @@ import {
 	Avatar,
 	Container,
 	Typography,
+	CircularProgress,
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 
@@ -22,7 +23,7 @@ function DashboardContent({ wallets }) {
 	const [newsLoaded, setNewsLoaded] = useState(news.length !== 0);
 	const [coinsLoaded, setCoinsLoaded] = useState(dashboardCoins.length !== 0);
 
-	const [getCryptoNews] = useGetCryptoNewsMutation();
+	const [getCryptoNews, { isLoading }] = useGetCryptoNewsMutation();
 	const [getDashboardCoins] = useGetDashboardCoinsMutation();
 
 	const portfolioBalances = wallets.reduce((accumulator, wallet) => {
@@ -114,40 +115,50 @@ function DashboardContent({ wallets }) {
 					</Grid>
 				</Grid>
 				<Grid xs={12}>
-					<Grid container spacing={4} sx={{ px: 0 }}>
-						{news.map((item) => (
-							<Grid key={item.title} xs={12} sm={6} md={4}>
-								<Card
-									sx={{
-										height: "100%",
-										display: "flex",
-										flexDirection: "column",
-									}}
-								>
-									<CardActionArea
-										component="a"
-										onClick={() => handleCardClick(item.link)}
+					<Grid
+						container
+						spacing={4}
+						display="flex"
+						justifyContent="center"
+						sx={{ px: 0 }}
+					>
+						{isLoading ? (
+							<CircularProgress />
+						) : (
+							news.map((item) => (
+								<Grid key={item.title} xs={12} sm={6} md={4}>
+									<Card
+										sx={{
+											height: "100%",
+											display: "flex",
+											flexDirection: "column",
+										}}
 									>
-										<CardMedia
-											component="div"
-											image={item.image_url}
-											sx={{ pt: "56.25%" }}
-										/>
-										<CardContent sx={{ flexGrow: 1 }}>
-											<Typography
-												gutterBottom
-												fontSize={20}
-												fontWeight="medium"
-												component="h2"
-											>
-												{item.title}
-											</Typography>
-											<Typography>{item.description}</Typography>
-										</CardContent>
-									</CardActionArea>
-								</Card>
-							</Grid>
-						))}
+										<CardActionArea
+											component="a"
+											onClick={() => handleCardClick(item.link)}
+										>
+											<CardMedia
+												component="div"
+												image={item.image_url}
+												sx={{ pt: "56.25%" }}
+											/>
+											<CardContent sx={{ flexGrow: 1 }}>
+												<Typography
+													gutterBottom
+													fontSize={20}
+													fontWeight="medium"
+													component="h2"
+												>
+													{item.title}
+												</Typography>
+												<Typography>{item.description}</Typography>
+											</CardContent>
+										</CardActionArea>
+									</Card>
+								</Grid>
+							))
+						)}
 					</Grid>
 				</Grid>
 			</Grid>
