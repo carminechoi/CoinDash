@@ -28,14 +28,8 @@ function LandingScreen() {
 			}}
 		>
 			<AppBar />
-			<Grid container justifyContent="center" mt={14} mb={18} px={5}>
-				<Grid xs={12} sm={12} md={10} lg={7} xl={6}>
-					<Hero />
-				</Grid>
-				<Grid xs={12} sm={12} md={10} lg={9} xl={8} sx={{ marginTop: 20 }}>
-					<Features />
-				</Grid>
-			</Grid>
+			<Hero />
+			<Features />
 			<CallToAction />
 			<Footer />
 		</Box>
