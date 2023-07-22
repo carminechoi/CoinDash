@@ -41,7 +41,6 @@ git clone https://github.com/carminechoi/CoinDash.git
 ```bash
 cd CoinDash/backend
 npm install
-npm start
 ```
 
 3. Run the backend server:
