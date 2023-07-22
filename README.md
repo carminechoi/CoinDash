@@ -44,7 +44,7 @@ npm install
 npm start
 ```
 
-3.Run the backend server:
+3. Run the backend server:
 
 ```bash
 npm start
