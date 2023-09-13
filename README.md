@@ -1,5 +1,7 @@
 # CoinDash - Crypto Dashboard
 
+Visit the live website: [coindash.dev](https://coindash.dev)
+
 CoinDash is a crypto dashboard that provides users with a centralized platform to manage and track their cryptocurrency assets. 
 
 ## Table of Contents
